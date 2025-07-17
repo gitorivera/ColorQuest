@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour
     [SerializeField]
     [Range(2, 5)]
     
-    private int NumeroCeldas = 2;
+    private int numeroCeldas = 2;
     [SerializeField]
     private GameObject CeldaPrefab;
     private readonly int anchoMalla = 1;
@@ -16,31 +16,61 @@ public class GameController : MonoBehaviour
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
     private readonly float puntoCentralZ = 0f;
-    private float posicionX;
-    private float posicionY;
-    private float posicionZ;
+    private float posicionInicialX;
+    private float posicionInicialY;
+    private float posicionInicialZ;
     private GameObject InstanciaDeCelda;
 
     void CrearMalla()
     {
         //Calculo del ancho de la celda para las instancias creadas
-        float anchoCelda = (float)anchoMalla / NumeroCeldas;
+        float anchoCelda = (float)anchoMalla / numeroCeldas;
         float factorEscala = (float)anchoCelda / anchoCeldaPrefab;
         //Posicionamiento de la celda superior izquierda
-        int numSaltosIniciales = NumeroCeldas - 1;
-        float longitudSalto = (float)anchoMalla / (NumeroCeldas * 2);
-        posicionX = puntoCentralX - (numSaltosIniciales * longitudSalto);
-        posicionY = puntoCentralY + (numSaltosIniciales * longitudSalto);
-        posicionZ = puntoCentralZ;
-        //InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionX, posicionY, posicionZ), quaternion.identity);
-        InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(0, 1, 0), quaternion.identity);
+        int numSaltosIniciales = numeroCeldas - 1;
+        float longitudSalto = (float)anchoMalla / (numeroCeldas * 2);
+        posicionInicialX = puntoCentralX - (numSaltosIniciales * longitudSalto);
+        posicionInicialY = puntoCentralY + (numSaltosIniciales * longitudSalto);
+        posicionInicialZ = 0;
+        InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionInicialX, posicionInicialY, 0), quaternion.identity);
+        //------------------------------------
+        // Posicionamiento de todas las celdas
+        //------------------------------------
+        //incremento en las posiciones para ubicar las siguientes celdas
+        float posicionActualX = posicionInicialX;
+        float posicionActualY = posicionInicialY;
+        float posicionActualZ = posicionInicialZ;
+
+        float deltaPosicion = longitudSalto*2;
+        while (true)
+        {
+            posicionActualX += deltaPosicion;
+            if (posicionActualX < 0.5)
+            {
+                Instantiate(CeldaPrefab, new Vector3(posicionActualX, posicionActualY, posicionActualZ), quaternion.identity);
+            }
+            else
+            {
+                posicionActualX = posicionInicialX;
+                posicionActualY -= deltaPosicion;
+                if (posicionActualY > 0.5)
+                {
+                    Instantiate(CeldaPrefab, new Vector3(posicionActualX, posicionActualY, posicionActualZ), quaternion.identity);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            
+        }
         
     }
 
     
         void Start()
         {
-
+        CrearMalla();
         }
 
         // Update is called once per frame

@@ -1,0 +1,11 @@
+{
+    "asset": "4ff9aaac72283469e85aacaedddc37ad",
+    "fileName": "01981a0f-763b-7ae5-a4e6-f2b6c2ed702b_Preview.png",
+    "prompt": "una calle empedrada que recuerde las calles empedradas de la edad media",
+    "negativePrompt": "",
+    "model": "575ecf67-4425-4939-97b9-5e138b8ee234",
+    "modelName": "Unity Texture2D",
+    "customSeed": 1103250953,
+    "w3CTraceId": "2c67e66bedec9be1528d2bd4e51f814b",
+    "refinementMode": "Generation"
+}

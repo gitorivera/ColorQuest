@@ -412,8 +412,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1fda431e3873488d884b6911ada3cc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameController
-  numeroCeldas: 2
+  numeroCeldas: 5
   CeldaPrefab: {fileID: 7328645281302002950, guid: 55c0fc643f8004e38ba009b0001df058, type: 3}
+  anchoMalla: 1
+  bolaRoja: {fileID: 1227759501690284084, guid: 20c980a73d62e4002bdc79a1ac710621, type: 3}
+  bolaAzul: {fileID: 8344143229348114595, guid: a3e848f16c458478e856e0e65699d620, type: 3}
+  bolaVerde: {fileID: 4682633506170415809, guid: 995eb3013303b4c66ad37917c039b5f0, type: 3}
+  bolaGris: {fileID: 3844250124326048759, guid: b4289b2b5d67341d1a8e14b02a257bf7, type: 3}
 --- !u!4 &1384984425
 Transform:
   m_ObjectHideFlags: 0
@@ -609,7 +614,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4ff9aaac72283469e85aacaedddc37ad, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

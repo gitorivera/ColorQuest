@@ -2,14 +2,17 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
+//add the random library
+using Random = UnityEngine.Random;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
 
-    [SerializeField] [Tooltip("Número de celdas por lado (N x N)")] [Range(2, 5)] private int numeroCeldas = 2;
+    [SerializeField][Tooltip("Número de celdas por lado (N x N)")][Range(2, 5)] private int numeroCeldas = 2;
     [SerializeField] private GameObject CeldaPrefab;
     [SerializeField] private float anchoMalla = 1f;
-    private readonly float anchoCeldaPrefab=0.2f;
+    private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
     private readonly float puntoCentralZ = 0f;
@@ -18,19 +21,21 @@ public class GameController : MonoBehaviour
     private float posicionInicialZ;
     private GameObject InstanciaDeCelda;
     private List<Vector3> listaPosicionesCeldas = new List<Vector3>();
+    private List<Vector3> listaPosicionesBolas = new List<Vector3>();
 
     [Header("Configuración de las Esferas")]
-    [SerializeField] private GameObject bolaRoja;
-    [SerializeField] private GameObject bolaAzul;
-    [SerializeField] private GameObject bolaVerde;
-    [SerializeField] private GameObject bolaGris;
+    [SerializeField] private GameObject [] bolasPrefabs; // Array de prefabs de bola
+   // Número de bolas a colocar
+    //[SerializeField] private GameObject bolaAzul;
+    //[SerializeField] private GameObject bolaVerde;
+    //[SerializeField] private GameObject bolaGris;ss
 
 
     void CrearMalla()
     {
         //Calculo del ancho de la celda para las instancias creadas
         float anchoCelda = (float)anchoMalla / numeroCeldas;
-        
+
         float factorEscala = (float)anchoCelda / anchoCeldaPrefab;
         //Posicionamiento de la celda superior izquierda
         int numSaltosIniciales = numeroCeldas - 1;
@@ -51,12 +56,12 @@ public class GameController : MonoBehaviour
         float posicionActualZ = posicionInicialZ;
 
         //float deltaPosicion = longitudSalto*2;
-        float deltaPosicion = 0.95f*anchoCeldaPrefab* factorEscala;
-        
+        float deltaPosicion = 0.95f * anchoCeldaPrefab * factorEscala;
+
         while (true)
         {
             posicionActualX += deltaPosicion;
-            
+
 
             if (posicionActualX < anchoMalla / 2)
             {
@@ -81,7 +86,7 @@ public class GameController : MonoBehaviour
             }
 
         }
-        
+
     }
     // crea una función que mande a consola las posiciones de las celdas
     void ImprimirPosicionesCeldas()
@@ -94,17 +99,28 @@ public class GameController : MonoBehaviour
 
     // Start is called before the first frame update
 
-
+    void PosicionarBolas()
+    {
+        List<Vector3> posicionesEscogidas = listaPosicionesCeldas
+                .OrderBy(x => Random.value)
+                .Take(4)
+                .ToList();
+        for (int i = 0; i < 4; i++)
+        {
+            GameObject InstanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
+        }
+    }
     void Start()
     {
         CrearMalla();
         ImprimirPosicionesCeldas();
-        }
+        PosicionarBolas();
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
+    // Update is called once per frame
+    void Update()
+    {
 
-        }
+    }
 }
 

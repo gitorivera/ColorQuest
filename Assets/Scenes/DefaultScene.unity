@@ -415,10 +415,7 @@ MonoBehaviour:
   numeroCeldas: 5
   CeldaPrefab: {fileID: 7328645281302002950, guid: 55c0fc643f8004e38ba009b0001df058, type: 3}
   anchoMalla: 1
-  bolaRoja: {fileID: 1227759501690284084, guid: 20c980a73d62e4002bdc79a1ac710621, type: 3}
-  bolaAzul: {fileID: 8344143229348114595, guid: a3e848f16c458478e856e0e65699d620, type: 3}
-  bolaVerde: {fileID: 4682633506170415809, guid: 995eb3013303b4c66ad37917c039b5f0, type: 3}
-  bolaGris: {fileID: 3844250124326048759, guid: b4289b2b5d67341d1a8e14b02a257bf7, type: 3}
+  bolasPrefabs: []
 --- !u!4 &1384984425
 Transform:
   m_ObjectHideFlags: 0

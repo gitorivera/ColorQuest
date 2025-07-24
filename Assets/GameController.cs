@@ -1,10 +1,10 @@
 using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
 //add the random library
 using Random = UnityEngine.Random;
 using System.Linq;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
@@ -25,11 +25,11 @@ public class GameController : MonoBehaviour
 
     [Header("Configuración de las Esferas")]
     [SerializeField] private GameObject [] bolasPrefabs; // Array de prefabs de bola
-   // Número de bolas a colocar
-    //[SerializeField] private GameObject bolaAzul;
-    //[SerializeField] private GameObject bolaVerde;
-    //[SerializeField] private GameObject bolaGris;ss
+    [SerializeField] [Tooltip("Segundos que duran las esferas en el tablero")][Range(1,10)] private int duracionTablero =5;
 
+    [SerializeField] TextMeshPro RelojContador;
+    private float tiempoActual = 0;
+    private int segundosTranscurridos = 0;
 
     void CrearMalla()
     {
@@ -120,6 +120,20 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Cálculo de las centésimas que dura un frame
+        tiempoActual += Time.deltaTime * 100;
+        if (tiempoActual >= 100)
+        {
+            segundosTranscurridos += 1;
+            tiempoActual = 0;
+        }
+
+        RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
+        if (segundosTranscurridos > duracionTablero - 1)
+        {
+            segundosTranscurridos = 0;
+            
+        } 
 
     }
 }

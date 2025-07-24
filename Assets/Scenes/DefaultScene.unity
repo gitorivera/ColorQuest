@@ -420,6 +420,7 @@ MonoBehaviour:
   - {fileID: 4682633506170415809, guid: 995eb3013303b4c66ad37917c039b5f0, type: 3}
   - {fileID: 8344143229348114595, guid: a3e848f16c458478e856e0e65699d620, type: 3}
   - {fileID: 3844250124326048759, guid: b4289b2b5d67341d1a8e14b02a257bf7, type: 3}
+  contadorText: 4.08
 --- !u!4 &1384984425
 Transform:
   m_ObjectHideFlags: 0
@@ -673,7 +674,7 @@ GameObject:
   - component: {fileID: 1934611664}
   - component: {fileID: 1934611663}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: RelojContador
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

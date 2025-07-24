@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour
 
     [Header("Configuración de las Esferas")]
     [SerializeField] private GameObject [] bolasPrefabs; // Array de prefabs de bola
+
+    private List<GameObject> instanciaBolas = new List<GameObject>();
     [SerializeField] [Tooltip("Segundos que duran las esferas en el tablero")][Range(1,10)] private int duracionTablero =5;
 
     [SerializeField] TextMeshPro RelojContador;
@@ -88,32 +90,38 @@ public class GameController : MonoBehaviour
         }
 
     }
-    // crea una función que mande a consola las posiciones de las celdas
-    void ImprimirPosicionesCeldas()
-    {
-        foreach (Vector3 posicion in listaPosicionesCeldas)
-        {
-            Debug.Log($"Posición de la celda: {posicion}");
-        }
-    }
-
-    // Start is called before the first frame update
 
     void PosicionarBolas()
     {
         List<Vector3> posicionesEscogidas = listaPosicionesCeldas
                 .OrderBy(x => Random.value)
-                .Take(4)
+                .Take(bolasPrefabs.Length)
                 .ToList();
-        for (int i = 0; i < 4; i++)
+
+        if (instanciaBolas.Count > 0)
         {
-            GameObject InstanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
+            for (int i = 0; i < instanciaBolas.Count; i++)
+            {
+                instanciaBolas[i].transform.position = posicionesEscogidas[i];
+            }
         }
+        else
+        {
+            for (int i = 0; i < bolasPrefabs.Length; i++)
+            {
+                GameObject instanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
+                instanciaBolas.Add(instanciaBola);
+            }
+        }
+        //     for (int i = 0; i < 4; i++)
+        //    {
+        //         GameObject InstanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
+        //     }
     }
     void Start()
     {
         CrearMalla();
-        ImprimirPosicionesCeldas();
+       
         PosicionarBolas();
     }
 
@@ -132,7 +140,7 @@ public class GameController : MonoBehaviour
         if (segundosTranscurridos > duracionTablero - 1)
         {
             segundosTranscurridos = 0;
-            
+            PosicionarBolas();
         } 
 
     }

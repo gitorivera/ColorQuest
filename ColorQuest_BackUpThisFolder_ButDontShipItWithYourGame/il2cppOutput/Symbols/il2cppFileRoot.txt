@@ -1,0 +1,1 @@
+/Users/jorgerivera/unity/ColorQuest/Library/Bee/artifacts/Android/il2cppOutput/cpp

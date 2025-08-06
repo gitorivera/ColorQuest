@@ -420,7 +420,8 @@ MonoBehaviour:
   - {fileID: 4682633506170415809, guid: 995eb3013303b4c66ad37917c039b5f0, type: 3}
   - {fileID: 8344143229348114595, guid: a3e848f16c458478e856e0e65699d620, type: 3}
   - {fileID: 3844250124326048759, guid: b4289b2b5d67341d1a8e14b02a257bf7, type: 3}
-  contadorText: 4.08
+  duracionTablero: 5
+  RelojContador: {fileID: 1934611663}
 --- !u!4 &1384984425
 Transform:
   m_ObjectHideFlags: 0
@@ -543,7 +544,7 @@ Transform:
   m_GameObject: {fileID: 1477129650}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -5}
+  m_LocalPosition: {x: 0, y: 0.69, z: -3.03}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

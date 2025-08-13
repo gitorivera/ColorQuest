@@ -39,6 +39,10 @@ public class GameController : MonoBehaviour
     public static GameController instance;
     private int indiceActual = 0;
 
+    [SerializeField] TextMeshPro ContadorPuntos;
+    
+    private int puntaje = 0;
+
     void Awake()
     {
         if (instance == null)
@@ -150,12 +154,15 @@ public class GameController : MonoBehaviour
         {
             Debug.Log($"¡Correcto! Bola {esferaNombre} clickeada en el orden correcto.");
             indiceActual++;
+            
 
             // Verificar si se completó el orden, exceptuando la ultima esfera
-            if (indiceActual >= bolasPrefabs.Length-1)
+            if (indiceActual >= bolasPrefabs.Length - 1)
             {
                 Debug.Log("¡Felicidades! Has clickeado todas las bolas en el orden correcto.");
                 // Reiniciar o realizar alguna acción
+                puntaje += 10;
+                ContadorPuntos.text = $"Puntaje: {puntaje}";
                 indiceActual = 0;
             }
         }
@@ -173,23 +180,24 @@ public class GameController : MonoBehaviour
             PosicionarBolas();
         }
 
-        // Update is called once per frame
-        void Update()
+    // Update is called once per frame
+    void Update()
+    {
+        // Cálculo de las centésimas que dura un frame
+        tiempoActual += Time.deltaTime * 100;
+        if (tiempoActual >= 100)
         {
-            // Cálculo de las centésimas que dura un frame
-            tiempoActual += Time.deltaTime * 100;
-            if (tiempoActual >= 100)
-            {
-                segundosTranscurridos += 1;
-                tiempoActual = 0;
-            }
+            segundosTranscurridos += 1;
+            tiempoActual = 0;
+        }
 
-            RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
-            if (segundosTranscurridos > duracionTablero - 1)
-            {
-                segundosTranscurridos = 0;
-                PosicionarBolas();
-            }
+        RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
+        if (segundosTranscurridos > duracionTablero - 1)
+        {
+            segundosTranscurridos = 0;
+            PosicionarBolas();
+        }
+        
 
         }
 }

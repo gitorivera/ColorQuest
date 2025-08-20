@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
-    private readonly float puntoCentralZ = 0f;
+    private readonly float puntoCentralZ = 1f;
     private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;
@@ -29,9 +29,28 @@ public class GameController : MonoBehaviour
     private List<GameObject> instanciaBolas = new List<GameObject>();
     [SerializeField] [Tooltip("Segundos que duran las esferas en el tablero")][Range(1,10)] private int duracionTablero =5;
 
-    [SerializeField] TextMeshPro RelojContador;
+    [SerializeField] private TextMeshPro RelojContador;
     private float tiempoActual = 0;
     private int segundosTranscurridos = 0;
+
+    private int indiceActual = 0; // Track the current index for sphere clicks
+
+// instancia publica para que el método ClickEsfera pueda acceder a ella
+    public static GameController Instance;
+    [SerializeField] private TextMeshPro ContadorPuntos; 
+    private int puntaje = 0;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void CrearMalla()
     {
@@ -46,7 +65,7 @@ public class GameController : MonoBehaviour
         posicionInicialY = puntoCentralY + (numSaltosIniciales * longitudSalto);
         posicionInicialZ = puntoCentralZ;
 
-        InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionInicialX, posicionInicialY, 0), quaternion.identity);
+        InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionInicialX, posicionInicialY, posicionInicialZ), quaternion.identity);
         InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
         listaPosicionesCeldas.Add(new Vector3(posicionInicialX, posicionInicialY, posicionInicialZ));
         //------------------------------------
@@ -118,6 +137,40 @@ public class GameController : MonoBehaviour
         //         GameObject InstanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
         //     }
     }
+    public void EsferaClickeada(GameObject esfera)
+    {
+        string esferaNombre = esfera.name.Replace("(Clone)", "").Trim();
+
+        // Verificar si el clic coincide con el orden correcto
+        if (bolasPrefabs[indiceActual].name == esferaNombre)
+        {
+            Debug.Log($"¡Correcto! Bola {esferaNombre} clickeada en el orden correcto.");
+            indiceActual++;
+
+            // Verificar si se completó el orden, exceptuando la ultima esfera
+            if (indiceActual >= bolasPrefabs.Length - 1)
+            {
+                Debug.Log("¡Felicidades! Has clickeado todas las bolas en el orden correcto.");
+                // Reiniciar o realizar alguna acción
+                puntaje += 10;
+                ContadorPuntos.text = $"Puntaje: {puntaje}";
+                indiceActual = 0;
+            }
+        }
+        else
+        {
+            Debug.Log($"Error: Bola {esferaNombre} no está en el orden correcto.");
+            // Reiniciar el seguimiento si es necesario
+            indiceActual = 0;
+        }
+    }
+    public void MostrarTextoReloj(string texto)
+    {
+        if (RelojContador != null)
+        {
+            RelojContador.text = texto;
+        }
+    }
     void Start()
     {
         CrearMalla();
@@ -136,12 +189,13 @@ public class GameController : MonoBehaviour
             tiempoActual = 0;
         }
 
-        RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
+        //RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
         if (segundosTranscurridos > duracionTablero - 1)
         {
             segundosTranscurridos = 0;
             PosicionarBolas();
-        } 
+        }
+        
 
     }
 }

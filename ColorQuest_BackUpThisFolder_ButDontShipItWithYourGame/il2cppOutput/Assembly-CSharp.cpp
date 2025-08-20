@@ -53,9 +53,11 @@ struct Vector3U5BU5D_tFF1859CCE176131B909E2044F76443064254679C;
 struct WordWrapStateU5BU5D_t473D59C9DBCC949CE72EF1EB471CBA152A6CEAC9;
 struct SectionU5BU5D_t9D3017555FFF42E71BE91904A2486EAF429F24C4;
 struct TextProcessingElementU5BU5D_tC3E97D1672C8DB6E1F91DB2C0987D0ED9A2E7113;
+struct Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3;
 struct CancellationTokenSource_tAAE1E0033BCFC233801F8CB4CED5C852B350CB7B;
 struct Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26;
 struct CanvasRenderer_tAB9A55A976C4E3B2B37D0CE5616E5685A8B43860;
+struct Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3;
 struct DelegateData_t9B286B493293CD2D23A5B2B5EF0E5B1324C2B77E;
 struct GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09;
 struct GameObject_t76FEDD663AB33C991A9C9A23129337651094216F;
@@ -66,6 +68,7 @@ struct Mesh_t6D9C539763A09BC2B12AEAEF36F6DFFC98AE63D4;
 struct MeshFilter_t6D1CE2473A1E45AC73013400585A1163BF66B2F5;
 struct MethodInfo_t;
 struct MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71;
+struct Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C;
 struct Readme_tE17B99201D0F52BD5727638AD3F41072A65B3BBB;
 struct RectMask2D_tACF92BE999C791A665BD1ADEABF5BCEB82846670;
 struct RectTransform_t6C5DA5E41A89E0F488B001E45E58963480E543A5;
@@ -94,15 +97,26 @@ struct Section_t50C894D0A717C2368EBAAE5477D4E8626D0B5401;
 struct MissingCharacterEventCallback_t955241181324E0FEF9A9BDBA400E8780F8979DE6;
 
 IL2CPP_EXTERN_C RuntimeClass* ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var;
+IL2CPP_EXTERN_C RuntimeClass* Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var;
 IL2CPP_EXTERN_C RuntimeClass* Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC_il2cpp_TypeInfo_var;
+IL2CPP_EXTERN_C RuntimeClass* GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var;
 IL2CPP_EXTERN_C RuntimeClass* List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B_il2cpp_TypeInfo_var;
 IL2CPP_EXTERN_C RuntimeClass* List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B_il2cpp_TypeInfo_var;
+IL2CPP_EXTERN_C RuntimeClass* OVRInput_t759D9CC8F14D8539AD78A0375A2306C39D77100A_il2cpp_TypeInfo_var;
 IL2CPP_EXTERN_C RuntimeClass* Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var;
 IL2CPP_EXTERN_C RuntimeClass* U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var;
 IL2CPP_EXTERN_C RuntimeClass* quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var;
-IL2CPP_EXTERN_C RuntimeField* U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____43927B8402A5B252F165301C1AE9EFC0DC73005397A25459FDACA17D8317A1EB_FieldInfo_var;
-IL2CPP_EXTERN_C RuntimeField* U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____5469332135AC3008F68FF0E78FFF146CAA9BB0A8C21DB08C9BBA30E3FAFF2E07_FieldInfo_var;
-IL2CPP_EXTERN_C String_t* _stringLiteralD3C6FF105F16F36B05CE62DC0895F7A6B90F6ED8;
+IL2CPP_EXTERN_C RuntimeField* U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____24D00E783586CFC9C318DB937A7B952EDD66F247F177E6145C0BF3EB104E8D27_FieldInfo_var;
+IL2CPP_EXTERN_C RuntimeField* U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____E457DDF48DCB6D3DF95B74D80B4F9B09BA9E44003E4FF0BBF99C24D2AD0D822A_FieldInfo_var;
+IL2CPP_EXTERN_C String_t* _stringLiteral017EA2E2B7528809C70351C647633EAE248CB32B;
+IL2CPP_EXTERN_C String_t* _stringLiteral5A41CCB56FE2D21DA704B36205A6973F160E85B3;
+IL2CPP_EXTERN_C String_t* _stringLiteral946A4CFFA5D2AAE02D50FE1C34121EAD737464EC;
+IL2CPP_EXTERN_C String_t* _stringLiteral9E48A7C02D87FF4352941482AFCFAC65C1042D43;
+IL2CPP_EXTERN_C String_t* _stringLiteralBFC54079D8EB24CD6BA899368244DE8763EC010C;
+IL2CPP_EXTERN_C String_t* _stringLiteralCC29BA85DAC377B2D0E3EA323F7B1A5786A2E17F;
+IL2CPP_EXTERN_C String_t* _stringLiteralD41D89DAD98E1F1783260FD0A5A774F557A05F0F;
+IL2CPP_EXTERN_C String_t* _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709;
+IL2CPP_EXTERN_C String_t* _stringLiteralF0DD1F44D4CB7BC0842DAAEED063BC068AB6B4F8;
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_OrderBy_TisVector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_TisSingle_t4530F2FF86FCB0DC29F35385CA1BD21BE294761C_m3C3242216E59C23BE60A1A43AB719522256AE594_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_Take_TisVector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_mAF01A4F391F139548AA265A61DFFA87F1E0E295B_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_ToList_TisVector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_m9DE2E2D5349B6D5B94287732200B7B81A85DC687_RuntimeMethod_var;
@@ -114,7 +128,7 @@ IL2CPP_EXTERN_C const RuntimeMethod* List_1_get_Count_m4C37ED2D928D63B80F55AF434
 IL2CPP_EXTERN_C const RuntimeMethod* List_1_get_Item_m8F2E15FC96DA75186C51228128A0660709E4E810_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* List_1_get_Item_mE8DBE527F24D9CFED839C34216C475B716169979_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var;
-IL2CPP_EXTERN_C const RuntimeMethod* U3CU3Ec_U3CPosicionarBolasU3Eb__20_0_m50B0171BC7495C9F4C8A3222B9422A97EFA0FE37_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* U3CU3Ec_U3CPosicionarBolasU3Eb__25_0_m34F54D46C1338E1399F9E34BAD204A87809ADC6E_RuntimeMethod_var;
 struct Delegate_t_marshaled_com;
 struct Delegate_t_marshaled_pinvoke;
 
@@ -428,7 +442,7 @@ struct float4_t89D9A294E7A79BD81BFBDD18654508532958555E
 	float ___w;
 };
 #pragma pack(push, tp, 1)
-struct __StaticArrayInitTypeSizeU3D51_t18FF2289EA3122AE31BA02F5679B0628B3B09745 
+struct __StaticArrayInitTypeSizeU3D121_t99904FCFBCA0F634F33880DBAEDD9D3216B0AEAE 
 {
 	union
 	{
@@ -438,12 +452,12 @@ struct __StaticArrayInitTypeSizeU3D51_t18FF2289EA3122AE31BA02F5679B0628B3B09745
 			{
 			};
 		};
-		uint8_t __StaticArrayInitTypeSizeU3D51_t18FF2289EA3122AE31BA02F5679B0628B3B09745__padding[51];
+		uint8_t __StaticArrayInitTypeSizeU3D121_t99904FCFBCA0F634F33880DBAEDD9D3216B0AEAE__padding[121];
 	};
 };
 #pragma pack(pop, tp)
 #pragma pack(push, tp, 1)
-struct __StaticArrayInitTypeSizeU3D79_tCB9837134BA4E1342655A0FE43150675D9AFACA0 
+struct __StaticArrayInitTypeSizeU3D64_tC5DCC92F71FF4937EDBB6F52C59AD832172ABE88 
 {
 	union
 	{
@@ -453,7 +467,7 @@ struct __StaticArrayInitTypeSizeU3D79_tCB9837134BA4E1342655A0FE43150675D9AFACA0
 			{
 			};
 		};
-		uint8_t __StaticArrayInitTypeSizeU3D79_tCB9837134BA4E1342655A0FE43150675D9AFACA0__padding[79];
+		uint8_t __StaticArrayInitTypeSizeU3D64_tC5DCC92F71FF4937EDBB6F52C59AD832172ABE88__padding[64];
 	};
 };
 #pragma pack(pop, tp)
@@ -675,6 +689,14 @@ struct VerticalAlignmentOptions_tCEF70AF60282B71AEEE14D51253CE6A61E72D855
 struct quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 
 {
 	float4_t89D9A294E7A79BD81BFBDD18654508532958555E ___value;
+};
+struct Controller_tBCAA59EAD9BFE2381E974A48B203D044B6CE1ECB 
+{
+	int32_t ___value__;
+};
+struct RawButton_tCD95D496C88D49C316A04BE1354D128EF7DB23AF 
+{
+	int32_t ___value__;
 };
 struct TextInputSources_t41387D6C9CB16E60390F47A15AEB8185BE966D26 
 {
@@ -1006,6 +1028,10 @@ struct MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71  : public Behavio
 {
 	CancellationTokenSource_tAAE1E0033BCFC233801F8CB4CED5C852B350CB7B* ___m_CancellationTokenSource;
 };
+struct Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
+{
+	int32_t ___botonDisparo;
+};
 struct GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
 	int32_t ___numeroCeldas;
@@ -1027,6 +1053,9 @@ struct GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09  : public MonoBe
 	TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* ___RelojContador;
 	float ___tiempoActual;
 	int32_t ___segundosTranscurridos;
+	int32_t ___indiceActual;
+	TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* ___ContadorPuntos;
+	int32_t ___puntaje;
 };
 struct UIBehaviour_tB9D4295827BD2EEDEF0749200C6CA7090C742A9D  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
@@ -1317,8 +1346,8 @@ struct List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B_StaticFields
 };
 struct U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA_StaticFields
 {
-	__StaticArrayInitTypeSizeU3D51_t18FF2289EA3122AE31BA02F5679B0628B3B09745 ___43927B8402A5B252F165301C1AE9EFC0DC73005397A25459FDACA17D8317A1EB;
-	__StaticArrayInitTypeSizeU3D79_tCB9837134BA4E1342655A0FE43150675D9AFACA0 ___5469332135AC3008F68FF0E78FFF146CAA9BB0A8C21DB08C9BBA30E3FAFF2E07;
+	__StaticArrayInitTypeSizeU3D121_t99904FCFBCA0F634F33880DBAEDD9D3216B0AEAE ___24D00E783586CFC9C318DB937A7B952EDD66F247F177E6145C0BF3EB104E8D27;
+	__StaticArrayInitTypeSizeU3D64_tC5DCC92F71FF4937EDBB6F52C59AD832172ABE88 ___E457DDF48DCB6D3DF95B74D80B4F9B09BA9E44003E4FF0BBF99C24D2AD0D822A;
 };
 struct String_t_StaticFields
 {
@@ -1327,7 +1356,7 @@ struct String_t_StaticFields
 struct U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields
 {
 	U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* ___U3CU3E9;
-	Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* ___U3CU3E9__20_0;
+	Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* ___U3CU3E9__25_0;
 };
 struct Boolean_t09A6377A54BE2F9E6985A8149F19234FD7DDFE22_StaticFields
 {
@@ -1355,9 +1384,17 @@ struct Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_StaticFields
 	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___positiveInfinityVector;
 	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___negativeInfinityVector;
 };
+struct Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_StaticFields
+{
+	int32_t ___OffsetOfInstanceIDInCPlusPlusObject;
+};
 struct quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields
 {
 	quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 ___identity;
+};
+struct GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields
+{
+	GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* ___Instance;
 };
 struct TMP_Text_tE8D677872D43AD4B2AAF0D6101692A17D0B251A9_StaticFields
 {
@@ -1562,6 +1599,14 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void List_1__ctor_m7F078BB342729BDF11327FD89D
 IL2CPP_EXTERN_C IL2CPP_NO_INLINE IL2CPP_METHOD_ATTR void List_1_AddWithResize_mCDB189127FC2EE67B5EED9DE34F837DFC6EDC212_gshared (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* __this, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_item, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_NO_INLINE IL2CPP_METHOD_ATTR void List_1_AddWithResize_m79A9BF770BEF9C06BE40D5401E55E375F2726CC4_gshared (List_1_tA239CB83DE5615F348BB0507E45F490F4F7C9A8D* __this, RuntimeObject* ___0_item, const RuntimeMethod* method) ;
 
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool OVRInput_GetDown_mEF663E99B6E5FABB41B86716C6D04C788C979139 (int32_t ___0_rawMask, int32_t ___1_controllerMask, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Shoot_m515B7905C41D7D4DD68DBD60D9D5CBD6EA2CFA72 (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_x, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___1_y, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_MostrarTextoReloj_m609BB60644EC64B6986B60E530CE6B794A418D4A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, String_t* ___0_texto, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E (MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_x, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___1_y, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B (Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_obj, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2* __this, float ___0_x, float ___1_y, float ___2_z, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41 (quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 ___0_q, const RuntimeMethod* method) ;
 inline GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4 (GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_original, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___1_position, Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 ___2_rotation, const RuntimeMethod* method)
@@ -1607,10 +1652,16 @@ inline void List_1_Add_m43FBF207375C6E06B8C45ECE614F9B8008FB686E_inline (List_1_
 {
 	((  void (*) (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B*, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*, const RuntimeMethod*))List_1_Add_mEBCF994CC3814631017F46A387B1A192ED6C85C7_gshared_inline)(__this, ___0_item, method);
 }
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* Object_get_name_mAC2F6B897CF1303BA4249B4CB55271AFACBB6392 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Replace_mABDB7003A1D0AEDCAE9FF85E3DFFFBA752D2A166 (String_t* __this, String_t* ___0_oldValue, String_t* ___1_newValue, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Trim_mCD6D8C6D4CFD15225D12DB7D3E0544CA80FB8DA5 (String_t* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool String_op_Equality_m030E1B219352228970A076136E455C4E568C02C1 (String_t* ___0_a, String_t* ___1_b, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B (String_t* ___0_str0, String_t* ___1_str1, String_t* ___2_str2, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB (RuntimeObject* ___0_message, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8 (String_t* ___0_format, RuntimeObject* ___1_arg0, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865 (const RuntimeMethod* method) ;
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987 (String_t* ___0_format, RuntimeObject* ___1_arg0, RuntimeObject* ___2_arg1, const RuntimeMethod* method) ;
 inline void List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* __this, const RuntimeMethod* method)
 {
 	((  void (*) (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B*, const RuntimeMethod*))List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C_gshared)(__this, method);
@@ -1619,7 +1670,6 @@ inline void List_1__ctor_m447372C1EF7141193B93090A77395B786C72C7BC (List_1_tB951
 {
 	((  void (*) (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B*, const RuntimeMethod*))List_1__ctor_m7F078BB342729BDF11327FD89D7872265328F690_gshared)(__this, method);
 }
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E (MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_m30026461C495A6CE8905B46C2EB6B15E56DD3FF5 (U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Object__ctor_mE837C6B9FA8C6D5D109F4B2EC885D79919AC0EA2 (RuntimeObject* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float Random_get_value_m2CEA87FADF5222EF9E13D32695F15E2BA282E24B (const RuntimeMethod* method) ;
@@ -1646,7 +1696,136 @@ inline void List_1_AddWithResize_m79A9BF770BEF9C06BE40D5401E55E375F2726CC4 (List
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
+// Method Definition Index: 133865
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Start_mF20F96AF770995100EC1E0C81D922EEE72B7DA4E (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
+{
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:11>
+		return;
+	}
+}
+// Method Definition Index: 133866
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Update_m2326ABF940B704CEE091FAD2576363901720F2BC (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&OVRInput_t759D9CC8F14D8539AD78A0375A2306C39D77100A_il2cpp_TypeInfo_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:16>
+		int32_t L_0 = __this->___botonDisparo;
+		il2cpp_codegen_runtime_class_init_inline(OVRInput_t759D9CC8F14D8539AD78A0375A2306C39D77100A_il2cpp_TypeInfo_var);
+		bool L_1;
+		L_1 = OVRInput_GetDown_mEF663E99B6E5FABB41B86716C6D04C788C979139(L_0, ((int32_t)-2147483648LL), NULL);
+		if (!L_1)
+		{
+			goto IL_0018;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:18>
+		Blaster_Shoot_m515B7905C41D7D4DD68DBD60D9D5CBD6EA2CFA72(__this, NULL);
+	}
+
+IL_0018:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:20>
+		return;
+	}
+}
 // Method Definition Index: 133867
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Shoot_m515B7905C41D7D4DD68DBD60D9D5CBD6EA2CFA72 (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral946A4CFFA5D2AAE02D50FE1C34121EAD737464EC);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:23>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_0 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		bool L_1;
+		L_1 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_0, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
+		if (!L_1)
+		{
+			goto IL_001c;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:25>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_2 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
+		NullCheck(L_2);
+		GameController_MostrarTextoReloj_m609BB60644EC64B6986B60E530CE6B794A418D4A(L_2, _stringLiteral946A4CFFA5D2AAE02D50FE1C34121EAD737464EC, NULL);
+	}
+
+IL_001c:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:27>
+		return;
+	}
+}
+// Method Definition Index: 133868
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster__ctor_m544042515D3ED37805E67A6BABA06852E00F6456 (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
+{
+	{
+		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
+		return;
+	}
+}
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Winvalid-offsetof"
+#pragma clang diagnostic ignored "-Wunused-variable"
+#endif
+// Method Definition Index: 133869
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Awake_m1173704FBD7757B1E7B187AF0AEF90EDECBC6201 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:45>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_0 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		bool L_1;
+		L_1 = Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605(L_0, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
+		if (!L_1)
+		{
+			goto IL_0014;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:47>
+		((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance = __this;
+		Il2CppCodeGenWriteBarrier((void**)(&((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance), (void*)__this);
+		return;
+	}
+
+IL_0014:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:51>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2;
+		L_2 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(__this, NULL);
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB(L_2, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:53>
+		return;
+	}
+}
+// Method Definition Index: 133870
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1666,209 +1845,210 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_CrearMalla_m591606EDFDD59
 	float V_5 = 0.0f;
 	float V_6 = 0.0f;
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:39>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:58>
 		float L_0 = __this->___anchoMalla;
 		int32_t L_1 = __this->___numeroCeldas;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:41>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:60>
 		float L_2 = __this->___anchoCeldaPrefab;
 		V_0 = ((float)(((float)((float)(((float)L_0)/((float)L_1))))/L_2));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:43>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:62>
 		int32_t L_3 = __this->___numeroCeldas;
 		V_1 = ((int32_t)il2cpp_codegen_subtract(L_3, 1));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:44>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:63>
 		float L_4 = __this->___anchoMalla;
 		int32_t L_5 = __this->___numeroCeldas;
 		V_2 = ((float)(((float)L_4)/((float)((int32_t)il2cpp_codegen_multiply(L_5, 2)))));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:45>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:64>
 		float L_6 = __this->___puntoCentralX;
 		int32_t L_7 = V_1;
 		float L_8 = V_2;
 		__this->___posicionInicialX = ((float)il2cpp_codegen_subtract(L_6, ((float)il2cpp_codegen_multiply(((float)L_7), L_8))));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:46>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:65>
 		float L_9 = __this->___puntoCentralY;
 		int32_t L_10 = V_1;
 		float L_11 = V_2;
 		__this->___posicionInicialY = ((float)il2cpp_codegen_add(L_9, ((float)il2cpp_codegen_multiply(((float)L_10), L_11))));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:47>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:66>
 		float L_12 = __this->___puntoCentralZ;
 		__this->___posicionInicialZ = L_12;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:49>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:68>
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_13 = __this->___CeldaPrefab;
 		float L_14 = __this->___posicionInicialX;
 		float L_15 = __this->___posicionInicialY;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_16;
-		memset((&L_16), 0, sizeof(L_16));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_16), L_14, L_15, (0.0f), NULL);
-		quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 L_17 = ((quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields*)il2cpp_codegen_static_fields_for(quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var))->___identity;
-		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_18;
-		L_18 = quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41(L_17, NULL);
+		float L_16 = __this->___posicionInicialZ;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_17;
+		memset((&L_17), 0, sizeof(L_17));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_17), L_14, L_15, L_16, NULL);
+		quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 L_18 = ((quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields*)il2cpp_codegen_static_fields_for(quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var))->___identity;
+		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_19;
+		L_19 = quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41(L_18, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_19;
-		L_19 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_13, L_16, L_18, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
-		__this->___InstanciaDeCelda = L_19;
-		Il2CppCodeGenWriteBarrier((void**)(&__this->___InstanciaDeCelda), (void*)L_19);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:50>
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_20 = __this->___InstanciaDeCelda;
-		NullCheck(L_20);
-		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_21;
-		L_21 = GameObject_get_transform_m0BC10ADFA1632166AE5544BDF9038A2650C2AE56(L_20, NULL);
-		float L_22 = V_0;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_20;
+		L_20 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_13, L_17, L_19, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
+		__this->___InstanciaDeCelda = L_20;
+		Il2CppCodeGenWriteBarrier((void**)(&__this->___InstanciaDeCelda), (void*)L_20);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:69>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_21 = __this->___InstanciaDeCelda;
+		NullCheck(L_21);
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_22;
+		L_22 = GameObject_get_transform_m0BC10ADFA1632166AE5544BDF9038A2650C2AE56(L_21, NULL);
 		float L_23 = V_0;
 		float L_24 = V_0;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_25;
-		memset((&L_25), 0, sizeof(L_25));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_25), L_22, L_23, L_24, NULL);
-		NullCheck(L_21);
-		Transform_set_localScale_mBA79E811BAF6C47B80FF76414C12B47B3CD03633(L_21, L_25, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:51>
-		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_26 = __this->___listaPosicionesCeldas;
-		float L_27 = __this->___posicionInicialX;
-		float L_28 = __this->___posicionInicialY;
-		float L_29 = __this->___posicionInicialZ;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_30;
-		memset((&L_30), 0, sizeof(L_30));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_30), L_27, L_28, L_29, NULL);
-		NullCheck(L_26);
-		List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_inline(L_26, L_30, List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:56>
-		float L_31 = __this->___posicionInicialX;
-		V_3 = L_31;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:57>
-		float L_32 = __this->___posicionInicialY;
-		V_4 = L_32;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:58>
-		float L_33 = __this->___posicionInicialZ;
-		V_5 = L_33;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:61>
-		float L_34 = __this->___anchoCeldaPrefab;
-		float L_35 = V_0;
-		V_6 = ((float)il2cpp_codegen_multiply(((float)il2cpp_codegen_multiply((0.949999988f), L_34)), L_35));
+		float L_25 = V_0;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_26;
+		memset((&L_26), 0, sizeof(L_26));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_26), L_23, L_24, L_25, NULL);
+		NullCheck(L_22);
+		Transform_set_localScale_mBA79E811BAF6C47B80FF76414C12B47B3CD03633(L_22, L_26, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:70>
+		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_27 = __this->___listaPosicionesCeldas;
+		float L_28 = __this->___posicionInicialX;
+		float L_29 = __this->___posicionInicialY;
+		float L_30 = __this->___posicionInicialZ;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_31;
+		memset((&L_31), 0, sizeof(L_31));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_31), L_28, L_29, L_30, NULL);
+		NullCheck(L_27);
+		List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_inline(L_27, L_31, List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:75>
+		float L_32 = __this->___posicionInicialX;
+		V_3 = L_32;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:76>
+		float L_33 = __this->___posicionInicialY;
+		V_4 = L_33;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:77>
+		float L_34 = __this->___posicionInicialZ;
+		V_5 = L_34;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:80>
+		float L_35 = __this->___anchoCeldaPrefab;
+		float L_36 = V_0;
+		V_6 = ((float)il2cpp_codegen_multiply(((float)il2cpp_codegen_multiply((0.949999988f), L_35)), L_36));
 	}
 
-IL_00f3:
+IL_00f4:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:65>
-		float L_36 = V_3;
-		float L_37 = V_6;
-		V_3 = ((float)il2cpp_codegen_add(L_36, L_37));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:68>
-		float L_38 = V_3;
-		float L_39 = __this->___anchoMalla;
-		if ((!(((float)L_38) < ((float)((float)(L_39/(2.0f)))))))
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:84>
+		float L_37 = V_3;
+		float L_38 = V_6;
+		V_3 = ((float)il2cpp_codegen_add(L_37, L_38));
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:87>
+		float L_39 = V_3;
+		float L_40 = __this->___anchoMalla;
+		if ((!(((float)L_39) < ((float)((float)(L_40/(2.0f)))))))
 		{
-			goto IL_015b;
+			goto IL_015c;
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:70>
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_40 = __this->___CeldaPrefab;
-		float L_41 = V_3;
-		float L_42 = V_4;
-		float L_43 = V_5;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_44;
-		memset((&L_44), 0, sizeof(L_44));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_44), L_41, L_42, L_43, NULL);
-		quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 L_45 = ((quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields*)il2cpp_codegen_static_fields_for(quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var))->___identity;
-		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_46;
-		L_46 = quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41(L_45, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:89>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_41 = __this->___CeldaPrefab;
+		float L_42 = V_3;
+		float L_43 = V_4;
+		float L_44 = V_5;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_45;
+		memset((&L_45), 0, sizeof(L_45));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_45), L_42, L_43, L_44, NULL);
+		quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 L_46 = ((quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields*)il2cpp_codegen_static_fields_for(quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var))->___identity;
+		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_47;
+		L_47 = quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41(L_46, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_47;
-		L_47 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_40, L_44, L_46, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
-		__this->___InstanciaDeCelda = L_47;
-		Il2CppCodeGenWriteBarrier((void**)(&__this->___InstanciaDeCelda), (void*)L_47);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:71>
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_48 = __this->___InstanciaDeCelda;
-		NullCheck(L_48);
-		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_49;
-		L_49 = GameObject_get_transform_m0BC10ADFA1632166AE5544BDF9038A2650C2AE56(L_48, NULL);
-		float L_50 = V_0;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_48;
+		L_48 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_41, L_45, L_47, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
+		__this->___InstanciaDeCelda = L_48;
+		Il2CppCodeGenWriteBarrier((void**)(&__this->___InstanciaDeCelda), (void*)L_48);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:90>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_49 = __this->___InstanciaDeCelda;
+		NullCheck(L_49);
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_50;
+		L_50 = GameObject_get_transform_m0BC10ADFA1632166AE5544BDF9038A2650C2AE56(L_49, NULL);
 		float L_51 = V_0;
 		float L_52 = V_0;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_53;
-		memset((&L_53), 0, sizeof(L_53));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_53), L_50, L_51, L_52, NULL);
-		NullCheck(L_49);
-		Transform_set_localScale_mBA79E811BAF6C47B80FF76414C12B47B3CD03633(L_49, L_53, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:72>
-		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_54 = __this->___listaPosicionesCeldas;
-		float L_55 = V_3;
-		float L_56 = V_4;
-		float L_57 = V_5;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_58;
-		memset((&L_58), 0, sizeof(L_58));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_58), L_55, L_56, L_57, NULL);
-		NullCheck(L_54);
-		List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_inline(L_54, L_58, List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var);
-		goto IL_00f3;
+		float L_53 = V_0;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_54;
+		memset((&L_54), 0, sizeof(L_54));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_54), L_51, L_52, L_53, NULL);
+		NullCheck(L_50);
+		Transform_set_localScale_mBA79E811BAF6C47B80FF76414C12B47B3CD03633(L_50, L_54, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:91>
+		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_55 = __this->___listaPosicionesCeldas;
+		float L_56 = V_3;
+		float L_57 = V_4;
+		float L_58 = V_5;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_59;
+		memset((&L_59), 0, sizeof(L_59));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_59), L_56, L_57, L_58, NULL);
+		NullCheck(L_55);
+		List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_inline(L_55, L_59, List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var);
+		goto IL_00f4;
 	}
 
-IL_015b:
+IL_015c:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:76>
-		float L_59 = __this->___posicionInicialX;
-		V_3 = L_59;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:77>
-		float L_60 = V_4;
-		float L_61 = V_6;
-		V_4 = ((float)il2cpp_codegen_subtract(L_60, L_61));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:78>
-		float L_62 = V_4;
-		float L_63 = __this->___anchoMalla;
-		if ((!(((float)L_62) > ((float)((float)il2cpp_codegen_subtract((1.0f), ((float)(L_63/(2.0f)))))))))
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:95>
+		float L_60 = __this->___posicionInicialX;
+		V_3 = L_60;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:96>
+		float L_61 = V_4;
+		float L_62 = V_6;
+		V_4 = ((float)il2cpp_codegen_subtract(L_61, L_62));
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:97>
+		float L_63 = V_4;
+		float L_64 = __this->___anchoMalla;
+		if ((!(((float)L_63) > ((float)((float)il2cpp_codegen_subtract((1.0f), ((float)(L_64/(2.0f)))))))))
 		{
-			goto IL_01d6;
+			goto IL_01d7;
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:80>
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_64 = __this->___CeldaPrefab;
-		float L_65 = V_3;
-		float L_66 = V_4;
-		float L_67 = V_5;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_68;
-		memset((&L_68), 0, sizeof(L_68));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_68), L_65, L_66, L_67, NULL);
-		quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 L_69 = ((quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields*)il2cpp_codegen_static_fields_for(quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var))->___identity;
-		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_70;
-		L_70 = quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41(L_69, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:99>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_65 = __this->___CeldaPrefab;
+		float L_66 = V_3;
+		float L_67 = V_4;
+		float L_68 = V_5;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_69;
+		memset((&L_69), 0, sizeof(L_69));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_69), L_66, L_67, L_68, NULL);
+		quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4 L_70 = ((quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_StaticFields*)il2cpp_codegen_static_fields_for(quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var))->___identity;
+		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_71;
+		L_71 = quaternion_op_Implicit_m78F07E28F5AB9C26F0EE997B2F12AF4A209FCD41(L_70, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_71;
-		L_71 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_64, L_68, L_70, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
-		__this->___InstanciaDeCelda = L_71;
-		Il2CppCodeGenWriteBarrier((void**)(&__this->___InstanciaDeCelda), (void*)L_71);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:81>
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_72 = __this->___InstanciaDeCelda;
-		NullCheck(L_72);
-		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_73;
-		L_73 = GameObject_get_transform_m0BC10ADFA1632166AE5544BDF9038A2650C2AE56(L_72, NULL);
-		float L_74 = V_0;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_72;
+		L_72 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_65, L_69, L_71, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
+		__this->___InstanciaDeCelda = L_72;
+		Il2CppCodeGenWriteBarrier((void**)(&__this->___InstanciaDeCelda), (void*)L_72);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:100>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_73 = __this->___InstanciaDeCelda;
+		NullCheck(L_73);
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_74;
+		L_74 = GameObject_get_transform_m0BC10ADFA1632166AE5544BDF9038A2650C2AE56(L_73, NULL);
 		float L_75 = V_0;
 		float L_76 = V_0;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_77;
-		memset((&L_77), 0, sizeof(L_77));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_77), L_74, L_75, L_76, NULL);
-		NullCheck(L_73);
-		Transform_set_localScale_mBA79E811BAF6C47B80FF76414C12B47B3CD03633(L_73, L_77, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:82>
-		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_78 = __this->___listaPosicionesCeldas;
-		float L_79 = V_3;
-		float L_80 = V_4;
-		float L_81 = V_5;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_82;
-		memset((&L_82), 0, sizeof(L_82));
-		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_82), L_79, L_80, L_81, NULL);
-		NullCheck(L_78);
-		List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_inline(L_78, L_82, List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var);
-		goto IL_00f3;
+		float L_77 = V_0;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_78;
+		memset((&L_78), 0, sizeof(L_78));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_78), L_75, L_76, L_77, NULL);
+		NullCheck(L_74);
+		Transform_set_localScale_mBA79E811BAF6C47B80FF76414C12B47B3CD03633(L_74, L_78, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:101>
+		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_79 = __this->___listaPosicionesCeldas;
+		float L_80 = V_3;
+		float L_81 = V_4;
+		float L_82 = V_5;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_83;
+		memset((&L_83), 0, sizeof(L_83));
+		Vector3__ctor_m376936E6B999EF1ECBE57D990A386303E2283DE0_inline((&L_83), L_80, L_81, L_82, NULL);
+		NullCheck(L_79);
+		List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_inline(L_79, L_83, List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var);
+		goto IL_00f4;
 	}
 
-IL_01d6:
+IL_01d7:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:92>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:111>
 		return;
 	}
 }
-// Method Definition Index: 133868
+// Method Definition Index: 133871
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1884,7 +2064,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B7
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&List_1_get_Item_mE8DBE527F24D9CFED839C34216C475B716169979_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CU3Ec_U3CPosicionarBolasU3Eb__20_0_m50B0171BC7495C9F4C8A3222B9422A97EFA0FE37_RuntimeMethod_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CU3Ec_U3CPosicionarBolasU3Eb__25_0_m34F54D46C1338E1399F9E34BAD204A87809ADC6E_RuntimeMethod_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var);
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910D4_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
@@ -1898,13 +2078,13 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B7
 	Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* G_B1_0 = NULL;
 	List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* G_B1_1 = NULL;
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:96>
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:97>
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:98>
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:99>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:115>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:116>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:117>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:118>
 		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_0 = __this->___listaPosicionesCeldas;
 		il2cpp_codegen_runtime_class_init_inline(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var);
-		Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* L_1 = ((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9__20_0;
+		Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* L_1 = ((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9__25_0;
 		Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* L_2 = L_1;
 		if (L_2)
 		{
@@ -1919,10 +2099,10 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B7
 		il2cpp_codegen_runtime_class_init_inline(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var);
 		U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* L_3 = ((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9;
 		Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* L_4 = (Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC*)il2cpp_codegen_object_new(Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC_il2cpp_TypeInfo_var);
-		Func_2__ctor_m8BACCCB996FEF1B06E74F85966B4231A9A24DAF0(L_4, L_3, (intptr_t)((void*)U3CU3Ec_U3CPosicionarBolasU3Eb__20_0_m50B0171BC7495C9F4C8A3222B9422A97EFA0FE37_RuntimeMethod_var), NULL);
+		Func_2__ctor_m8BACCCB996FEF1B06E74F85966B4231A9A24DAF0(L_4, L_3, (intptr_t)((void*)U3CU3Ec_U3CPosicionarBolasU3Eb__25_0_m34F54D46C1338E1399F9E34BAD204A87809ADC6E_RuntimeMethod_var), NULL);
 		Func_2_tDC72553AEF8707070A5FFB9D46F144F9BE06A9EC* L_5 = L_4;
-		((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9__20_0 = L_5;
-		Il2CppCodeGenWriteBarrier((void**)(&((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9__20_0), (void*)L_5);
+		((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9__25_0 = L_5;
+		Il2CppCodeGenWriteBarrier((void**)(&((U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields*)il2cpp_codegen_static_fields_for(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_il2cpp_TypeInfo_var))->___U3CU3E9__25_0), (void*)L_5);
 		G_B2_0 = L_5;
 		G_B2_1 = G_B1_1;
 	}
@@ -1938,7 +2118,7 @@ IL_0025:
 		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_9;
 		L_9 = Enumerable_ToList_TisVector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_m9DE2E2D5349B6D5B94287732200B7B81A85DC687(L_8, Enumerable_ToList_TisVector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_m9DE2E2D5349B6D5B94287732200B7B81A85DC687_RuntimeMethod_var);
 		V_0 = L_9;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:101>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:120>
 		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_10 = __this->___instanciaBolas;
 		NullCheck(L_10);
 		int32_t L_11;
@@ -1949,14 +2129,14 @@ IL_0025:
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:103>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:122>
 		V_1 = 0;
 		goto IL_0070;
 	}
 
 IL_004f:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:105>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:124>
 		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_12 = __this->___instanciaBolas;
 		int32_t L_13 = V_1;
 		NullCheck(L_12);
@@ -1972,14 +2152,14 @@ IL_004f:
 		L_18 = List_1_get_Item_m8F2E15FC96DA75186C51228128A0660709E4E810(L_16, L_17, List_1_get_Item_m8F2E15FC96DA75186C51228128A0660709E4E810_RuntimeMethod_var);
 		NullCheck(L_15);
 		Transform_set_position_mA1A817124BB41B685043DED2A9BA48CDF37C4156(L_15, L_18, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:103>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:122>
 		int32_t L_19 = V_1;
 		V_1 = ((int32_t)il2cpp_codegen_add(L_19, 1));
 	}
 
 IL_0070:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:103>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:122>
 		int32_t L_20 = V_1;
 		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_21 = __this->___instanciaBolas;
 		NullCheck(L_21);
@@ -1996,14 +2176,14 @@ IL_0070:
 
 IL_007f:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:110>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:129>
 		V_2 = 0;
 		goto IL_00b2;
 	}
 
 IL_0083:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:112>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:131>
 		GameObjectU5BU5D_tFF67550DFCE87096D7A3734EA15B75896B2722CF* L_23 = __this->___bolasPrefabs;
 		int32_t L_24 = V_2;
 		NullCheck(L_23);
@@ -2021,19 +2201,19 @@ IL_0083:
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_32;
 		L_32 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_26, L_29, L_31, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
 		V_3 = L_32;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:113>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:132>
 		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_33 = __this->___instanciaBolas;
 		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_34 = V_3;
 		NullCheck(L_33);
 		List_1_Add_m43FBF207375C6E06B8C45ECE614F9B8008FB686E_inline(L_33, L_34, List_1_Add_m43FBF207375C6E06B8C45ECE614F9B8008FB686E_RuntimeMethod_var);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:110>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:129>
 		int32_t L_35 = V_2;
 		V_2 = ((int32_t)il2cpp_codegen_add(L_35, 1));
 	}
 
 IL_00b2:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:110>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:129>
 		int32_t L_36 = V_2;
 		GameObjectU5BU5D_tFF67550DFCE87096D7A3734EA15B75896B2722CF* L_37 = __this->___bolasPrefabs;
 		NullCheck(L_37);
@@ -2043,38 +2223,172 @@ IL_00b2:
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:120>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:139>
 		return;
 	}
 }
-// Method Definition Index: 133869
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Start_mD0C79B8B5B5D8EDC88F7F2F88B5954B1342198EF (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
-{
-	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:123>
-		GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A(__this, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:125>
-		GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED(__this, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:126>
-		return;
-	}
-}
-// Method Definition Index: 133870
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Update_m5E36D1D6999A7510DFDFBF6805CF9E9CB50F0962 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
+// Method Definition Index: 133872
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_EsferaClickeada_m0D4D8C9B0C3644A64F37DE2292D2DDAEE750A59A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_esfera, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralD3C6FF105F16F36B05CE62DC0895F7A6B90F6ED8);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral017EA2E2B7528809C70351C647633EAE248CB32B);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral5A41CCB56FE2D21DA704B36205A6973F160E85B3);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral9E48A7C02D87FF4352941482AFCFAC65C1042D43);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralBFC54079D8EB24CD6BA899368244DE8763EC010C);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralCC29BA85DAC377B2D0E3EA323F7B1A5786A2E17F);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralD41D89DAD98E1F1783260FD0A5A774F557A05F0F);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralF0DD1F44D4CB7BC0842DAAEED063BC068AB6B4F8);
+		s_Il2CppMethodInitialized = true;
+	}
+	String_t* V_0 = NULL;
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:142>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_0 = ___0_esfera;
+		NullCheck(L_0);
+		String_t* L_1;
+		L_1 = Object_get_name_mAC2F6B897CF1303BA4249B4CB55271AFACBB6392(L_0, NULL);
+		NullCheck(L_1);
+		String_t* L_2;
+		L_2 = String_Replace_mABDB7003A1D0AEDCAE9FF85E3DFFFBA752D2A166(L_1, _stringLiteralD41D89DAD98E1F1783260FD0A5A774F557A05F0F, _stringLiteralDA39A3EE5E6B4B0D3255BFEF95601890AFD80709, NULL);
+		NullCheck(L_2);
+		String_t* L_3;
+		L_3 = String_Trim_mCD6D8C6D4CFD15225D12DB7D3E0544CA80FB8DA5(L_2, NULL);
+		V_0 = L_3;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:145>
+		GameObjectU5BU5D_tFF67550DFCE87096D7A3734EA15B75896B2722CF* L_4 = __this->___bolasPrefabs;
+		int32_t L_5 = __this->___indiceActual;
+		NullCheck(L_4);
+		int32_t L_6 = L_5;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_7 = (L_4)->GetAt(static_cast<il2cpp_array_size_t>(L_6));
+		NullCheck(L_7);
+		String_t* L_8;
+		L_8 = Object_get_name_mAC2F6B897CF1303BA4249B4CB55271AFACBB6392(L_7, NULL);
+		String_t* L_9 = V_0;
+		bool L_10;
+		L_10 = String_op_Equality_m030E1B219352228970A076136E455C4E568C02C1(L_8, L_9, NULL);
+		if (!L_10)
+		{
+			goto IL_00ab;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:147>
+		String_t* L_11 = V_0;
+		String_t* L_12;
+		L_12 = String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B(_stringLiteralCC29BA85DAC377B2D0E3EA323F7B1A5786A2E17F, L_11, _stringLiteralBFC54079D8EB24CD6BA899368244DE8763EC010C, NULL);
+		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
+		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_12, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:148>
+		int32_t L_13 = __this->___indiceActual;
+		__this->___indiceActual = ((int32_t)il2cpp_codegen_add(L_13, 1));
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:151>
+		int32_t L_14 = __this->___indiceActual;
+		GameObjectU5BU5D_tFF67550DFCE87096D7A3734EA15B75896B2722CF* L_15 = __this->___bolasPrefabs;
+		NullCheck(L_15);
+		if ((((int32_t)L_14) < ((int32_t)((int32_t)il2cpp_codegen_subtract(((int32_t)(((RuntimeArray*)L_15)->max_length)), 1)))))
+		{
+			goto IL_00c7;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:153>
+		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
+		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(_stringLiteral017EA2E2B7528809C70351C647633EAE248CB32B, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:155>
+		int32_t L_16 = __this->___puntaje;
+		__this->___puntaje = ((int32_t)il2cpp_codegen_add(L_16, ((int32_t)10)));
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:156>
+		TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* L_17 = __this->___ContadorPuntos;
+		int32_t L_18 = __this->___puntaje;
+		int32_t L_19 = L_18;
+		RuntimeObject* L_20 = Box(il2cpp_defaults.int32_class, &L_19);
+		String_t* L_21;
+		L_21 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteralF0DD1F44D4CB7BC0842DAAEED063BC068AB6B4F8, L_20, NULL);
+		NullCheck(L_17);
+		VirtualActionInvoker1< String_t* >::Invoke(66, L_17, L_21);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:157>
+		__this->___indiceActual = 0;
+		return;
+	}
+
+IL_00ab:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:162>
+		String_t* L_22 = V_0;
+		String_t* L_23;
+		L_23 = String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B(_stringLiteral9E48A7C02D87FF4352941482AFCFAC65C1042D43, L_22, _stringLiteral5A41CCB56FE2D21DA704B36205A6973F160E85B3, NULL);
+		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
+		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_23, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:164>
+		__this->___indiceActual = 0;
+	}
+
+IL_00c7:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:166>
+		return;
+	}
+}
+// Method Definition Index: 133873
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_MostrarTextoReloj_m609BB60644EC64B6986B60E530CE6B794A418D4A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, String_t* ___0_texto, const RuntimeMethod* method) 
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:132>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:169>
+		TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* L_0 = __this->___RelojContador;
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		bool L_1;
+		L_1 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_0, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
+		if (!L_1)
+		{
+			goto IL_001a;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:171>
+		TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* L_2 = __this->___RelojContador;
+		String_t* L_3 = ___0_texto;
+		NullCheck(L_2);
+		VirtualActionInvoker1< String_t* >::Invoke(66, L_2, L_3);
+	}
+
+IL_001a:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:173>
+		return;
+	}
+}
+// Method Definition Index: 133874
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Start_mD0C79B8B5B5D8EDC88F7F2F88B5954B1342198EF (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
+{
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:176>
+		GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A(__this, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:178>
+		GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED(__this, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:179>
+		return;
+	}
+}
+// Method Definition Index: 133875
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Update_m5E36D1D6999A7510DFDFBF6805CF9E9CB50F0962 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
+{
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:185>
 		float L_0 = __this->___tiempoActual;
 		float L_1;
 		L_1 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___tiempoActual = ((float)il2cpp_codegen_add(L_0, ((float)il2cpp_codegen_multiply(L_1, (100.0f)))));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:133>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:186>
 		float L_2 = __this->___tiempoActual;
 		if ((!(((float)L_2) >= ((float)(100.0f)))))
 		{
@@ -2082,49 +2396,37 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Update_m5E36D1D6999A7510D
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:135>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:188>
 		int32_t L_3 = __this->___segundosTranscurridos;
 		__this->___segundosTranscurridos = ((int32_t)il2cpp_codegen_add(L_3, 1));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:136>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:189>
 		__this->___tiempoActual = (0.0f);
 	}
 
 IL_003e:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:139>
-		TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* L_4 = __this->___RelojContador;
-		int32_t L_5 = __this->___segundosTranscurridos;
-		int32_t L_6 = L_5;
-		RuntimeObject* L_7 = Box(il2cpp_defaults.int32_class, &L_6);
-		float L_8 = __this->___tiempoActual;
-		float L_9 = L_8;
-		RuntimeObject* L_10 = Box(il2cpp_defaults.single_class, &L_9);
-		String_t* L_11;
-		L_11 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteralD3C6FF105F16F36B05CE62DC0895F7A6B90F6ED8, L_7, L_10, NULL);
-		NullCheck(L_4);
-		VirtualActionInvoker1< String_t* >::Invoke(66, L_4, L_11);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:140>
-		int32_t L_12 = __this->___segundosTranscurridos;
-		int32_t L_13 = __this->___duracionTablero;
-		if ((((int32_t)L_12) <= ((int32_t)((int32_t)il2cpp_codegen_subtract(L_13, 1)))))
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:193>
+		int32_t L_4 = __this->___segundosTranscurridos;
+		int32_t L_5 = __this->___duracionTablero;
+		if ((((int32_t)L_4) <= ((int32_t)((int32_t)il2cpp_codegen_subtract(L_5, 1)))))
 		{
-			goto IL_0086;
+			goto IL_005b;
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:142>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:195>
 		__this->___segundosTranscurridos = 0;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:143>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:196>
 		GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED(__this, NULL);
 	}
 
-IL_0086:
+IL_005b:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:146>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:200>
 		return;
 	}
 }
-// Method Definition Index: 133871
+// Method Definition Index: 133876
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController__ctor_mB6369F6C5357D5984325D613D589EDA60818CBE9 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2137,30 +2439,32 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController__ctor_mB6369F6C5357D59843
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:12>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:12>
 		__this->___numeroCeldas = 2;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:14>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:14>
 		__this->___anchoMalla = (1.0f);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:15>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:15>
 		__this->___anchoCeldaPrefab = (0.200000003f);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:17>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:17>
 		__this->___puntoCentralY = (1.0f);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:23>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:18>
+		__this->___puntoCentralZ = (1.0f);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:23>
 		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_0 = (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B*)il2cpp_codegen_object_new(List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B_il2cpp_TypeInfo_var);
 		List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C(L_0, List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C_RuntimeMethod_var);
 		__this->___listaPosicionesCeldas = L_0;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___listaPosicionesCeldas), (void*)L_0);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:24>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:24>
 		List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* L_1 = (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B*)il2cpp_codegen_object_new(List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B_il2cpp_TypeInfo_var);
 		List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C(L_1, List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C_RuntimeMethod_var);
 		__this->___listaPosicionesBolas = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___listaPosicionesBolas), (void*)L_1);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:29>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:29>
 		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_2 = (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B*)il2cpp_codegen_object_new(List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B_il2cpp_TypeInfo_var);
 		List_1__ctor_m447372C1EF7141193B93090A77395B786C72C7BC(L_2, List_1__ctor_m447372C1EF7141193B93090A77395B786C72C7BC_RuntimeMethod_var);
 		__this->___instanciaBolas = L_2;
 		Il2CppCodeGenWriteBarrier((void**)(&__this->___instanciaBolas), (void*)L_2);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:30>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:30>
 		__this->___duracionTablero = 5;
 		MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E(__this, NULL);
 		return;
@@ -2174,7 +2478,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController__ctor_mB6369F6C5357D59843
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133872
+// Method Definition Index: 133877
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__cctor_mA1516DCC69201BF736AE2201A7146FCFDBC8DA41 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2191,7 +2495,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__cctor_mA1516DCC69201BF736AE2201
 		return;
 	}
 }
-// Method Definition Index: 133873
+// Method Definition Index: 133878
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_m30026461C495A6CE8905B46C2EB6B15E56DD3FF5 (U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2199,11 +2503,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_m30026461C495A6CE8905B46C2
 		return;
 	}
 }
-// Method Definition Index: 133874
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float U3CU3Ec_U3CPosicionarBolasU3Eb__20_0_m50B0171BC7495C9F4C8A3222B9422A97EFA0FE37 (U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* __this, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_x, const RuntimeMethod* method) 
+// Method Definition Index: 133879
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float U3CU3Ec_U3CPosicionarBolasU3Eb__25_0_m34F54D46C1338E1399F9E34BAD204A87809ADC6E (U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* __this, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_x, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/GameController.cs:97>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:116>
 		float L_0;
 		L_0 = Random_get_value_m2CEA87FADF5222EF9E13D32695F15E2BA282E24B(NULL);
 		return L_0;
@@ -2217,7 +2521,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float U3CU3Ec_U3CPosicionarBolasU3Eb__20_0_m5
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133875
+// Method Definition Index: 133880
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6 (Readme_tE17B99201D0F52BD5727638AD3F41072A65B3BBB* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2233,7 +2537,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Readme__ctor_m69C325C4C171DCB0312B646A90
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133876
+// Method Definition Index: 133881
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B (Section_t50C894D0A717C2368EBAAE5477D4E8626D0B5401* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2249,41 +2553,41 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Section__ctor_m5F732533E4DFC0167D965E5F5
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133877
+// Method Definition Index: 133882
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
 	if (!s_Il2CppMethodInitialized)
 	{
 		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var);
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____43927B8402A5B252F165301C1AE9EFC0DC73005397A25459FDACA17D8317A1EB_FieldInfo_var);
-		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____5469332135AC3008F68FF0E78FFF146CAA9BB0A8C21DB08C9BBA30E3FAFF2E07_FieldInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____24D00E783586CFC9C318DB937A7B952EDD66F247F177E6145C0BF3EB104E8D27_FieldInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____E457DDF48DCB6D3DF95B74D80B4F9B09BA9E44003E4FF0BBF99C24D2AD0D822A_FieldInfo_var);
 		s_Il2CppMethodInitialized = true;
 	}
 	MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E V_0;
 	memset((&V_0), 0, sizeof(V_0));
 	{
 		il2cpp_codegen_initobj((&V_0), sizeof(MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E));
-		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = (ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)SZArrayNew(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var, (uint32_t)((int32_t)79));
+		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_0 = (ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)SZArrayNew(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var, (uint32_t)((int32_t)121));
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_1 = L_0;
-		RuntimeFieldHandle_t6E4C45B6D2EA12FC99185805A7E77527899B25C5 L_2 = { reinterpret_cast<intptr_t> (U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____5469332135AC3008F68FF0E78FFF146CAA9BB0A8C21DB08C9BBA30E3FAFF2E07_FieldInfo_var) };
+		RuntimeFieldHandle_t6E4C45B6D2EA12FC99185805A7E77527899B25C5 L_2 = { reinterpret_cast<intptr_t> (U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____24D00E783586CFC9C318DB937A7B952EDD66F247F177E6145C0BF3EB104E8D27_FieldInfo_var) };
 		RuntimeHelpers_InitializeArray_m751372AA3F24FBF6DA9B9D687CBFA2DE436CAB9B((RuntimeArray*)L_1, L_2, NULL);
 		(&V_0)->___FilePathsData = L_1;
 		Il2CppCodeGenWriteBarrier((void**)(&(&V_0)->___FilePathsData), (void*)L_1);
-		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_3 = (ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)SZArrayNew(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var, (uint32_t)((int32_t)51));
+		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_3 = (ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031*)SZArrayNew(ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031_il2cpp_TypeInfo_var, (uint32_t)((int32_t)64));
 		ByteU5BU5D_tA6237BF417AE52AD70CFB4EF24A7A82613DF9031* L_4 = L_3;
-		RuntimeFieldHandle_t6E4C45B6D2EA12FC99185805A7E77527899B25C5 L_5 = { reinterpret_cast<intptr_t> (U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____43927B8402A5B252F165301C1AE9EFC0DC73005397A25459FDACA17D8317A1EB_FieldInfo_var) };
+		RuntimeFieldHandle_t6E4C45B6D2EA12FC99185805A7E77527899B25C5 L_5 = { reinterpret_cast<intptr_t> (U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____E457DDF48DCB6D3DF95B74D80B4F9B09BA9E44003E4FF0BBF99C24D2AD0D822A_FieldInfo_var) };
 		RuntimeHelpers_InitializeArray_m751372AA3F24FBF6DA9B9D687CBFA2DE436CAB9B((RuntimeArray*)L_4, L_5, NULL);
 		(&V_0)->___TypesData = L_4;
 		Il2CppCodeGenWriteBarrier((void**)(&(&V_0)->___TypesData), (void*)L_4);
-		(&V_0)->___TotalFiles = 2;
-		(&V_0)->___TotalTypes = 3;
+		(&V_0)->___TotalFiles = 3;
+		(&V_0)->___TotalTypes = 4;
 		(&V_0)->___IsEditorOnly = (bool)0;
 		MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E L_6 = V_0;
 		return L_6;
 	}
 }
-// Method Definition Index: 133878
+// Method Definition Index: 133883
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1 (UnitySourceGeneratedAssemblyMonoScriptTypes_v1_tC95F24D0C6E6B77389433852BB389F39C692926E* __this, const RuntimeMethod* method) 
 {
 	{

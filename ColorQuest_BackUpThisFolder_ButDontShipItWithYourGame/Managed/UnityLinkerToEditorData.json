@@ -330,7 +330,9 @@
           },
           {
             "name": "LineRenderer",
-            "scenes": [],
+            "scenes": [
+              "Assets/Scenes/DefaultScene.unity"
+            ],
             "dependencyType": 0,
             "icon": null
           },

@@ -189,7 +189,7 @@ public class GameController : MonoBehaviour
             tiempoActual = 0;
         }
 
-        //RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
+        RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
         if (segundosTranscurridos > duracionTablero - 1)
         {
             segundosTranscurridos = 0;

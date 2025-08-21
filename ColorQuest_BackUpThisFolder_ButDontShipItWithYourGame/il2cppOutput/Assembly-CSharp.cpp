@@ -59,6 +59,7 @@ struct Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3;
 struct CancellationTokenSource_tAAE1E0033BCFC233801F8CB4CED5C852B350CB7B;
 struct Canvas_t2DB4CEFDFF732884866C83F11ABF75F5AE8FFB26;
 struct CanvasRenderer_tAB9A55A976C4E3B2B37D0CE5616E5685A8B43860;
+struct Collider_t1CC3163924FCD6C4CC2E816373A929C1E3D55E76;
 struct Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3;
 struct DelegateData_t9B286B493293CD2D23A5B2B5EF0E5B1324C2B77E;
 struct GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09;
@@ -117,9 +118,11 @@ IL2CPP_EXTERN_C RuntimeClass* quaternion_tD6BCBECAF088B9EBAE2345EC8534C7A1A4C910
 IL2CPP_EXTERN_C RuntimeField* U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____24D00E783586CFC9C318DB937A7B952EDD66F247F177E6145C0BF3EB104E8D27_FieldInfo_var;
 IL2CPP_EXTERN_C RuntimeField* U3CPrivateImplementationDetailsU3E_t0F5473E849A5A5185A9F4C5246F0C32816C49FCA____E457DDF48DCB6D3DF95B74D80B4F9B09BA9E44003E4FF0BBF99C24D2AD0D822A_FieldInfo_var;
 IL2CPP_EXTERN_C String_t* _stringLiteral017EA2E2B7528809C70351C647633EAE248CB32B;
+IL2CPP_EXTERN_C String_t* _stringLiteral2C424C6C2C44176E4C12D3488B3B2CB758F24521;
 IL2CPP_EXTERN_C String_t* _stringLiteral5A41CCB56FE2D21DA704B36205A6973F160E85B3;
 IL2CPP_EXTERN_C String_t* _stringLiteral9E48A7C02D87FF4352941482AFCFAC65C1042D43;
 IL2CPP_EXTERN_C String_t* _stringLiteralBFC54079D8EB24CD6BA899368244DE8763EC010C;
+IL2CPP_EXTERN_C String_t* _stringLiteralC4F646A94E4A92C7A5EF3A2544F350603C58215F;
 IL2CPP_EXTERN_C String_t* _stringLiteralCC29BA85DAC377B2D0E3EA323F7B1A5786A2E17F;
 IL2CPP_EXTERN_C String_t* _stringLiteralD3C6FF105F16F36B05CE62DC0895F7A6B90F6ED8;
 IL2CPP_EXTERN_C String_t* _stringLiteralD41D89DAD98E1F1783260FD0A5A774F557A05F0F;
@@ -130,6 +133,8 @@ IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_Take_TisVector3_t24C512C7B96BBAB
 IL2CPP_EXTERN_C const RuntimeMethod* Enumerable_ToList_TisVector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2_m9DE2E2D5349B6D5B94287732200B7B81A85DC687_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* List_1_Add_m43FBF207375C6E06B8C45ECE614F9B8008FB686E_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* List_1_Add_m79E50C4F592B1703F4B76A8BE7B4855515460CA1_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* List_1_Contains_m8D2C9B0C7844486763AE6C2CA3C04FA4BBA9B384_RuntimeMethod_var;
+IL2CPP_EXTERN_C const RuntimeMethod* List_1_IndexOf_m5C836E2C9AAABC70C8E728BFAD09528B3F32E357_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* List_1__ctor_m447372C1EF7141193B93090A77395B786C72C7BC_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C_RuntimeMethod_var;
 IL2CPP_EXTERN_C const RuntimeMethod* List_1_get_Count_m4C37ED2D928D63B80F55AF434730C2D64EEB9F22_RuntimeMethod_var;
@@ -823,6 +828,9 @@ struct AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20  : public AudioResour
 	PCMSetPositionCallback_t8D7135A2FB40647CAEC93F5254AD59E18DEB6072* ___m_PCMSetPositionCallback;
 };
 struct Behaviour_t01970CFBBA658497AE30F311C447DB0440BAB7FA  : public Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3
+{
+};
+struct Collider_t1CC3163924FCD6C4CC2E816373A929C1E3D55E76  : public Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3
 {
 };
 struct Readme_tE17B99201D0F52BD5727638AD3F41072A65B3BBB  : public ScriptableObject_tB3BFDB921A1B1795B38A5417D3B97A89A140436A
@@ -1654,6 +1662,8 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR int32_t List_1_get_Count_m4407E4C
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR RuntimeObject* List_1_get_Item_m33561245D64798C2AB07584C0EC4F240E4839A38_gshared (List_1_tA239CB83DE5615F348BB0507E45F490F4F7C9A8D* __this, int32_t ___0_index, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 List_1_get_Item_m8F2E15FC96DA75186C51228128A0660709E4E810_gshared (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* __this, int32_t ___0_index, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR void List_1_Add_mEBCF994CC3814631017F46A387B1A192ED6C85C7_gshared_inline (List_1_tA239CB83DE5615F348BB0507E45F490F4F7C9A8D* __this, RuntimeObject* ___0_item, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool List_1_Contains_m4C9139C2A6B23E9343D3F87807B32C6E2CFE660D_gshared (List_1_tA239CB83DE5615F348BB0507E45F490F4F7C9A8D* __this, RuntimeObject* ___0_item, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t List_1_IndexOf_m378F61BA812B79DEE58D86FE8AA9F20E3FC7D85F_gshared (List_1_tA239CB83DE5615F348BB0507E45F490F4F7C9A8D* __this, RuntimeObject* ___0_item, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void List_1__ctor_mC54E2BCBE43279A96FC082F5CDE2D76388BD8F9C_gshared (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void List_1__ctor_m7F078BB342729BDF11327FD89D7872265328F690_gshared (List_1_tA239CB83DE5615F348BB0507E45F490F4F7C9A8D* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_NO_INLINE IL2CPP_METHOD_ATTR void List_1_AddWithResize_mCDB189127FC2EE67B5EED9DE34F837DFC6EDC212_gshared (List_1_t77B94703E05C519A9010DD0614F757F974E1CD8B* __this, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_item, const RuntimeMethod* method) ;
@@ -1669,6 +1679,11 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR int32_t LayerMask_op_Implicit_m7F5A5B9D079281
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Physics_Raycast_m34AC1210E893A9EF969BD2C7104B10BE5B580025 (Ray_t2B1742D7958DC05BDC3EFC7461D3593E1430DC00 ___0_ray, RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5* ___1_hitInfo, float ___2_maxDistance, int32_t ___3_layerMask, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 Vector3_get_zero_m0C1249C3F25B1C70EAD3CC8B31259975A457AE39_inline (const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 RaycastHit_get_point_m02B764612562AFE0F998CC7CFB2EEDE41BA47F39 (RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Collider_t1CC3163924FCD6C4CC2E816373A929C1E3D55E76* RaycastHit_get_collider_m84B160439BBEAB6D9E94B799F720E25C9E2D444D (RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B (Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* __this, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_x, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___1_y, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GameController_EsEsferaInstanciada_mC203BB02510EEE3B471431D888C43472AF2E6805 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_objeto, const RuntimeMethod* method) ;
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_EsferaClickeada_m0D4D8C9B0C3644A64F37DE2292D2DDAEE750A59A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_esfera, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 RaycastHit_get_normal_mD8741B70D2039C5CAFC4368D4CE59D89562040B5 (RaycastHit_t6F30BD0B38B56401CA833A1B87BD74F2ACD2F2B5* __this, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 Vector3_op_UnaryNegation_m5450829F333BD2A88AF9A592C4EE331661225915_inline (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_a, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 Quaternion_LookRotation_mDB2CCA75B8E1AB98104F2A6E1A1EA57D0D1298D7 (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_forward, const RuntimeMethod* method) ;
@@ -1679,14 +1694,12 @@ inline GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* Object_Instantiate_
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Object_Destroy_m064F2A066491D2DC4FFCFBDBE5FCFFB807A04436 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_obj, float ___1_t, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 Vector3_op_Multiply_m87BA7C578F96C8E49BB07088DAAC4649F83B0353_inline (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_a, float ___1_d, const RuntimeMethod* method) ;
 IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 Vector3_op_Addition_m78C0EC70CB66E8DCAC225743D82B268DAEE92067_inline (Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_a, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___1_b, const RuntimeMethod* method) ;
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_x, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___1_y, const RuntimeMethod* method) ;
 inline LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* Object_Instantiate_TisLineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D_m46E69695493073E4C7BDD871863E382C247E66DD (LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* ___0_original, const RuntimeMethod* method)
 {
 	return ((  LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* (*) (LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D*, const RuntimeMethod*))Object_Instantiate_TisRuntimeObject_m90A1E6C4C2B445D2E848DB75C772D1B95AAC046A_gshared)(___0_original, method);
 }
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LineRenderer_set_positionCount_m2001FB4044053895ECBE897AB833284F3300B205 (LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* __this, int32_t ___0_value, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void LineRenderer_SetPosition_m84C4AD9ADC6AC62B33DB4D7E4C9F066DFF8440C1 (LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* __this, int32_t ___0_index, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___1_position, const RuntimeMethod* method) ;
-IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B (Component_t39FBE53E5EFCF4409111FB22C15FF73717632EC3* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void MonoBehaviour__ctor_m592DB0105CA0BC97AA1C5F4AD27B12D68A3B7C1E (MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool Object_op_Equality_mB6120F782D83091EF56A198FCEBCF066DB4A9605 (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_x, Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___1_y, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Object_Destroy_mE97D0A766419A81296E8D4E5C23D01D3FE91ACBB (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C* ___0_obj, const RuntimeMethod* method) ;
@@ -1738,6 +1751,15 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool String_op_Equality_m030E1B219352228970A0
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Concat_m8855A6DE10F84DA7F4EC113CADDB59873A25573B (String_t* ___0_str0, String_t* ___1_str1, String_t* ___2_str2, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB (RuntimeObject* ___0_message, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8 (String_t* ___0_format, RuntimeObject* ___1_arg0, const RuntimeMethod* method) ;
+inline bool List_1_Contains_m8D2C9B0C7844486763AE6C2CA3C04FA4BBA9B384 (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_item, const RuntimeMethod* method)
+{
+	return ((  bool (*) (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B*, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*, const RuntimeMethod*))List_1_Contains_m4C9139C2A6B23E9343D3F87807B32C6E2CFE660D_gshared)(__this, ___0_item, method);
+}
+inline int32_t List_1_IndexOf_m5C836E2C9AAABC70C8E728BFAD09528B3F32E357 (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_item, const RuntimeMethod* method)
+{
+	return ((  int32_t (*) (List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B*, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F*, const RuntimeMethod*))List_1_IndexOf_m378F61BA812B79DEE58D86FE8AA9F20E3FC7D85F_gshared)(__this, ___0_item, method);
+}
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR String_t* String_Concat_m9E3155FB84015C823606188F53B47CB44C444991 (String_t* ___0_str0, String_t* ___1_str1, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) ;
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865 (const RuntimeMethod* method) ;
@@ -1780,7 +1802,7 @@ IL2CPP_MANAGED_FORCE_INLINE IL2CPP_METHOD_ATTR Vector3_t24C512C7B96BBABAD472002D
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133865
+// Method Definition Index: 133811
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Start_mF20F96AF770995100EC1E0C81D922EEE72B7DA4E (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1788,7 +1810,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Start_mF20F96AF770995100EC1E0C81
 		return;
 	}
 }
-// Method Definition Index: 133866
+// Method Definition Index: 133812
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Update_m2326ABF940B704CEE091FAD2576363901720F2BC (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1819,7 +1841,7 @@ IL_0018:
 		return;
 	}
 }
-// Method Definition Index: 133867
+// Method Definition Index: 133813
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Shoot_m515B7905C41D7D4DD68DBD60D9D5CBD6EA2CFA72 (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -1836,15 +1858,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Shoot_m515B7905C41D7D4DD68DBD60D
 	memset((&V_0), 0, sizeof(V_0));
 	Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 V_1;
 	memset((&V_1), 0, sizeof(V_1));
-	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 V_2;
-	memset((&V_2), 0, sizeof(V_2));
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* V_2 = NULL;
+	Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 V_3;
+	memset((&V_3), 0, sizeof(V_3));
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:40>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:41>
 		AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* L_0 = __this->___audioSource;
 		AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* L_1 = __this->___sonidoDisparo;
 		NullCheck(L_0);
 		AudioSource_PlayOneShot_m098BCAE084AABB128BB19ED805D2D985E7B75112(L_0, L_1, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:41>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:43>
 		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_2 = __this->___puntoDisparo;
 		NullCheck(L_2);
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_3;
@@ -1856,117 +1879,157 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster_Shoot_m515B7905C41D7D4DD68DBD60D
 		Ray_t2B1742D7958DC05BDC3EFC7461D3593E1430DC00 L_6;
 		memset((&L_6), 0, sizeof(L_6));
 		Ray__ctor_mE298992FD10A3894C38373198385F345C58BD64C_inline((&L_6), L_3, L_5, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:42>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:45>
 		LayerMask_t97CB6BDADEDC3D6423C7BCFEA7F86DA2EC6241DB L_7 = __this->___capaImpacto;
 		int32_t L_8;
 		L_8 = LayerMask_op_Implicit_m7F5A5B9D079281AC445ED39DEE1FCFA9D795810D(L_7, NULL);
 		il2cpp_codegen_runtime_class_init_inline(Physics_t1244C2983AEAFA149425AFFC3DF53BC91C18ED56_il2cpp_TypeInfo_var);
 		bool L_9;
 		L_9 = Physics_Raycast_m34AC1210E893A9EF969BD2C7104B10BE5B580025(L_6, (&V_0), (std::numeric_limits<float>::infinity()), L_8, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:44>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:47>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_10;
 		L_10 = Vector3_get_zero_m0C1249C3F25B1C70EAD3CC8B31259975A457AE39_inline(NULL);
 		V_1 = L_10;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:46>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:49>
 		if (!L_9)
 		{
-			goto IL_007e;
+			goto IL_00b2;
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:49>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:52>
 		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_11;
 		L_11 = RaycastHit_get_point_m02B764612562AFE0F998CC7CFB2EEDE41BA47F39((&V_0), NULL);
 		V_1 = L_11;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:50>
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_12;
-		L_12 = RaycastHit_get_normal_mD8741B70D2039C5CAFC4368D4CE59D89562040B5((&V_0), NULL);
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_13;
-		L_13 = Vector3_op_UnaryNegation_m5450829F333BD2A88AF9A592C4EE331661225915_inline(L_12, NULL);
-		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_14;
-		L_14 = Quaternion_LookRotation_mDB2CCA75B8E1AB98104F2A6E1A1EA57D0D1298D7(L_13, NULL);
-		V_2 = L_14;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:51>
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_15 = __this->___impactoRayoPrefab;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_16 = V_1;
-		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_17 = V_2;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:54>
+		Collider_t1CC3163924FCD6C4CC2E816373A929C1E3D55E76* L_12;
+		L_12 = RaycastHit_get_collider_m84B160439BBEAB6D9E94B799F720E25C9E2D444D((&V_0), NULL);
+		NullCheck(L_12);
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_13;
+		L_13 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_12, NULL);
+		V_2 = L_13;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:55>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_14 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
 		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_18;
-		L_18 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_15, L_16, L_17, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:52>
-		Object_Destroy_m064F2A066491D2DC4FFCFBDBE5FCFFB807A04436(L_18, (1.0f), NULL);
-		goto IL_00a5;
-	}
-
-IL_007e:
-	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:57>
-		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_19 = __this->___puntoDisparo;
-		NullCheck(L_19);
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_20;
-		L_20 = Transform_get_position_m69CD5FA214FDAE7BB701552943674846C220FDE1(L_19, NULL);
-		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_21 = __this->___puntoDisparo;
-		NullCheck(L_21);
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_22;
-		L_22 = Transform_get_forward_mFCFACF7165FDAB21E80E384C494DF278386CEE2F(L_21, NULL);
-		float L_23 = __this->___fuerzaDisparo;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_24;
-		L_24 = Vector3_op_Multiply_m87BA7C578F96C8E49BB07088DAAC4649F83B0353_inline(L_22, L_23, NULL);
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_25;
-		L_25 = Vector3_op_Addition_m78C0EC70CB66E8DCAC225743D82B268DAEE92067_inline(L_20, L_24, NULL);
-		V_1 = L_25;
-	}
-
-IL_00a5:
-	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:60>
-		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_26 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
-		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		bool L_27;
-		L_27 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_26, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
-		if (!L_27)
+		bool L_15;
+		L_15 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_14, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
+		if (!L_15)
 		{
-			goto IL_00ee;
+			goto IL_00d9;
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:62>
-		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_28 = __this->___rayoPrefab;
-		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
-		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_29;
-		L_29 = Object_Instantiate_TisLineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D_m46E69695493073E4C7BDD871863E382C247E66DD(L_28, Object_Instantiate_TisLineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D_m46E69695493073E4C7BDD871863E382C247E66DD_RuntimeMethod_var);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:63>
-		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_30 = L_29;
-		NullCheck(L_30);
-		LineRenderer_set_positionCount_m2001FB4044053895ECBE897AB833284F3300B205(L_30, 2, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:64>
-		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_31 = L_30;
-		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_32 = __this->___puntoDisparo;
-		NullCheck(L_32);
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_33;
-		L_33 = Transform_get_position_m69CD5FA214FDAE7BB701552943674846C220FDE1(L_32, NULL);
-		NullCheck(L_31);
-		LineRenderer_SetPosition_m84C4AD9ADC6AC62B33DB4D7E4C9F066DFF8440C1(L_31, 0, L_33, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:65>
-		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_34 = L_31;
-		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_35 = V_1;
-		NullCheck(L_34);
-		LineRenderer_SetPosition_m84C4AD9ADC6AC62B33DB4D7E4C9F066DFF8440C1(L_34, 1, L_35, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:66>
-		NullCheck(L_34);
-		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_36;
-		L_36 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_34, NULL);
-		float L_37 = __this->___tiempoVidaRayo;
-		Object_Destroy_m064F2A066491D2DC4FFCFBDBE5FCFFB807A04436(L_36, L_37, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:57>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_16 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_17 = V_2;
+		NullCheck(L_16);
+		bool L_18;
+		L_18 = GameController_EsEsferaInstanciada_mC203BB02510EEE3B471431D888C43472AF2E6805(L_16, L_17, NULL);
+		if (!L_18)
+		{
+			goto IL_0087;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:59>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_19 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_20 = V_2;
+		NullCheck(L_19);
+		GameController_EsferaClickeada_m0D4D8C9B0C3644A64F37DE2292D2DDAEE750A59A(L_19, L_20, NULL);
+		goto IL_00d9;
 	}
 
-IL_00ee:
+IL_0087:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:68>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:65>
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_21;
+		L_21 = RaycastHit_get_normal_mD8741B70D2039C5CAFC4368D4CE59D89562040B5((&V_0), NULL);
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_22;
+		L_22 = Vector3_op_UnaryNegation_m5450829F333BD2A88AF9A592C4EE331661225915_inline(L_21, NULL);
+		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_23;
+		L_23 = Quaternion_LookRotation_mDB2CCA75B8E1AB98104F2A6E1A1EA57D0D1298D7(L_22, NULL);
+		V_3 = L_23;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:66>
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_24 = __this->___impactoRayoPrefab;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_25 = V_1;
+		Quaternion_tDA59F214EF07D7700B26E40E562F267AF7306974 L_26 = V_3;
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_27;
+		L_27 = Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4(L_24, L_25, L_26, Object_Instantiate_TisGameObject_t76FEDD663AB33C991A9C9A23129337651094216F_m831D2F71DF2AA6C93AFDFEFA04CF2CFC5FBBCDB4_RuntimeMethod_var);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:67>
+		Object_Destroy_m064F2A066491D2DC4FFCFBDBE5FCFFB807A04436(L_27, (1.0f), NULL);
+		goto IL_00d9;
+	}
+
+IL_00b2:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:74>
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_28 = __this->___puntoDisparo;
+		NullCheck(L_28);
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_29;
+		L_29 = Transform_get_position_m69CD5FA214FDAE7BB701552943674846C220FDE1(L_28, NULL);
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_30 = __this->___puntoDisparo;
+		NullCheck(L_30);
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_31;
+		L_31 = Transform_get_forward_mFCFACF7165FDAB21E80E384C494DF278386CEE2F(L_30, NULL);
+		float L_32 = __this->___fuerzaDisparo;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_33;
+		L_33 = Vector3_op_Multiply_m87BA7C578F96C8E49BB07088DAAC4649F83B0353_inline(L_31, L_32, NULL);
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_34;
+		L_34 = Vector3_op_Addition_m78C0EC70CB66E8DCAC225743D82B268DAEE92067_inline(L_29, L_33, NULL);
+		V_1 = L_34;
+	}
+
+IL_00d9:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:77>
+		GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* L_35 = ((GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_StaticFields*)il2cpp_codegen_static_fields_for(GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09_il2cpp_TypeInfo_var))->___Instance;
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		bool L_36;
+		L_36 = Object_op_Inequality_mD0BE578448EAA61948F25C32F8DD55AB1F778602(L_35, (Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C*)NULL, NULL);
+		if (!L_36)
+		{
+			goto IL_0122;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:79>
+		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_37 = __this->___rayoPrefab;
+		il2cpp_codegen_runtime_class_init_inline(Object_tC12DECB6760A7F2CBF65D9DCF18D044C2D97152C_il2cpp_TypeInfo_var);
+		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_38;
+		L_38 = Object_Instantiate_TisLineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D_m46E69695493073E4C7BDD871863E382C247E66DD(L_37, Object_Instantiate_TisLineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D_m46E69695493073E4C7BDD871863E382C247E66DD_RuntimeMethod_var);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:80>
+		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_39 = L_38;
+		NullCheck(L_39);
+		LineRenderer_set_positionCount_m2001FB4044053895ECBE897AB833284F3300B205(L_39, 2, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:81>
+		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_40 = L_39;
+		Transform_tB27202C6F4E36D225EE28A13E4D662BF99785DB1* L_41 = __this->___puntoDisparo;
+		NullCheck(L_41);
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_42;
+		L_42 = Transform_get_position_m69CD5FA214FDAE7BB701552943674846C220FDE1(L_41, NULL);
+		NullCheck(L_40);
+		LineRenderer_SetPosition_m84C4AD9ADC6AC62B33DB4D7E4C9F066DFF8440C1(L_40, 0, L_42, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:82>
+		LineRenderer_tEFEF960672DB69CB14B6D181FAE6292F0CF8B63D* L_43 = L_40;
+		Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 L_44 = V_1;
+		NullCheck(L_43);
+		LineRenderer_SetPosition_m84C4AD9ADC6AC62B33DB4D7E4C9F066DFF8440C1(L_43, 1, L_44, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:83>
+		NullCheck(L_43);
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_45;
+		L_45 = Component_get_gameObject_m57AEFBB14DB39EC476F740BA000E170355DE691B(L_43, NULL);
+		float L_46 = __this->___tiempoVidaRayo;
+		Object_Destroy_m064F2A066491D2DC4FFCFBDBE5FCFFB807A04436(L_45, L_46, NULL);
+	}
+
+IL_0122:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/Blaster.cs:85>
 		return;
 	}
 }
-// Method Definition Index: 133868
+// Method Definition Index: 133814
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster__ctor_m544042515D3ED37805E67A6BABA06852E00F6456 (Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3* __this, const RuntimeMethod* method) 
 {
 	{
@@ -1986,7 +2049,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Blaster__ctor_m544042515D3ED37805E67A6BA
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133869
+// Method Definition Index: 133815
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Awake_m1173704FBD7757B1E7B187AF0AEF90EDECBC6201 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2025,7 +2088,7 @@ IL_0014:
 		return;
 	}
 }
-// Method Definition Index: 133870
+// Method Definition Index: 133816
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2248,7 +2311,7 @@ IL_01d7:
 		return;
 	}
 }
-// Method Definition Index: 133871
+// Method Definition Index: 133817
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2427,7 +2490,7 @@ IL_00b2:
 		return;
 	}
 }
-// Method Definition Index: 133872
+// Method Definition Index: 133818
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_EsferaClickeada_m0D4D8C9B0C3644A64F37DE2292D2DDAEE750A59A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_esfera, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2533,7 +2596,7 @@ IL_00c7:
 		return;
 	}
 }
-// Method Definition Index: 133873
+// Method Definition Index: 133819
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_MostrarTextoReloj_m609BB60644EC64B6986B60E530CE6B794A418D4A (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, String_t* ___0_texto, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2567,19 +2630,100 @@ IL_001a:
 		return;
 	}
 }
-// Method Definition Index: 133874
+// Method Definition Index: 133820
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GameController_EsEsferaInstanciada_mC203BB02510EEE3B471431D888C43472AF2E6805 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_objeto, const RuntimeMethod* method) 
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&List_1_Contains_m8D2C9B0C7844486763AE6C2CA3C04FA4BBA9B384_RuntimeMethod_var);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:177>
+		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_0 = __this->___instanciaBolas;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_1 = ___0_objeto;
+		NullCheck(L_0);
+		bool L_2;
+		L_2 = List_1_Contains_m8D2C9B0C7844486763AE6C2CA3C04FA4BBA9B384(L_0, L_1, List_1_Contains_m8D2C9B0C7844486763AE6C2CA3C04FA4BBA9B384_RuntimeMethod_var);
+		return L_2;
+	}
+}
+// Method Definition Index: 133821
+IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR bool GameController_EsEsferaInstanciadaConInfo_m2C67B79651390C86440607EFD31C123726B30023 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___0_objeto, int32_t* ___1_indiceEsfera, const RuntimeMethod* method) 
+{
+	static bool s_Il2CppMethodInitialized;
+	if (!s_Il2CppMethodInitialized)
+	{
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&List_1_IndexOf_m5C836E2C9AAABC70C8E728BFAD09528B3F32E357_RuntimeMethod_var);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteral2C424C6C2C44176E4C12D3488B3B2CB758F24521);
+		il2cpp_codegen_initialize_runtime_metadata((uintptr_t*)&_stringLiteralC4F646A94E4A92C7A5EF3A2544F350603C58215F);
+		s_Il2CppMethodInitialized = true;
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:183>
+		int32_t* L_0 = ___1_indiceEsfera;
+		List_1_tB951CE80B58D1BF9650862451D8DAD8C231F207B* L_1 = __this->___instanciaBolas;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_2 = ___0_objeto;
+		NullCheck(L_1);
+		int32_t L_3;
+		L_3 = List_1_IndexOf_m5C836E2C9AAABC70C8E728BFAD09528B3F32E357(L_1, L_2, List_1_IndexOf_m5C836E2C9AAABC70C8E728BFAD09528B3F32E357_RuntimeMethod_var);
+		*((int32_t*)L_0) = (int32_t)L_3;
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:185>
+		int32_t* L_4 = ___1_indiceEsfera;
+		int32_t L_5 = *((int32_t*)L_4);
+		if ((((int32_t)L_5) < ((int32_t)0)))
+		{
+			goto IL_0048;
+		}
+	}
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:187>
+		int32_t* L_6 = ___1_indiceEsfera;
+		int32_t L_7 = *((int32_t*)L_6);
+		int32_t L_8 = L_7;
+		RuntimeObject* L_9 = Box(il2cpp_defaults.int32_class, &L_8);
+		String_t* L_10;
+		L_10 = String_Format_mA8DBB4C2516B9723C5A41E6CB1E2FAF4BBE96DD8(_stringLiteral2C424C6C2C44176E4C12D3488B3B2CB758F24521, L_9, NULL);
+		il2cpp_codegen_runtime_class_init_inline(Debug_t8394C7EEAECA3689C2C9B9DE9C7166D73596276F_il2cpp_TypeInfo_var);
+		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_10, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:188>
+		GameObjectU5BU5D_tFF67550DFCE87096D7A3734EA15B75896B2722CF* L_11 = __this->___bolasPrefabs;
+		int32_t* L_12 = ___1_indiceEsfera;
+		int32_t L_13 = *((int32_t*)L_12);
+		NullCheck(L_11);
+		int32_t L_14 = L_13;
+		GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* L_15 = (L_11)->GetAt(static_cast<il2cpp_array_size_t>(L_14));
+		NullCheck(L_15);
+		String_t* L_16;
+		L_16 = Object_get_name_mAC2F6B897CF1303BA4249B4CB55271AFACBB6392(L_15, NULL);
+		String_t* L_17;
+		L_17 = String_Concat_m9E3155FB84015C823606188F53B47CB44C444991(_stringLiteralC4F646A94E4A92C7A5EF3A2544F350603C58215F, L_16, NULL);
+		Debug_Log_m87A9A3C761FF5C43ED8A53B16190A53D08F818BB(L_17, NULL);
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:189>
+		return (bool)1;
+	}
+
+IL_0048:
+	{
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:192>
+		return (bool)0;
+	}
+}
+// Method Definition Index: 133822
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Start_mD0C79B8B5B5D8EDC88F7F2F88B5954B1342198EF (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:176>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:196>
 		GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A(__this, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:178>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:198>
 		GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED(__this, NULL);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:179>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:199>
 		return;
 	}
 }
-// Method Definition Index: 133875
+// Method Definition Index: 133823
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Update_m5E36D1D6999A7510DFDFBF6805CF9E9CB50F0962 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2589,12 +2733,12 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Update_m5E36D1D6999A7510D
 		s_Il2CppMethodInitialized = true;
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:185>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:205>
 		float L_0 = __this->___tiempoActual;
 		float L_1;
 		L_1 = Time_get_deltaTime_mC3195000401F0FD167DD2F948FD2BC58330D0865(NULL);
 		__this->___tiempoActual = ((float)il2cpp_codegen_add(L_0, ((float)il2cpp_codegen_multiply(L_1, (100.0f)))));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:186>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:206>
 		float L_2 = __this->___tiempoActual;
 		if ((!(((float)L_2) >= ((float)(100.0f)))))
 		{
@@ -2602,16 +2746,16 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController_Update_m5E36D1D6999A7510D
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:188>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:208>
 		int32_t L_3 = __this->___segundosTranscurridos;
 		__this->___segundosTranscurridos = ((int32_t)il2cpp_codegen_add(L_3, 1));
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:189>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:209>
 		__this->___tiempoActual = (0.0f);
 	}
 
 IL_003e:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:192>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:212>
 		TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* L_4 = __this->___RelojContador;
 		int32_t L_5 = __this->___segundosTranscurridos;
 		int32_t L_6 = L_5;
@@ -2623,7 +2767,7 @@ IL_003e:
 		L_11 = String_Format_mFB7DA489BD99F4670881FF50EC017BFB0A5C0987(_stringLiteralD3C6FF105F16F36B05CE62DC0895F7A6B90F6ED8, L_7, L_10, NULL);
 		NullCheck(L_4);
 		VirtualActionInvoker1< String_t* >::Invoke(66, L_4, L_11);
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:193>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:213>
 		int32_t L_12 = __this->___segundosTranscurridos;
 		int32_t L_13 = __this->___duracionTablero;
 		if ((((int32_t)L_12) <= ((int32_t)((int32_t)il2cpp_codegen_subtract(L_13, 1)))))
@@ -2632,19 +2776,19 @@ IL_003e:
 		}
 	}
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:195>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:215>
 		__this->___segundosTranscurridos = 0;
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:196>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:216>
 		GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED(__this, NULL);
 	}
 
 IL_0086:
 	{
-		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:200>
+		//<source_info:/Users/jorgerivera/unity/ColorQuest/Assets/scripts/GameController.cs:220>
 		return;
 	}
 }
-// Method Definition Index: 133876
+// Method Definition Index: 133824
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController__ctor_mB6369F6C5357D5984325D613D589EDA60818CBE9 (GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09* __this, const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2696,7 +2840,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void GameController__ctor_mB6369F6C5357D59843
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133877
+// Method Definition Index: 133825
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__cctor_mA1516DCC69201BF736AE2201A7146FCFDBC8DA41 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2713,7 +2857,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__cctor_mA1516DCC69201BF736AE2201
 		return;
 	}
 }
-// Method Definition Index: 133878
+// Method Definition Index: 133826
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_m30026461C495A6CE8905B46C2EB6B15E56DD3FF5 (U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2721,7 +2865,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void U3CU3Ec__ctor_m30026461C495A6CE8905B46C2
 		return;
 	}
 }
-// Method Definition Index: 133879
+// Method Definition Index: 133827
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float U3CU3Ec_U3CPosicionarBolasU3Eb__25_0_m34F54D46C1338E1399F9E34BAD204A87809ADC6E (U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E* __this, Vector3_t24C512C7B96BBABAD472002D0BA2BDA40A5A80B2 ___0_x, const RuntimeMethod* method) 
 {
 	{
@@ -2739,7 +2883,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR float U3CU3Ec_U3CPosicionarBolasU3Eb__25_0_m3
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133880
+// Method Definition Index: 133828
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6 (Readme_tE17B99201D0F52BD5727638AD3F41072A65B3BBB* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2755,7 +2899,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Readme__ctor_m69C325C4C171DCB0312B646A90
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133881
+// Method Definition Index: 133829
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B (Section_t50C894D0A717C2368EBAAE5477D4E8626D0B5401* __this, const RuntimeMethod* method) 
 {
 	{
@@ -2771,7 +2915,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void Section__ctor_m5F732533E4DFC0167D965E5F5
 #pragma clang diagnostic ignored "-Winvalid-offsetof"
 #pragma clang diagnostic ignored "-Wunused-variable"
 #endif
-// Method Definition Index: 133882
+// Method Definition Index: 133830
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC90C99D73A3E UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033 (const RuntimeMethod* method) 
 {
 	static bool s_Il2CppMethodInitialized;
@@ -2805,7 +2949,7 @@ IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR MonoScriptData_t8F50E352855B96FFFC1D9CB07EACC
 		return L_6;
 	}
 }
-// Method Definition Index: 133883
+// Method Definition Index: 133831
 IL2CPP_EXTERN_C IL2CPP_METHOD_ATTR void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1 (UnitySourceGeneratedAssemblyMonoScriptTypes_v1_tC95F24D0C6E6B77389433852BB389F39C692926E* __this, const RuntimeMethod* method) 
 {
 	{

@@ -37,19 +37,36 @@ public class Blaster : MonoBehaviour
     }
     void Shoot()
     {
+        // sonido del blaster
         audioSource.PlayOneShot(sonidoDisparo);
+        // rayo para detectar colisiones
         Ray ray = new Ray(puntoDisparo.position, puntoDisparo.forward);
+        // Detección de las colisiones
         bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, capaImpacto);
-
+        // por defecto el laser no tiene un punto final
         Vector3 puntoFinal=Vector3.zero;
 
         if (hasHit)
         {
             //detener rayo
             puntoFinal = hitInfo.point;
-            Quaternion rotacionImpacto = Quaternion.LookRotation(-hitInfo.normal);
-            GameObject impacto = Instantiate(impactoRayoPrefab, puntoFinal, rotacionImpacto);
-            Destroy(impacto, 1f);
+            // gameobject para identificar la colisión
+            GameObject objetoImpactado = hitInfo.collider.gameObject;
+            if (GameController.Instance != null)
+            {
+                if (GameController.Instance.EsEsferaInstanciada(objetoImpactado))
+                {
+                    GameController.Instance.EsferaClickeada(objetoImpactado);
+                    //efecto especial para las esferas
+                }
+                else
+                { 
+                //genero efecto de impacto en los colliders de la sala
+                Quaternion rotacionImpacto = Quaternion.LookRotation(-hitInfo.normal);
+                GameObject impacto = Instantiate(impactoRayoPrefab, puntoFinal, rotacionImpacto);
+                Destroy(impacto, 1f);
+                }
+            }
         }
         else
         {

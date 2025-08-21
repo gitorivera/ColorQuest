@@ -16,6 +16,8 @@ extern void GameController_CrearMalla_m591606EDFDD5966EABA7FAB1D6F8BEC2C339C11A 
 extern void GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED (void);
 extern void GameController_EsferaClickeada_m0D4D8C9B0C3644A64F37DE2292D2DDAEE750A59A (void);
 extern void GameController_MostrarTextoReloj_m609BB60644EC64B6986B60E530CE6B794A418D4A (void);
+extern void GameController_EsEsferaInstanciada_mC203BB02510EEE3B471431D888C43472AF2E6805 (void);
+extern void GameController_EsEsferaInstanciadaConInfo_m2C67B79651390C86440607EFD31C123726B30023 (void);
 extern void GameController_Start_mD0C79B8B5B5D8EDC88F7F2F88B5954B1342198EF (void);
 extern void GameController_Update_m5E36D1D6999A7510DFDFBF6805CF9E9CB50F0962 (void);
 extern void GameController__ctor_mB6369F6C5357D5984325D613D589EDA60818CBE9 (void);
@@ -26,7 +28,7 @@ extern void Readme__ctor_m69C325C4C171DCB0312B646A9034AA91EA8C39C6 (void);
 extern void Section__ctor_m5F732533E4DFC0167D965E5F5DB332E46055399B (void);
 extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033 (void);
 extern void UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1 (void);
-static Il2CppMethodPointer s_methodPointers[19] = 
+static Il2CppMethodPointer s_methodPointers[21] = 
 {
 	Blaster_Start_mF20F96AF770995100EC1E0C81D922EEE72B7DA4E,
 	Blaster_Update_m2326ABF940B704CEE091FAD2576363901720F2BC,
@@ -37,6 +39,8 @@ static Il2CppMethodPointer s_methodPointers[19] =
 	GameController_PosicionarBolas_mC7B6B6B777E81FD621E060F12CD353B85B8CEFED,
 	GameController_EsferaClickeada_m0D4D8C9B0C3644A64F37DE2292D2DDAEE750A59A,
 	GameController_MostrarTextoReloj_m609BB60644EC64B6986B60E530CE6B794A418D4A,
+	GameController_EsEsferaInstanciada_mC203BB02510EEE3B471431D888C43472AF2E6805,
+	GameController_EsEsferaInstanciadaConInfo_m2C67B79651390C86440607EFD31C123726B30023,
 	GameController_Start_mD0C79B8B5B5D8EDC88F7F2F88B5954B1342198EF,
 	GameController_Update_m5E36D1D6999A7510DFDFBF6805CF9E9CB50F0962,
 	GameController__ctor_mB6369F6C5357D5984325D613D589EDA60818CBE9,
@@ -48,7 +52,7 @@ static Il2CppMethodPointer s_methodPointers[19] =
 	UnitySourceGeneratedAssemblyMonoScriptTypes_v1_Get_mBEB95BEB954BB63E9710BBC7AD5E78C4CB0A0033,
 	UnitySourceGeneratedAssemblyMonoScriptTypes_v1__ctor_mE70FB23ACC1EA12ABC948AA22C2E78B2D0AA39B1,
 };
-static const int32_t s_InvokerIndices[19] = 
+static const int32_t s_InvokerIndices[21] = 
 {
 	21896,
 	21896,
@@ -59,6 +63,8 @@ static const int32_t s_InvokerIndices[19] =
 	21896,
 	16739,
 	16739,
+	12066,
+	5232,
 	21896,
 	21896,
 	21896,
@@ -74,7 +80,7 @@ IL2CPP_EXTERN_C const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule;
 const Il2CppCodeGenModule g_AssemblyU2DCSharp_CodeGenModule = 
 {
 	"Assembly-CSharp.dll",
-	19,
+	21,
 	s_methodPointers,
 	0,
 	NULL,

@@ -171,6 +171,26 @@ public class GameController : MonoBehaviour
             RelojContador.text = texto;
         }
     }
+    public bool EsEsferaInstanciada(GameObject objeto)
+{
+    // Verificar si el objeto está en la lista de esferas instanciadas
+    return instanciaBolas.Contains(objeto);
+}
+
+// Método alternativo más detallado
+public bool EsEsferaInstanciadaConInfo(GameObject objeto, out int indiceEsfera)
+{
+    indiceEsfera = instanciaBolas.IndexOf(objeto);
+    
+    if (indiceEsfera >= 0)
+    {
+        Debug.Log($"Esfera encontrada en índice: {indiceEsfera}");
+        Debug.Log($"Tipo de esfera: {bolasPrefabs[indiceEsfera].name}");
+        return true;
+    }
+    
+    return false;
+}
     void Start()
     {
         CrearMalla();

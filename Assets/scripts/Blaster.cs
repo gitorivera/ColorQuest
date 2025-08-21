@@ -18,6 +18,8 @@ public class Blaster : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField]
     private AudioClip sonidoDisparo;
+    [SerializeField]
+    private GameObject impactoRayoPrefab;
 
 
     void Start()
@@ -45,6 +47,9 @@ public class Blaster : MonoBehaviour
         {
             //detener rayo
             puntoFinal = hitInfo.point;
+            Quaternion rotacionImpacto = Quaternion.LookRotation(-hitInfo.normal);
+            GameObject impacto = Instantiate(impactoRayoPrefab, puntoFinal, rotacionImpacto);
+            Destroy(impacto, 1f);
         }
         else
         {

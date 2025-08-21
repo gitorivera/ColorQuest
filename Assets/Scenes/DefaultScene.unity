@@ -1223,7 +1223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d816f2eb65574924a37555ab34a5d4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  botonDisparo: -1
+  botonDisparo: 67108864
   rayoPrefab: {fileID: 8691643377382509320, guid: ee046ce60fbd3410ab559f5c78b3a99c, type: 3}
   puntoDisparo: {fileID: 1639361582}
   fuerzaDisparo: 5
@@ -1233,6 +1233,7 @@ MonoBehaviour:
     m_Bits: 1
   audioSource: {fileID: 315733409}
   sonidoDisparo: {fileID: 8300000, guid: 84e77a0ebd1aa4371a3fcd9dcbe3fce5, type: 3}
+  impactoRayoPrefab: {fileID: 3313576379201117406, guid: f8b8de114177549519221aa0e748f0ee, type: 3}
 --- !u!82 &315733409
 AudioSource:
   m_ObjectHideFlags: 0

@@ -15853,6 +15853,7 @@ struct Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3  : public MonoBehaviour
 	LayerMask_t97CB6BDADEDC3D6423C7BCFEA7F86DA2EC6241DB ___capaImpacto;
 	AudioSource_t871AC2272F896738252F04EE949AEF5B241D3299* ___audioSource;
 	AudioClip_t5D272C4EB4F2D3ED49F1C346DEA373CF6D585F20* ___sonidoDisparo;
+	GameObject_t76FEDD663AB33C991A9C9A23129337651094216F* ___impactoRayoPrefab;
 };
 struct BodyPoseSwitcher_tE3157E6D479D9D764CDED280324E9298BB51D95D  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {
@@ -24383,9 +24384,9 @@ IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable17319[7] =
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable17322[2] = 
 {
 	static_cast<int32_t>(offsetof(U3CPrivateImplementationDetailsU3E_t5FDCDC2DD8737CA96B5E90A61CC225D9DD824D7A_StaticFields, ___5BCFCB34769A46327A3EFF1957F01C2D9D09182E0DE19FF8B00F90DAA6EF7A8B)),static_cast<int32_t>(offsetof(U3CPrivateImplementationDetailsU3E_t5FDCDC2DD8737CA96B5E90A61CC225D9DD824D7A_StaticFields, ___95582EB8EE8C2DE553231A0C8DE68B3164F5A8B7422D85CD33440D3838951410)),};
-IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable17324[8] = 
+IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable17324[9] = 
 {
-	static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___botonDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___rayoPrefab)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___puntoDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___fuerzaDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___tiempoVidaRayo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___capaImpacto)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___audioSource)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___sonidoDisparo)),};
+	static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___botonDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___rayoPrefab)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___puntoDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___fuerzaDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___tiempoVidaRayo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___capaImpacto)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___audioSource)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___sonidoDisparo)),static_cast<int32_t>(offsetof(Blaster_tB0A4755760111D0B2C8D6A5504A00DB58AEBF3F3, ___impactoRayoPrefab)),};
 IL2CPP_EXTERN_C const int32_t g_FieldOffsetTable17325[2] = 
 {
 	static_cast<int32_t>(offsetof(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields, ___U3CU3E9)),static_cast<int32_t>(offsetof(U3CU3Ec_tA21E9B5F43D11B4949C361F0D4998BBA4E94885E_StaticFields, ___U3CU3E9__25_0)),};

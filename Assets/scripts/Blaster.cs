@@ -14,7 +14,10 @@ public class Blaster : MonoBehaviour
     [SerializeField]
     private float tiempoVidaRayo = 0.1f;
     public LayerMask capaImpacto;
-
+    [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip sonidoDisparo;
 
 
     void Start()
@@ -32,6 +35,7 @@ public class Blaster : MonoBehaviour
     }
     void Shoot()
     {
+        audioSource.PlayOneShot(sonidoDisparo);
         Ray ray = new Ray(puntoDisparo.position, puntoDisparo.forward);
         bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, capaImpacto);
 

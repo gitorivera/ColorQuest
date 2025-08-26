@@ -30,6 +30,7 @@ public class GameController : MonoBehaviour
     [SerializeField] [Tooltip("Segundos que duran las esferas en el tablero")][Range(1,10)] private int duracionTablero =5;
 
     [SerializeField] private TextMeshPro RelojContador;
+     //[SerializeField] private TextMeshPro ContadorPuntos; 
     private float tiempoActual = 0;
     private int segundosTranscurridos = 0;
 
@@ -37,8 +38,10 @@ public class GameController : MonoBehaviour
 
 // instancia publica para que el método ClickEsfera pueda acceder a ella
     public static GameController Instance;
-    [SerializeField] private TextMeshPro ContadorPuntos; 
+   
     private int puntaje = 0;
+
+    private TextMeshPro ContadorPuntos;
 
     private void Awake()
     {
@@ -50,6 +53,11 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
+#if USING_BUILTIN_RENDERER
+    camera.stereoTargetEye = StereoTargetEyeMask.Both;
+#else
+        // No se necesita configurar stereoTargetEye en SRP
+#endif
     }
 
     void CrearMalla()
@@ -137,6 +145,11 @@ public class GameController : MonoBehaviour
         //         GameObject InstanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
         //     }
     }
+    void PosicionarLetreros()
+    {
+        ContadorPuntos = Instantiate(RelojContador, new Vector3(0.8f, 1f, 1f), Quaternion.identity);
+        ContadorPuntos.text = $"Puntaje:";
+    }
     public void EsferaClickeada(GameObject esfera)
     {
         string esferaNombre = esfera.name.Replace("(Clone)", "").Trim();
@@ -194,8 +207,9 @@ public bool EsEsferaInstanciadaConInfo(GameObject objeto, out int indiceEsfera)
     void Start()
     {
         CrearMalla();
-       
+
         PosicionarBolas();
+        PosicionarLetreros();
     }
 
     // Update is called once per frame

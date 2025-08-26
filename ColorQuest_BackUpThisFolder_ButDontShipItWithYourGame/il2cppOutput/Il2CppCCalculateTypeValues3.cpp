@@ -11222,8 +11222,8 @@ struct GameController_tDA619EE453F7ED2C8297EF928518A0B447E44D09  : public MonoBe
 	float ___tiempoActual;
 	int32_t ___segundosTranscurridos;
 	int32_t ___indiceActual;
-	TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* ___ContadorPuntos;
 	int32_t ___puntaje;
+	TextMeshPro_t4560AB28A3EAF503895A781A9C625273D833270E* ___ContadorPuntos;
 };
 struct HandSkeletonOVR_t996D4212C7D93C00A7A400C055C056FE09CE8BD1  : public MonoBehaviour_t532A11E69716D348D8AA7F854AFCBFCB8AD17F71
 {

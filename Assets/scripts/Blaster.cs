@@ -20,6 +20,8 @@ public class Blaster : MonoBehaviour
     private AudioClip sonidoDisparo;
     [SerializeField]
     private GameObject impactoRayoPrefab;
+    [SerializeField]
+    private GameObject ExplosionParticulasPrefab;
 
 
     void Start()
@@ -58,13 +60,28 @@ public class Blaster : MonoBehaviour
                 {
                     GameController.Instance.EsferaClickeada(objetoImpactado);
                     //efecto especial para las esferas
+                    GameObject explosion = Instantiate(ExplosionParticulasPrefab, puntoFinal, Quaternion.identity);
+                    //Renderer para obtener el color de la esfera
+                    Renderer rendererEsfera = objetoImpactado.GetComponent<Renderer>();
+                    if (rendererEsfera != null)
+                    {
+                        Color colorEsfera = rendererEsfera.material.color;
+                        // Cambiar el color de las partículas al color de la esfera
+                        var particleSystem = explosion.GetComponent<ParticleSystem>();
+                        var mainModule = particleSystem.main;
+                        mainModule.startColor = colorEsfera;
+                    }
+                    // Destruir la esfera
+                    Destroy(objetoImpactado);
+                    //Destruir la explosión después de 2 segundos
+                    Destroy(explosion, 2f);
                 }
                 else
-                { 
-                //genero efecto de impacto en los colliders de la sala
-                Quaternion rotacionImpacto = Quaternion.LookRotation(-hitInfo.normal);
-                GameObject impacto = Instantiate(impactoRayoPrefab, puntoFinal, rotacionImpacto);
-                Destroy(impacto, 1f);
+                {
+                    //genero efecto de impacto en los colliders de la sala
+                    Quaternion rotacionImpacto = Quaternion.LookRotation(-hitInfo.normal);
+                    GameObject impacto = Instantiate(impactoRayoPrefab, puntoFinal, rotacionImpacto);
+                    Destroy(impacto, 1f);
                 }
             }
         }

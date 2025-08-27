@@ -1234,6 +1234,7 @@ MonoBehaviour:
   audioSource: {fileID: 315733409}
   sonidoDisparo: {fileID: 8300000, guid: 84e77a0ebd1aa4371a3fcd9dcbe3fce5, type: 3}
   impactoRayoPrefab: {fileID: 3313576379201117406, guid: f8b8de114177549519221aa0e748f0ee, type: 3}
+  ExplosionParticulasPrefab: {fileID: 4741214151253930406, guid: eadc2ef188ab54754a2b97ffe43d7d7c, type: 3}
 --- !u!82 &315733409
 AudioSource:
   m_ObjectHideFlags: 0

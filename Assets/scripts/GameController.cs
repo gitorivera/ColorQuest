@@ -46,6 +46,12 @@ public class GameController : MonoBehaviour
     private TextMeshPro ContadorPuntos;
 
     private bool destruirEsferas = false;
+    [SerializeField]
+    private GameObject confetiCorazonesPrefab;
+    [SerializeField]
+    private GameObject confetiEstrellasPrefab;
+    [SerializeField]
+    private GameObject confetiMariposasPrefab;
 
     private void Awake()
     {
@@ -180,7 +186,12 @@ public class GameController : MonoBehaviour
                 indiceActual = 0;
                 destruirEsferas = true;
                 PosicionarBolas();
-                
+                // Instanciar confeti basado en la última esfera clickeada
+                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
+                Destroy(confetiEstrella,2f);
+                // GameObject confetiCorazon = Instantiate(confetiCorazonesPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
+                // Destroy(confetiCorazon,2f);
+                // GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
             }
         }
         else

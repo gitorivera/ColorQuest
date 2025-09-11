@@ -22,6 +22,8 @@ public class Blaster : MonoBehaviour
     private GameObject impactoRayoPrefab;
     [SerializeField]
     private GameObject ExplosionParticulasPrefab;
+    
+
 
 
     void Start()

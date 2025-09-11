@@ -15,13 +15,15 @@ public class GameController : MonoBehaviour
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
-    private readonly float puntoCentralZ = 1f;
+    private readonly float puntoCentralZ = 2f;
     private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;
     private GameObject InstanciaDeCelda;
     private List<Vector3> listaPosicionesCeldas = new List<Vector3>();
     private List<Vector3> listaPosicionesBolas = new List<Vector3>();
+
+    private int maxNumeroBolas;
 
     [Header("Configuración de las Esferas")]
     [SerializeField] private GameObject [] bolasPrefabs; // Array de prefabs de bola
@@ -43,6 +45,8 @@ public class GameController : MonoBehaviour
 
     private TextMeshPro ContadorPuntos;
 
+    private bool destruirEsferas = false;
+
     private void Awake()
     {
         if (Instance == null)
@@ -53,11 +57,7 @@ public class GameController : MonoBehaviour
         {
             Destroy(gameObject);
         }
-#if USING_BUILTIN_RENDERER
-    camera.stereoTargetEye = StereoTargetEyeMask.Both;
-#else
-        // No se necesita configurar stereoTargetEye en SRP
-#endif
+
     }
 
     void CrearMalla()
@@ -125,29 +125,39 @@ public class GameController : MonoBehaviour
                 .Take(bolasPrefabs.Length)
                 .ToList();
 
-        if (instanciaBolas.Count > 0)
+        maxNumeroBolas = numeroCeldas * numeroCeldas;
+        // Destruir esferas anteriores si es necesario
+        if (destruirEsferas)
         {
-            for (int i = 0; i < instanciaBolas.Count; i++)
+            foreach (var bola in instanciaBolas)
             {
-                instanciaBolas[i].transform.position = posicionesEscogidas[i];
+                Destroy(bola);
+            }
+            instanciaBolas.Clear();
+            destruirEsferas = false;
+        }   
+
+
+        if (bolasPrefabs.Length > maxNumeroBolas)
+        {
+            for (int i = 0; i < maxNumeroBolas; i++)
+            {
+                GameObject instanciabola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], Quaternion.identity);
+                instanciaBolas.Add(instanciabola);
             }
         }
         else
         {
             for (int i = 0; i < bolasPrefabs.Length; i++)
             {
-                GameObject instanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
-                instanciaBolas.Add(instanciaBola);
+                GameObject instanciabola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], Quaternion.identity);
+                instanciaBolas.Add(instanciabola);
             }
         }
-        //     for (int i = 0; i < 4; i++)
-        //    {
-        //         GameObject InstanciaBola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], quaternion.identity);
-        //     }
     }
     void PosicionarLetreros()
     {
-        ContadorPuntos = Instantiate(RelojContador, new Vector3(0.8f, 1f, 1f), Quaternion.identity);
+        ContadorPuntos = Instantiate(RelojContador, new Vector3(0.8f, puntoCentralY, puntoCentralZ), Quaternion.identity);
         ContadorPuntos.text = $"Puntaje:";
     }
     public void EsferaClickeada(GameObject esfera)
@@ -168,6 +178,9 @@ public class GameController : MonoBehaviour
                 puntaje += 10;
                 ContadorPuntos.text = $"Puntaje: {puntaje}";
                 indiceActual = 0;
+                destruirEsferas = true;
+                PosicionarBolas();
+                
             }
         }
         else
@@ -190,20 +203,7 @@ public class GameController : MonoBehaviour
     return instanciaBolas.Contains(objeto);
 }
 
-// Método alternativo más detallado
-public bool EsEsferaInstanciadaConInfo(GameObject objeto, out int indiceEsfera)
-{
-    indiceEsfera = instanciaBolas.IndexOf(objeto);
-    
-    if (indiceEsfera >= 0)
-    {
-        Debug.Log($"Esfera encontrada en índice: {indiceEsfera}");
-        Debug.Log($"Tipo de esfera: {bolasPrefabs[indiceEsfera].name}");
-        return true;
-    }
-    
-    return false;
-}
+
     void Start()
     {
         CrearMalla();
@@ -227,6 +227,7 @@ public bool EsEsferaInstanciadaConInfo(GameObject objeto, out int indiceEsfera)
         if (segundosTranscurridos > duracionTablero - 1)
         {
             segundosTranscurridos = 0;
+            destruirEsferas = true;
             PosicionarBolas();
         }
         

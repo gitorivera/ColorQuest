@@ -163,7 +163,7 @@ public class GameController : MonoBehaviour
     }
     void PosicionarLetreros()
     {
-        ContadorPuntos = Instantiate(RelojContador, new Vector3(0.8f, puntoCentralY, puntoCentralZ), Quaternion.identity);
+        ContadorPuntos = Instantiate(RelojContador, new Vector3(puntoCentralX-0.2f, (puntoCentralY - 0.7f), puntoCentralZ), Quaternion.identity);
         ContadorPuntos.text = $"Puntaje:";
     }
     public void EsferaClickeada(GameObject esfera)
@@ -187,7 +187,7 @@ public class GameController : MonoBehaviour
                 destruirEsferas = true;
                 PosicionarBolas();
                 // Instanciar confeti basado en la última esfera clickeada
-                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
+                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,2f,2f),Quaternion.identity);
                 Destroy(confetiEstrella,2f);
                 // GameObject confetiCorazon = Instantiate(confetiCorazonesPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
                 // Destroy(confetiCorazon,2f);

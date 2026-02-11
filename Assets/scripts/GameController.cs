@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
-    private readonly float puntoCentralZ = 1f;
+    private readonly float puntoCentralZ = 1.5f;
     private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;
@@ -52,6 +52,9 @@ public class GameController : MonoBehaviour
     private GameObject confetiEstrellasPrefab;
     [SerializeField]
     private GameObject confetiMariposasPrefab;
+
+    [SerializeField]
+    private GameObject panelSecuenciaPrefab;
 
     private void Awake()
     {
@@ -143,7 +146,7 @@ public class GameController : MonoBehaviour
             destruirEsferas = false;
         }   
 
-
+        // Ubicamos las boldas en las posiciones escogidas, si el número de bolas es mayor al máximo permitido, se instancian solo las primeras bolas hasta el límite
         if (bolasPrefabs.Length > maxNumeroBolas)
         {
             for (int i = 0; i < maxNumeroBolas; i++)
@@ -163,8 +166,8 @@ public class GameController : MonoBehaviour
     }
     void PosicionarLetreros()
     {
-        ContadorPuntos = Instantiate(RelojContador, new Vector3(puntoCentralX-0.2f, (puntoCentralY - 0.7f), puntoCentralZ), Quaternion.identity);
-        ContadorPuntos.text = $"Puntaje:";
+        ContadorPuntos = Instantiate(RelojContador, new Vector3(puntoCentralX+0.2f, puntoCentralY+0.6f, puntoCentralZ), Quaternion.identity);
+        ContadorPuntos.text = $"00";
     }
     public void EsferaClickeada(GameObject esfera)
     {
@@ -182,7 +185,7 @@ public class GameController : MonoBehaviour
                 Debug.Log("¡Felicidades! Has clickeado todas las bolas en el orden correcto.");
                 // Reiniciar o realizar alguna acción
                 puntaje += 10;
-                ContadorPuntos.text = $"Puntaje: {puntaje}";
+                ContadorPuntos.text = $"{puntaje}";
                 indiceActual = 0;
                 destruirEsferas = true;
                 PosicionarBolas();
@@ -201,19 +204,31 @@ public class GameController : MonoBehaviour
             indiceActual = 0;
         }
     }
-    public void MostrarTextoReloj(string texto)
-    {
-        if (RelojContador != null)
-        {
-            RelojContador.text = texto;
-        }
-    }
+    // public void MostrarTextoReloj(string texto)
+    // {
+    //     if (RelojContador != null)
+    //     {
+    //         RelojContador.text = texto;
+    //     }
+    // }
     public bool EsEsferaInstanciada(GameObject objeto)
 {
     // Verificar si el objeto está en la lista de esferas instanciadas
     return instanciaBolas.Contains(objeto);
 }
+    void PosicionarPanelSecuencia()
+    {
+        panelSecuenciaPrefab = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
+    }
 
+    void PonerSecuencia()
+    {
+        GameObject bolaSecuencia1 =Instantiate(bolasPrefabs[0], new Vector3(puntoCentralX-0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia2 =Instantiate(bolasPrefabs[1], new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia3 =Instantiate(bolasPrefabs[2], new Vector3(puntoCentralX+0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
+        // Aquí puedes implementar la lógica para mostrar la secuencia de colores a seguir
+        // Por ejemplo, podrías activar un panel con los colores en el orden correcto durante unos segundos
+    }
 
     void Start()
     {
@@ -221,8 +236,9 @@ public class GameController : MonoBehaviour
 
         PosicionarBolas();
         PosicionarLetreros();
+        PosicionarPanelSecuencia();
+        PonerSecuencia();
     }
-
     // Update is called once per frame
     void Update()
     {
@@ -234,7 +250,7 @@ public class GameController : MonoBehaviour
             tiempoActual = 0;
         }
 
-        RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
+      //  RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
         if (segundosTranscurridos > duracionTablero - 1)
         {
             segundosTranscurridos = 0;
@@ -244,5 +260,6 @@ public class GameController : MonoBehaviour
         
 
     }
-}
 
+
+}

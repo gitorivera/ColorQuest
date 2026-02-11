@@ -1,0 +1,79 @@
+# Unity files
+*.cs text=auto
+*.js text=auto
+*.boo text=auto
+*.compute text=auto
+*.hlsl text=auto
+*.shader text=auto
+
+# Unity YAML
+*.meta text=auto
+*.asset text=auto
+*.unity text=auto
+*.prefab text=auto
+*.mat text=auto
+*.anim text=auto
+*.controller text=auto
+*.overrideController text=auto
+*.physicMaterial text=auto
+*.physicsMaterial2D text=auto
+*.playable text=auto
+
+# Unity settings and packages
+*.json text=auto
+*.txt text=auto
+
+# Binary files
+*.cubemap binary
+*.unitypackage binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.bmp binary
+*.tga binary
+*.tiff binary
+*.tif binary
+*.iff binary
+*.pict binary
+*.dds binary
+*.xcf binary
+*.leo binary
+*.kra binary
+*.kpp binary
+*.clip binary
+*.webm binary
+*.webp binary
+*.svg binary
+*.mp4 binary
+*.mov binary
+*.avi binary
+*.flv binary
+*.ogv binary
+*.ogg binary
+*.oga binary
+*.opus binary
+*.mp3 binary
+*.wav binary
+*.aiff binary
+*.aif binary
+*.mod binary
+*.it binary
+*.s3m binary
+*.xm binary
+*.ttf binary
+*.otf binary
+*.fnt binary
+*.exe binary
+*.dll binary
+*.so binary
+*.pdb binary
+*.mdb binary
+*.bundle binary
+*.dylib binary
+
+# Collapse Unity-generated files on GitHub
+*.asset linguist-generated
+*.meta linguist-generated
+*.unity linguist-generated
+*.prefab linguist-generated

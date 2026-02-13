@@ -56,6 +56,9 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject panelSecuenciaPrefab;
 
+    [SerializeField]
+    private GameObject cuadroBarraProgresoPrefab;
+
     private void Awake()
     {
         if (Instance == null)
@@ -230,6 +233,18 @@ public class GameController : MonoBehaviour
         // Por ejemplo, podrías activar un panel con los colores en el orden correcto durante unos segundos
     }
 
+    void PosicionarCuadroBarraProgreso()
+    {
+        GameObject cuadroBarraProgreso1 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX-0.45f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+        GameObject cuadroBarraProgreso2 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX-0.27f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+        GameObject cuadroBarraProgreso3 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX-0.09f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+        GameObject cuadroBarraProgreso4 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX+0.09f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+        GameObject cuadroBarraProgreso5 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX+0.27f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+        GameObject cuadroBarraProgreso6 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX+0.45f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+        // Aquí puedes implementar la lógica para actualizar la barra de progreso según el tiempo transcurrido
+    }
+    
+    
     void Start()
     {
         CrearMalla();
@@ -238,6 +253,7 @@ public class GameController : MonoBehaviour
         PosicionarLetreros();
         PosicionarPanelSecuencia();
         PonerSecuencia();
+        PosicionarCuadroBarraProgreso();
     }
     // Update is called once per frame
     void Update()

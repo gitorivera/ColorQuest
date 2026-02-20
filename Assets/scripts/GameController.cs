@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 
 public class GameController : MonoBehaviour
 {
@@ -56,8 +57,23 @@ public class GameController : MonoBehaviour
     [SerializeField]
     private GameObject panelSecuenciaPrefab;
 
+// Elementos de la barra de progreso
     [SerializeField]
-    private GameObject cuadroBarraProgresoPrefab;
+    private GameObject cuadroBarraProgreso66Prefab;
+    [SerializeField]
+    private GameObject cuadroBarraProgreso56Prefab;
+    [SerializeField]
+    private GameObject cuadroBarraProgreso46Prefab;
+    [SerializeField]
+    private GameObject cuadroBarraProgreso36Prefab;
+    [SerializeField]
+    private GameObject cuadroBarraProgreso26Prefab;
+    [SerializeField]
+    private GameObject cuadroBarraProgreso16Prefab;
+    [SerializeField]    
+    private GameObject cuadroBarraProgreso00Prefab;
+
+   
 
     private void Awake()
     {
@@ -207,13 +223,7 @@ public class GameController : MonoBehaviour
             indiceActual = 0;
         }
     }
-    // public void MostrarTextoReloj(string texto)
-    // {
-    //     if (RelojContador != null)
-    //     {
-    //         RelojContador.text = texto;
-    //     }
-    // }
+
     public bool EsEsferaInstanciada(GameObject objeto)
 {
     // Verificar si el objeto está en la lista de esferas instanciadas
@@ -235,12 +245,7 @@ public class GameController : MonoBehaviour
 
     void PosicionarCuadroBarraProgreso()
     {
-        GameObject cuadroBarraProgreso1 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX-0.45f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
-        GameObject cuadroBarraProgreso2 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX-0.27f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
-        GameObject cuadroBarraProgreso3 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX-0.09f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
-        GameObject cuadroBarraProgreso4 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX+0.09f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
-        GameObject cuadroBarraProgreso5 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX+0.27f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
-        GameObject cuadroBarraProgreso6 = Instantiate(cuadroBarraProgresoPrefab, new Vector3(puntoCentralX+0.45f, puntoCentralY+0.8f, puntoCentralZ), Quaternion.identity);
+       
         // Aquí puedes implementar la lógica para actualizar la barra de progreso según el tiempo transcurrido
     }
     
@@ -253,7 +258,7 @@ public class GameController : MonoBehaviour
         PosicionarLetreros();
         PosicionarPanelSecuencia();
         PonerSecuencia();
-        PosicionarCuadroBarraProgreso();
+      //  PosicionarCuadroBarraProgreso();
     }
     // Update is called once per frame
     void Update()

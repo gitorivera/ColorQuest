@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+//using System.Numerics;
 
 public class GameController : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshPro RelojContador;
      //[SerializeField] private TextMeshPro ContadorPuntos; 
     private float tiempoActual = 0;
-    private int segundosTranscurridos = 0;
+    private float segundosTranscurridos = 0f;
 
     private int indiceActual = 0; // Track the current index for sphere clicks
 
@@ -59,19 +60,14 @@ public class GameController : MonoBehaviour
 
 // Elementos de la barra de progreso
     [SerializeField]
-    private GameObject cuadroBarraProgreso66Prefab;
-    [SerializeField]
-    private GameObject cuadroBarraProgreso56Prefab;
-    [SerializeField]
-    private GameObject cuadroBarraProgreso46Prefab;
-    [SerializeField]
-    private GameObject cuadroBarraProgreso36Prefab;
-    [SerializeField]
-    private GameObject cuadroBarraProgreso26Prefab;
-    [SerializeField]
-    private GameObject cuadroBarraProgreso16Prefab;
-    [SerializeField]    
-    private GameObject cuadroBarraProgreso00Prefab;
+    private GameObject cuadroBarraProgresoPrefab;
+    private GameObject cuadroUno;
+    private GameObject cuadroDos;
+    private GameObject cuadroTres;
+    private GameObject cuadroCuatro;
+    private GameObject cuadroCinco;
+    private GameObject cuadroSeis;
+ 
 
    
 
@@ -245,8 +241,37 @@ public class GameController : MonoBehaviour
 
     void PosicionarCuadroBarraProgreso()
     {
+        Vector3 posicionUno = new Vector3(puntoCentralX - 0.45f, puntoCentralY + 0.8f, puntoCentralZ);
+        Vector3 posicionDos = new Vector3(puntoCentralX -0.27f, puntoCentralY + 0.8f, puntoCentralZ);
+        Vector3 posicionTres = new Vector3(puntoCentralX -0.09f, puntoCentralY + 0.8f, puntoCentralZ);
+        Vector3 posicionCuatro = new Vector3(puntoCentralX +0.09f, puntoCentralY + 0.8f, puntoCentralZ);
+        Vector3 posicionCinco = new Vector3(puntoCentralX +0.27f, puntoCentralY + 0.8f, puntoCentralZ);
+        Vector3 posicionSeis = new Vector3(puntoCentralX +0.45f, puntoCentralY + 0.8f, puntoCentralZ);
        
-        // Aquí puedes implementar la lógica para actualizar la barra de progreso según el tiempo transcurrido
+       
+       
+       //int porcentajeRestante = (int)(1f - progreso)*100;
+
+       
+        cuadroUno = Instantiate(cuadroBarraProgresoPrefab, posicionUno, Quaternion.identity);
+        cuadroDos = Instantiate(cuadroBarraProgresoPrefab, posicionDos, Quaternion.identity);
+        cuadroTres = Instantiate(cuadroBarraProgresoPrefab, posicionTres, Quaternion.identity);
+        cuadroCuatro = Instantiate(cuadroBarraProgresoPrefab, posicionCuatro, Quaternion.identity);
+        cuadroCinco = Instantiate(cuadroBarraProgresoPrefab, posicionCinco, Quaternion.identity);
+        cuadroSeis = Instantiate(cuadroBarraProgresoPrefab, posicionSeis, Quaternion.identity);
+
+        MeshRenderer renderer = cuadroUno.GetComponent<MeshRenderer>();  
+       Material mat = renderer.material; // Obtenemos la instancia
+
+/* Configuramos el material para que soporte transparencia por código
+        mat.SetFloat("_Surface", 1); // 0 es Opaco, 1 es Transparente (en URP)
+        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        mat.SetInt("_ZWrite", 0); // Desactivamos la escritura en el Z-Buffer
+        mat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
+
+*/
+    
     }
     
     
@@ -258,9 +283,76 @@ public class GameController : MonoBehaviour
         PosicionarLetreros();
         PosicionarPanelSecuencia();
         PonerSecuencia();
-      //  PosicionarCuadroBarraProgreso();
+        PosicionarCuadroBarraProgreso();
     }
     // Update is called once per frame
+    
+    void actualizarBarraProgreso(float progreso)
+    {
+        // Aquí puedes implementar la lógica para actualizar la barra de progreso visualmente
+        // Por ejemplo, podrías cambiar el color o la escala de los cuadros según el progreso
+        if (progreso > 0.83f)
+        {
+            // Cambiar el color a verde
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(0, 255, 0, 255); // Verde
+            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(0, 255, 0, 255); // Verde
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(0, 255, 0, 255); // Verde
+            cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(0, 255, 0, 255); // Verde
+            cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(0, 255, 0, 255); // Verde
+            cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(0, 255, 0, 255); // Verde
+        }
+        else if (progreso <= 0.83f && progreso > 0.66f)
+        {
+            // Cambiar el color a naranja
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(154, 255, 0, 255); // Naranja
+            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(154, 255, 0, 255); // Naranja
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(154, 255, 0, 255); // Naranja
+            cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(154, 255, 0, 255); // Naranja
+            cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(154, 255, 0, 255); // Naranja
+            cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanco
+        }
+      else if (progreso <= 0.66f && progreso > 0.5f)
+        {
+            // Cambiar el color a amarillo
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(200, 255, 0, 255); // Amarillo
+            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(200, 255, 0, 255); // Amarillo
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(200, 255, 0, 255); // Amarillo
+            cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(200, 255, 0, 255); // Amarillo
+            cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanco
+            cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanco
+        }
+        else if (progreso <= 0.5f && progreso > 0.33f)
+        {
+            // Cambiar el color a naranja
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 0, 255); // Naranja
+            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 0, 255); // Naranja
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 0, 255); // Naranja
+            cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+        }
+        else if (progreso <=0.33f && progreso >0.16f)
+        {
+             // Cambiar el color a rojo
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(255, 140, 0, 255); // Rojo
+            cuadroDos.GetComponent<MeshRenderer >().material.color = new Color32(255, 140, 0, 255); // Rojo
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca  
+        
+    }else if (progreso <= 0.16f)
+        {
+             // Cambiar el color a rojo intenso
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 255); // Rojo intenso
+            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Rojo intenso
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
+            cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca  
+        }
+    }
+    
     void Update()
     {
         // Cálculo de las centésimas que dura un frame
@@ -270,6 +362,13 @@ public class GameController : MonoBehaviour
             segundosTranscurridos += 1;
             tiempoActual = 0;
         }
+         
+
+        float progreso =Mathf.Clamp01(segundosTranscurridos / duracionTablero);
+         actualizarBarraProgreso(1-progreso);
+        
+        
+
 
       //  RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
         if (segundosTranscurridos > duracionTablero - 1)

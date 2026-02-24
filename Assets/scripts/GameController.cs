@@ -324,9 +324,9 @@ public class GameController : MonoBehaviour
         else if (progreso <= 0.5f && progreso > 0.33f)
         {
             // Cambiar el color a naranja
-            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 0, 255); // Naranja
-            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 0, 255); // Naranja
-            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 0, 255); // Naranja
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(235, 255, 0, 255); // Naranja
+            cuadroDos.GetComponent<MeshRenderer>().material.color = new Color32(235, 255, 0, 255); // Naranja
+            cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(235, 255, 0, 255); // Naranja
             cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
             cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
             cuadroSeis.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
@@ -334,8 +334,8 @@ public class GameController : MonoBehaviour
         else if (progreso <=0.33f && progreso >0.16f)
         {
              // Cambiar el color a rojo
-            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(255, 140, 0, 255); // Rojo
-            cuadroDos.GetComponent<MeshRenderer >().material.color = new Color32(255, 140, 0, 255); // Rojo
+            cuadroUno.GetComponent<MeshRenderer>().material.color = new Color32(255, 180, 0, 255); // Rojo
+            cuadroDos.GetComponent<MeshRenderer >().material.color = new Color32(255, 180, 0, 255); // Rojo
             cuadroTres.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
             cuadroCuatro.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
             cuadroCinco.GetComponent<MeshRenderer>().material.color = new Color32(255, 255, 255, 25); // Blanca
@@ -356,24 +356,20 @@ public class GameController : MonoBehaviour
     void Update()
     {
         // Cálculo de las centésimas que dura un frame
-        tiempoActual += Time.deltaTime * 100;
-        if (tiempoActual >= 100)
-        {
-            segundosTranscurridos += 1;
-            tiempoActual = 0;
-        }
+        tiempoActual += Time.deltaTime;
+       
          
 
-        float progreso =Mathf.Clamp01(segundosTranscurridos / duracionTablero);
+        float progreso =Mathf.Clamp01(tiempoActual / duracionTablero);
          actualizarBarraProgreso(1-progreso);
         
         
 
 
       //  RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
-        if (segundosTranscurridos > duracionTablero - 1)
+        if (tiempoActual > duracionTablero)
         {
-            segundosTranscurridos = 0;
+            tiempoActual = 0;
             destruirEsferas = true;
             PosicionarBolas();
         }

@@ -8326,14 +8326,13 @@ MonoBehaviour:
   - {fileID: 4682633506170415809, guid: 995eb3013303b4c66ad37917c039b5f0, type: 3}
   - {fileID: 8344143229348114595, guid: a3e848f16c458478e856e0e65699d620, type: 3}
   - {fileID: 3844250124326048759, guid: b4289b2b5d67341d1a8e14b02a257bf7, type: 3}
-  duracionTablero: 5
+  duracionTablero: 6
   RelojContador: {fileID: 3928632596057537440, guid: b27da8a4c6106493ebd88c54bb8b23d3, type: 3}
   confetiCorazonesPrefab: {fileID: 825476358327319053, guid: 2611b41a997604b13930e87c843ff478, type: 3}
   confetiEstrellasPrefab: {fileID: 2093797913561820082, guid: a11e20163b3024c99b66e569a5d904d0, type: 3}
   confetiMariposasPrefab: {fileID: 2711508004935512374, guid: 2f1814dedfcb94d74bb15f4ef4be29d2, type: 3}
   panelSecuenciaPrefab: {fileID: 2896250069625965335, guid: 29107ccf9f6804e5ab3edf28d425550b, type: 3}
   cuadroBarraProgresoPrefab: {fileID: 3169222140780334394, guid: ce1732497dedffd4cb19b1a297888083, type: 3}
-  MaterialBarra66: {fileID: 0}
 --- !u!4 &1384984425
 Transform:
   m_ObjectHideFlags: 0

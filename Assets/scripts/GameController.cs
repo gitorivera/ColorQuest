@@ -68,9 +68,14 @@ public class GameController : MonoBehaviour
     private GameObject cuadroCinco;
     private GameObject cuadroSeis;
  
-
+// Variables para controlar el tiempo total de duración del juego
+    private const int DURACION_TOTAL_JUEGO_MINUTOS = 6; // Duración total del juego en minutos
+    private float  tiempoTotalJuego = DURACION_TOTAL_JUEGO_MINUTOS * 60f; // Duración total del juego en segundos
    
+    private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido desde el inicio del juego
 
+// variables para la flexibilidad del numero de bolas por tablero
+    private int numeroBolasTablero = 3; // Número de bolas a posicionar en el tablero (puede ser ajustado)
     private void Awake()
     {
         if (Instance == null)
@@ -84,15 +89,15 @@ public class GameController : MonoBehaviour
 
     }
 
-    void CrearMalla()
+    void CrearMalla(int Celdas)
     {
         //Calculo del ancho de la celda para las instancias creadas
-        float anchoCelda = (float)anchoMalla / numeroCeldas;
+        float anchoCelda = (float)anchoMalla / Celdas;
 
         float factorEscala = (float)anchoCelda / anchoCeldaPrefab;
         //Posicionamiento de la celda superior izquierda
-        int numSaltosIniciales = numeroCeldas - 1;
-        float longitudSalto = (float)anchoMalla / (numeroCeldas * 2);
+        int numSaltosIniciales = Celdas - 1;
+        float longitudSalto = (float)anchoMalla / (Celdas * 2);
         posicionInicialX = puntoCentralX - (numSaltosIniciales * longitudSalto);
         posicionInicialY = puntoCentralY + (numSaltosIniciales * longitudSalto);
         posicionInicialZ = puntoCentralZ;
@@ -142,11 +147,11 @@ public class GameController : MonoBehaviour
 
     }
 
-    void PosicionarBolas()
+    void PosicionarBolas(int numeroBolas)
     {
         List<Vector3> posicionesEscogidas = listaPosicionesCeldas
                 .OrderBy(x => Random.value)
-                .Take(bolasPrefabs.Length)
+                .Take(numeroBolas)
                 .ToList();
 
         maxNumeroBolas = numeroCeldas * numeroCeldas;
@@ -162,7 +167,7 @@ public class GameController : MonoBehaviour
         }   
 
         // Ubicamos las boldas en las posiciones escogidas, si el número de bolas es mayor al máximo permitido, se instancian solo las primeras bolas hasta el límite
-        if (bolasPrefabs.Length > maxNumeroBolas)
+        if (numeroBolas > maxNumeroBolas)
         {
             for (int i = 0; i < maxNumeroBolas; i++)
             {
@@ -172,7 +177,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < bolasPrefabs.Length; i++)
+            for (int i = 0; i < numeroBolas; i++)
             {
                 GameObject instanciabola = Instantiate(bolasPrefabs[i], posicionesEscogidas[i], Quaternion.identity);
                 instanciaBolas.Add(instanciabola);
@@ -203,7 +208,7 @@ public class GameController : MonoBehaviour
                 ContadorPuntos.text = $"{puntaje}";
                 indiceActual = 0;
                 destruirEsferas = true;
-                PosicionarBolas();
+                PosicionarBolas(numeroBolasTablero);
                 // Instanciar confeti basado en la última esfera clickeada
                 GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,2f,2f),Quaternion.identity);
                 Destroy(confetiEstrella,2f);
@@ -227,7 +232,7 @@ public class GameController : MonoBehaviour
 }
     void PosicionarPanelSecuencia()
     {
-        panelSecuenciaPrefab = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
+        panelSecuenciaPrefab = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX,puntoCentralY*0.3f, puntoCentralZ), Quaternion.identity);
     }
 
     void PonerSecuencia()
@@ -275,16 +280,7 @@ public class GameController : MonoBehaviour
     }
     
     
-    void Start()
-    {
-        CrearMalla();
 
-        PosicionarBolas();
-        PosicionarLetreros();
-        PosicionarPanelSecuencia();
-        PonerSecuencia();
-        PosicionarCuadroBarraProgreso();
-    }
     // Update is called once per frame
     
     void actualizarBarraProgreso(float progreso)
@@ -353,6 +349,17 @@ public class GameController : MonoBehaviour
         }
     }
     
+        void Start()
+    {
+        CrearMalla(2);
+
+        PosicionarBolas(numeroBolasTablero);
+        PosicionarLetreros();
+        PosicionarPanelSecuencia();
+        PonerSecuencia();
+        PosicionarCuadroBarraProgreso();
+    }
+    
     void Update()
     {
         // Cálculo de las centésimas que dura un frame
@@ -371,7 +378,7 @@ public class GameController : MonoBehaviour
         {
             tiempoActual = 0;
             destruirEsferas = true;
-            PosicionarBolas();
+            PosicionarBolas(numeroBolasTablero);
         }
         
 

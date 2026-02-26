@@ -24,6 +24,7 @@ public class GameController : MonoBehaviour
     private GameObject InstanciaDeCelda;
     private List<Vector3> listaPosicionesCeldas = new List<Vector3>();
     private List<Vector3> listaPosicionesBolas = new List<Vector3>();
+    private List<GameObject> listaInstanciasCeldas = new List<GameObject>();
 
     private int maxNumeroBolas;
 
@@ -76,6 +77,14 @@ public class GameController : MonoBehaviour
 
 // variables para la flexibilidad del numero de bolas por tablero
     private int numeroBolasTablero = 3; // Número de bolas a posicionar en el tablero (puede ser ajustado)
+    
+    bool nivel1 = true;
+    bool nivel2 = true; 
+    bool nivel3 = true;
+    bool nivel4 = true;
+    bool nivel5 = true;
+
+    
     private void Awake()
     {
         if (Instance == null)
@@ -104,6 +113,7 @@ public class GameController : MonoBehaviour
 
         InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionInicialX, posicionInicialY, posicionInicialZ), quaternion.identity);
         InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
+        listaInstanciasCeldas.Add(InstanciaDeCelda);
         listaPosicionesCeldas.Add(new Vector3(posicionInicialX, posicionInicialY, posicionInicialZ));
         //------------------------------------
         // Posicionamiento de todas las celdas
@@ -125,6 +135,7 @@ public class GameController : MonoBehaviour
             {
                 InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionActualX, posicionActualY, posicionActualZ), quaternion.identity);
                 InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
+                listaInstanciasCeldas.Add(InstanciaDeCelda);
                 listaPosicionesCeldas.Add(new Vector3(posicionActualX, posicionActualY, posicionActualZ));
             }
             else
@@ -135,6 +146,7 @@ public class GameController : MonoBehaviour
                 {
                     InstanciaDeCelda = Instantiate(CeldaPrefab, new Vector3(posicionActualX, posicionActualY, posicionActualZ), quaternion.identity);
                     InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
+                    listaInstanciasCeldas.Add(InstanciaDeCelda);
                     listaPosicionesCeldas.Add(new Vector3(posicionActualX, posicionActualY, posicionActualZ));
                 }
                 else
@@ -145,6 +157,16 @@ public class GameController : MonoBehaviour
 
         }
 
+    }
+
+    void DestruirMalla()
+    {
+        foreach (var celda in listaInstanciasCeldas)
+        {
+            Destroy(celda);
+        }
+        listaInstanciasCeldas.Clear();
+        listaPosicionesCeldas.Clear();
     }
 
     void PosicionarBolas(int numeroBolas)
@@ -362,8 +384,98 @@ public class GameController : MonoBehaviour
     
     void Update()
     {
+        // Tiempo total del juego
+        tiempoTranscurridoJuego += Time.deltaTime;
         // Cálculo de las centésimas que dura un frame
+        if (tiempoTranscurridoJuego<60f)
+        {
+            // nivel 1
+            //bool nivel1 = true;
+            numeroBolasTablero = 3;
+            numeroCeldas =2;
+            if (nivel1)
+            {
+                DestruirMalla();
+                CrearMalla(numeroCeldas);
+                destruirEsferas = true;
+                PosicionarBolas(numeroBolasTablero);
+
+                nivel1 = false;
+            }
+        }else if (tiempoTranscurridoJuego>=60f && tiempoTranscurridoJuego<120f)
+        {
+            // nivel 2
+            //bool nivel2 = true;
+            numeroBolasTablero = 4;
+            numeroCeldas =3;
+            if (nivel2)
+            {
+                DestruirMalla();
+                CrearMalla(numeroCeldas);
+                    destruirEsferas = true;
+                PosicionarBolas(numeroBolasTablero);
+                
+                nivel2 = false;
+            }
+
+        }else if (tiempoTranscurridoJuego>=120f && tiempoTranscurridoJuego<180f)
+        {
+            // nivel 3
+            //bool nivel3 = true;
+            numeroBolasTablero = 4;
+            numeroCeldas =4;
+            if (nivel3)
+            {
+                DestruirMalla();
+                CrearMalla(numeroCeldas);
+                destruirEsferas = true;
+                PosicionarBolas(numeroBolasTablero);
+                nivel3 = false;
+            }
+        }else if (tiempoTranscurridoJuego>=180f && tiempoTranscurridoJuego<240f)
+        {
+            // nivel 4
+            //bool nivel4 = true;
+            numeroBolasTablero = 4;
+            numeroCeldas =5;
+            if (nivel4)
+            {
+                DestruirMalla();
+                CrearMalla(numeroCeldas);
+                destruirEsferas = true;
+                PosicionarBolas(numeroBolasTablero);
+                nivel4 = false;
+            }
+        }else if (tiempoTranscurridoJuego>=240f && tiempoTranscurridoJuego<300f)
+        {
+            // nivel 5
+            
+            //bool nivel5 = true;
+            numeroBolasTablero = 4;
+            numeroCeldas =6;
+            if (nivel5)
+            {
+                DestruirMalla();
+                CrearMalla(numeroCeldas);
+                destruirEsferas = true;
+                PosicionarBolas(numeroBolasTablero);
+                nivel5 = false;
+            }
+
+        }else
+        {
+            tiempoTranscurridoJuego = 0f;
+            nivel1 = true;
+            nivel2 = true;
+            nivel3 = true;
+            nivel4 = true;
+            nivel5 = true;
+        }
+        
+    
+        
         tiempoActual += Time.deltaTime;
+     
        
          
 

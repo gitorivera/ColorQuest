@@ -243,6 +243,7 @@ public class GameController : MonoBehaviour
         {
             Debug.Log($"Error: Bola {esferaNombre} no está en el orden correcto.");
             // Reiniciar el seguimiento si es necesario
+           // PosicionarBolas(numeroBolasTablero);
             indiceActual = 0;
         }
     }

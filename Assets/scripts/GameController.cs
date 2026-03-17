@@ -72,7 +72,7 @@ public class GameController : MonoBehaviour
  
 // Variables para controlar el tiempo total de duración del juego
     private const int DURACION_TOTAL_JUEGO_MINUTOS = 6; // Duración total del juego en minutos
-    private float  tiempoTotalJuego = DURACION_TOTAL_JUEGO_MINUTOS * 60f; // Duración total del juego en segundos
+    private float  DURACION_TOTAL_NIVEL= 60f; // Duración total del juego en segundos
    
     private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido desde el inicio del juego
 
@@ -269,18 +269,26 @@ public class GameController : MonoBehaviour
     }
 
     void BarajarBolasPrefabs()
-{
-    for (int i = 0; i < bolasPrefabs.Length - 1; i++)
     {
-        int randomIndex = Random.Range(i, bolasPrefabs.Length);
-        (bolasPrefabs[i], bolasPrefabs[randomIndex]) = (bolasPrefabs[randomIndex], bolasPrefabs[i]);
-    }
-    for (int i = 0; i < 3; i++)
+        if (bolasPrefabs == null || bolasPrefabs.Length < 2)
         {
-            SecuenciaBolas[i] = bolasPrefabs[i];
+            return;
         }
 
-}
+        // Fisher-Yates: in each step choose one random element from [0..i].
+        for (int i = bolasPrefabs.Length - 1; i > 0; i--)
+        {
+            int randomIndex = Random.Range(0, i + 1);
+            (bolasPrefabs[i], bolasPrefabs[randomIndex]) = (bolasPrefabs[randomIndex], bolasPrefabs[i]);
+        }
+
+        SecuenciaBolas.Clear();
+        int cantidadSecuencia = Mathf.Min(3, bolasPrefabs.Length);
+        for (int i = 0; i < cantidadSecuencia; i++)
+        {
+            SecuenciaBolas.Add(bolasPrefabs[i]);
+        }
+    }
 
     void InicializarSecuenciaBolas()
     {
@@ -404,7 +412,7 @@ public class GameController : MonoBehaviour
         // Tiempo total del juego
         tiempoTranscurridoJuego += Time.deltaTime;
         // Cálculo de las centésimas que dura un frame
-        if (tiempoTranscurridoJuego<60f)
+        if (tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL)
         {
             // nivel 1
             //bool nivel1 = true;
@@ -421,7 +429,7 @@ public class GameController : MonoBehaviour
 
                 nivel1 = false;
             }
-        }else if (tiempoTranscurridoJuego>=60f && tiempoTranscurridoJuego<120f)
+        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 2)
         {
             // nivel 2
             //bool nivel2 = true;
@@ -441,7 +449,7 @@ public class GameController : MonoBehaviour
                 nivel2 = false;
             }
 
-        }else if (tiempoTranscurridoJuego>=120f && tiempoTranscurridoJuego<180f)
+        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL * 2 && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 3)
         {
             // nivel 3
             //bool nivel3 = true;
@@ -457,7 +465,7 @@ public class GameController : MonoBehaviour
                 PosicionarBolas(numeroBolasTablero);
                 nivel3 = false;
             }
-        }else if (tiempoTranscurridoJuego>=180f && tiempoTranscurridoJuego<240f)
+        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL * 3 && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 4)
         {
             // nivel 4
             //bool nivel4 = true;
@@ -473,7 +481,7 @@ public class GameController : MonoBehaviour
                 PosicionarBolas(numeroBolasTablero);
                 nivel4 = false;
             }
-        }else if (tiempoTranscurridoJuego>=240f && tiempoTranscurridoJuego<300f)
+        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL * 4 && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 5)
         {
             // nivel 5
             

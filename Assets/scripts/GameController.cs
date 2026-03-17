@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour
     private List<Vector3> listaPosicionesCeldas = new List<Vector3>();
     private List<Vector3> listaPosicionesBolas = new List<Vector3>();
     private List<GameObject> listaInstanciasCeldas = new List<GameObject>();
+    private List<GameObject> SecuenciaBolas = new List<GameObject>();
 
     private int maxNumeroBolas;
 
@@ -216,13 +217,13 @@ public class GameController : MonoBehaviour
         string esferaNombre = esfera.name.Replace("(Clone)", "").Trim();
 
         // Verificar si el clic coincide con el orden correcto
-        if (bolasPrefabs[indiceActual].name == esferaNombre)
+        if (SecuenciaBolas[indiceActual].name == esferaNombre)
         {
             Debug.Log($"¡Correcto! Bola {esferaNombre} clickeada en el orden correcto.");
             indiceActual++;
 
             // Verificar si se completó el orden, exceptuando la ultima esfera
-            if (indiceActual >= bolasPrefabs.Length - 1)
+            if (indiceActual >= 3)
             {
                 Debug.Log("¡Felicidades! Has clickeado todas las bolas en el orden correcto.");
                 // Reiniciar o realizar alguna acción
@@ -260,13 +261,34 @@ public class GameController : MonoBehaviour
 
     void PonerSecuencia()
     {
-        GameObject bolaSecuencia1 =Instantiate(bolasPrefabs[0], new Vector3(puntoCentralX-0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
-        GameObject bolaSecuencia2 =Instantiate(bolasPrefabs[1], new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
-        GameObject bolaSecuencia3 =Instantiate(bolasPrefabs[2], new Vector3(puntoCentralX+0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia1 =Instantiate(SecuenciaBolas[0], new Vector3(puntoCentralX-0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia2 =Instantiate(SecuenciaBolas[1], new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia3 =Instantiate(SecuenciaBolas[2], new Vector3(puntoCentralX+0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
         // Aquí puedes implementar la lógica para mostrar la secuencia de colores a seguir
         // Por ejemplo, podrías activar un panel con los colores en el orden correcto durante unos segundos
     }
 
+    void BarajarBolasPrefabs()
+{
+    for (int i = 0; i < bolasPrefabs.Length - 1; i++)
+    {
+        int randomIndex = Random.Range(i, bolasPrefabs.Length);
+        (bolasPrefabs[i], bolasPrefabs[randomIndex]) = (bolasPrefabs[randomIndex], bolasPrefabs[i]);
+    }
+    for (int i = 0; i < 3; i++)
+        {
+            SecuenciaBolas[i] = bolasPrefabs[i];
+        }
+
+}
+
+    void InicializarSecuenciaBolas()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            SecuenciaBolas.Add(bolasPrefabs[i]);
+        }
+    }   
     void PosicionarCuadroBarraProgreso()
     {
         Vector3 posicionUno = new Vector3(puntoCentralX - 0.45f, puntoCentralY + 0.8f, puntoCentralZ);
@@ -291,14 +313,7 @@ public class GameController : MonoBehaviour
         MeshRenderer renderer = cuadroUno.GetComponent<MeshRenderer>();  
        Material mat = renderer.material; // Obtenemos la instancia
 
-/* Configuramos el material para que soporte transparencia por código
-        mat.SetFloat("_Surface", 1); // 0 es Opaco, 1 es Transparente (en URP)
-        mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-        mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-        mat.SetInt("_ZWrite", 0); // Desactivamos la escritura en el Z-Buffer
-        mat.renderQueue = (int)UnityEngine.Rendering.RenderQueue.Transparent;
 
-*/
     
     }
     
@@ -375,11 +390,12 @@ public class GameController : MonoBehaviour
         void Start()
     {
         CrearMalla(2);
-
+        ////BarajarBolasPrefabs();
         PosicionarBolas(numeroBolasTablero);
         PosicionarLetreros();
         PosicionarPanelSecuencia();
-        PonerSecuencia();
+        InicializarSecuenciaBolas();
+        //PonerSecuencia();
         PosicionarCuadroBarraProgreso();
     }
     
@@ -399,6 +415,8 @@ public class GameController : MonoBehaviour
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
+                BarajarBolasPrefabs();
+                PonerSecuencia();
                 PosicionarBolas(numeroBolasTablero);
 
                 nivel1 = false;
@@ -414,7 +432,11 @@ public class GameController : MonoBehaviour
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                     destruirEsferas = true;
+               
+                BarajarBolasPrefabs();
+                PonerSecuencia();
                 PosicionarBolas(numeroBolasTablero);
+               
                 
                 nivel2 = false;
             }
@@ -430,6 +452,8 @@ public class GameController : MonoBehaviour
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
+                BarajarBolasPrefabs();
+                PonerSecuencia();
                 PosicionarBolas(numeroBolasTablero);
                 nivel3 = false;
             }
@@ -444,6 +468,8 @@ public class GameController : MonoBehaviour
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
+                BarajarBolasPrefabs();
+                PonerSecuencia();
                 PosicionarBolas(numeroBolasTablero);
                 nivel4 = false;
             }
@@ -459,6 +485,8 @@ public class GameController : MonoBehaviour
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
+                BarajarBolasPrefabs();
+                PonerSecuencia();
                 PosicionarBolas(numeroBolasTablero);
                 nivel5 = false;
             }

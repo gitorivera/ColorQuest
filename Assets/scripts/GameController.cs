@@ -59,6 +59,7 @@ public class GameController : MonoBehaviour
 
     [SerializeField]
     private GameObject panelSecuenciaPrefab;
+    private List<GameObject> instanciasPanelSecuencia = new List<GameObject>();
 
 // Elementos de la barra de progreso
     [SerializeField]
@@ -71,8 +72,8 @@ public class GameController : MonoBehaviour
     private GameObject cuadroSeis;
  
 // Variables para controlar el tiempo total de duración del juego
-    private const int DURACION_TOTAL_JUEGO_MINUTOS = 6; // Duración total del juego en minutos
-    private float  DURACION_TOTAL_NIVEL= 60f; // Duración total del juego en segundos
+  
+    private float  DURACION_TOTAL_NIVEL= 10f; // Duración total del juego en segundos
    
     private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido desde el inicio del juego
 
@@ -259,14 +260,25 @@ public class GameController : MonoBehaviour
         panelSecuenciaPrefab = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX,puntoCentralY*0.3f, puntoCentralZ), Quaternion.identity);
     }
 
-    void PonerSecuencia()
+void PonerSecuencia()
+{
+    // 1. Destruimos las bolas del panel del nivel anterior (si existen)
+    foreach (var bola in instanciasPanelSecuencia)
     {
-        GameObject bolaSecuencia1 =Instantiate(SecuenciaBolas[0], new Vector3(puntoCentralX-0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
-        GameObject bolaSecuencia2 =Instantiate(SecuenciaBolas[1], new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
-        GameObject bolaSecuencia3 =Instantiate(SecuenciaBolas[2], new Vector3(puntoCentralX+0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
-        // Aquí puedes implementar la lógica para mostrar la secuencia de colores a seguir
-        // Por ejemplo, podrías activar un panel con los colores en el orden correcto durante unos segundos
+        Destroy(bola);
     }
+    instanciasPanelSecuencia.Clear(); // Vaciamos la lista
+
+    // 2. Instanciamos las 3 bolas de la nueva secuencia
+    GameObject bolaSecuencia1 = Instantiate(SecuenciaBolas[0], new Vector3(puntoCentralX - 0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
+    GameObject bolaSecuencia2 = Instantiate(SecuenciaBolas[1], new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
+    GameObject bolaSecuencia3 = Instantiate(SecuenciaBolas[2], new Vector3(puntoCentralX + 0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
+
+    // 3. Las guardamos en la lista para poder destruirlas en el siguiente nivel
+    instanciasPanelSecuencia.Add(bolaSecuencia1);
+    instanciasPanelSecuencia.Add(bolaSecuencia2);
+    instanciasPanelSecuencia.Add(bolaSecuencia3);
+}
 
     void BarajarBolasPrefabs()
     {
@@ -283,11 +295,14 @@ public class GameController : MonoBehaviour
         }
 
         SecuenciaBolas.Clear();
-        int cantidadSecuencia = Mathf.Min(3, bolasPrefabs.Length);
-        for (int i = 0; i < cantidadSecuencia; i++)
+      // res es el número de esferas que se busca en la secuencia.
+        for (int i = 0; i < 3; i++)
         {
             SecuenciaBolas.Add(bolasPrefabs[i]);
         }
+        Debug.Log("bolas 1" + SecuenciaBolas[0].name);
+        Debug.Log("bolas 2" + SecuenciaBolas[1].name);
+        Debug.Log("bolas 3" + SecuenciaBolas[2].name);
     }
 
     void InicializarSecuenciaBolas()

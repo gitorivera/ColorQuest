@@ -236,6 +236,7 @@ public class GameController : MonoBehaviour
                 // Instanciar confeti basado en la última esfera clickeada
                 GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,2f,2f),Quaternion.identity);
                 Destroy(confetiEstrella,2f);
+                tiempoActual = 0;
                 // GameObject confetiCorazon = Instantiate(confetiCorazonesPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
                 // Destroy(confetiCorazon,2f);
                 // GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
@@ -244,8 +245,9 @@ public class GameController : MonoBehaviour
         else
         {
             Debug.Log($"Error: Bola {esferaNombre} no está en el orden correcto.");
-            // Reiniciar el seguimiento si es necesario
-           // PosicionarBolas(numeroBolasTablero);
+            tiempoActual = 0;
+            destruirEsferas = true;
+            PosicionarBolas(numeroBolasTablero);
             indiceActual = 0;
         }
     }

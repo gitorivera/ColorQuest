@@ -73,7 +73,7 @@ public class GameController : MonoBehaviour
  
 // Variables para controlar el tiempo total de duración del juego
   
-    private float  DURACION_TOTAL_NIVEL= 10f; // Duración total del juego en segundos
+    private float  DURACION_TOTAL_NIVEL= 20f; // Duración total del juego en segundos
    
     private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido desde el inicio del juego
 
@@ -468,7 +468,7 @@ void PonerSecuencia()
         {
             // nivel 3
             //bool nivel3 = true;
-            numeroBolasTablero = 4;
+            numeroBolasTablero = 5;
             numeroCeldas =4;
             if (nivel3)
             {
@@ -484,7 +484,7 @@ void PonerSecuencia()
         {
             // nivel 4
             //bool nivel4 = true;
-            numeroBolasTablero = 4;
+            numeroBolasTablero = 6;
             numeroCeldas =5;
             if (nivel4)
             {
@@ -501,7 +501,7 @@ void PonerSecuencia()
             // nivel 5
             
             //bool nivel5 = true;
-            numeroBolasTablero = 4;
+            numeroBolasTablero = 7;
             numeroCeldas =6;
             if (nivel5)
             {
@@ -543,6 +543,8 @@ void PonerSecuencia()
             tiempoActual = 0;
             destruirEsferas = true;
             PosicionarBolas(numeroBolasTablero);
+            indiceActual = 0;
+             // Reiniciar el contador de tiempo y actualizar el reloj
         }
         
 

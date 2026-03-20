@@ -8337,7 +8337,7 @@ MonoBehaviour:
   - {fileID: 7072686213678616444, guid: 9264785576db6cc40b865543df336083, type: 3}
   - {fileID: 8148508506706299652, guid: a0d43763d55ad1f44ba381913dd7ba9d, type: 3}
   - {fileID: 234951490485657795, guid: c789f663a57443848b4272d8f4155162, type: 3}
-  duracionTablero: 6
+  duracionTablero: 8
   RelojContador: {fileID: 3928632596057537440, guid: b27da8a4c6106493ebd88c54bb8b23d3, type: 3}
   confetiCorazonesPrefab: {fileID: 825476358327319053, guid: 2611b41a997604b13930e87c843ff478, type: 3}
   confetiEstrellasPrefab: {fileID: 2093797913561820082, guid: a11e20163b3024c99b66e569a5d904d0, type: 3}

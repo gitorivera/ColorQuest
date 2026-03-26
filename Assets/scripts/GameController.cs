@@ -6,6 +6,7 @@ using Random = UnityEngine.Random;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor.ShaderGraph.Internal;
 //using System.Numerics;
 
 public class GameController : MonoBehaviour
@@ -38,7 +39,6 @@ public class GameController : MonoBehaviour
     [SerializeField] private TextMeshPro RelojContador;
      //[SerializeField] private TextMeshPro ContadorPuntos; 
     private float tiempoActual = 0;
-    private float segundosTranscurridos = 0f;
 
     private int indiceActual = 0; // Track the current index for sphere clicks
 
@@ -80,11 +80,17 @@ public class GameController : MonoBehaviour
 // variables para la flexibilidad del numero de bolas por tablero
     private int numeroBolasTablero = 3; // Número de bolas a posicionar en el tablero (puede ser ajustado)
     
-    bool nivel1 = true;
-    bool nivel2 = true; 
-    bool nivel3 = true;
-    bool nivel4 = true;
-    bool nivel5 = true;
+    private bool nivel1 = true;
+    private bool nivel2 = true; 
+    private bool nivel3 = true;
+    private bool nivel4 = true;
+    private bool nivel5 = true;
+// elementos para generar las pausas en el juego cuando hay victoria u error
+    private bool standBy = false;
+
+    private bool primeraEntradaStandBy =false;
+    private float tiempoTotalStandBy = 2f;
+    private float tiempoActualstandBy =0f;
 
     
     private void Awake()
@@ -246,9 +252,11 @@ public class GameController : MonoBehaviour
         {
             Debug.Log($"Error: Bola {esferaNombre} no está en el orden correcto.");
             tiempoActual = 0;
-            destruirEsferas = true;
-            PosicionarBolas(numeroBolasTablero);
+            // destruirEsferas = true;
+           // PosicionarBolas(numeroBolasTablero);
             indiceActual = 0;
+            standBy = true;
+            primeraEntradaStandBy = true;
         }
     }
 
@@ -423,13 +431,9 @@ void PonerSecuencia()
         //PonerSecuencia();
         PosicionarCuadroBarraProgreso();
     }
-    
-    void Update()
+    void AjustarNivel(float tiempo)
     {
-        // Tiempo total del juego
-        tiempoTranscurridoJuego += Time.deltaTime;
-        // Cálculo de las centésimas que dura un frame
-        if (tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL)
+        if (tiempo<DURACION_TOTAL_NIVEL)
         {
             // nivel 1
             //bool nivel1 = true;
@@ -446,7 +450,7 @@ void PonerSecuencia()
 
                 nivel1 = false;
             }
-        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 2)
+        }else if (tiempo>=DURACION_TOTAL_NIVEL && tiempo<DURACION_TOTAL_NIVEL * 2)
         {
             // nivel 2
             //bool nivel2 = true;
@@ -461,12 +465,11 @@ void PonerSecuencia()
                 BarajarBolasPrefabs();
                 PonerSecuencia();
                 PosicionarBolas(numeroBolasTablero);
-               
-                
+            
                 nivel2 = false;
             }
 
-        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL * 2 && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 3)
+        }else if (tiempo>=DURACION_TOTAL_NIVEL * 2 && tiempo<DURACION_TOTAL_NIVEL * 3)
         {
             // nivel 3
             //bool nivel3 = true;
@@ -482,7 +485,7 @@ void PonerSecuencia()
                 PosicionarBolas(numeroBolasTablero);
                 nivel3 = false;
             }
-        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL * 3 && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 4)
+        }else if (tiempo>=DURACION_TOTAL_NIVEL * 3 && tiempo<DURACION_TOTAL_NIVEL * 4)
         {
             // nivel 4
             //bool nivel4 = true;
@@ -498,7 +501,7 @@ void PonerSecuencia()
                 PosicionarBolas(numeroBolasTablero);
                 nivel4 = false;
             }
-        }else if (tiempoTranscurridoJuego>=DURACION_TOTAL_NIVEL * 4 && tiempoTranscurridoJuego<DURACION_TOTAL_NIVEL * 5)
+        }else if (tiempo>=DURACION_TOTAL_NIVEL * 4 && tiempo<DURACION_TOTAL_NIVEL * 5)
         {
             // nivel 5
             
@@ -525,16 +528,47 @@ void PonerSecuencia()
             nivel4 = true;
             nivel5 = true;
         }
+    }
+    void Update()
+    {
+        // Tiempo total del juego
+        tiempoTranscurridoJuego += Time.deltaTime;
+        if (standBy)
+        {
+            tiempoActualstandBy+=Time.deltaTime;
+            if (tiempoActualstandBy<=tiempoTotalStandBy)
+            {
+                if (primeraEntradaStandBy)
+                {
+                    destruirEsferas = true;
+                    foreach (var bola in instanciaBolas)
+                    {
+                        Destroy(bola);
+                    }
+                    instanciaBolas.Clear();
+                    primeraEntradaStandBy = false;
+                }
+                tiempoActual = 0f;
+            }
+            else
+            {
+                PosicionarBolas(numeroBolasTablero);
+                tiempoActualstandBy = 0f;
+                standBy = false;
+            }
+        }
+        else
+        {
+            AjustarNivel(tiempoTranscurridoJuego);
         
-    
-        
+        }
         tiempoActual += Time.deltaTime;
      
        
          
-
+        //porcentaje de tablero completado
         float progreso =Mathf.Clamp01(tiempoActual / duracionTablero);
-         actualizarBarraProgreso(1-progreso);
+        actualizarBarraProgreso(1-progreso);
         
         
 
@@ -549,8 +583,6 @@ void PonerSecuencia()
              // Reiniciar el contador de tiempo y actualizar el reloj
         }
         
-
+        }
     }
 
-
-}

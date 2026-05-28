@@ -2,8 +2,7 @@
   "dependencies": {
     "com.meta.xr.sdk.all": "83.0.4",
     "com.meta.xr.sdk.core": "83.0.4",
-    "com.unity.ai.assistant": "1.0.0-pre.10",
-    "com.unity.ai.generators": "1.0.0-pre.16",
+    "com.unity.ai.assistant": "2.9.0-pre.2",
     "com.unity.ai.inference": "2.5.0",
     "com.unity.collab-proxy": "2.11.4",
     "com.unity.ide.rider": "3.0.39",

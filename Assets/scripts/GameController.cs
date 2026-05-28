@@ -63,6 +63,7 @@ public class GameController : MonoBehaviour
     private GameObject panelSecuenciaPrefab;
     private List<GameObject> instanciasPanelSecuencia = new List<GameObject>();
 
+
 // Elementos de la barra de progreso
     [SerializeField]
     private GameObject cuadroBarraProgresoPrefab;
@@ -93,6 +94,8 @@ public class GameController : MonoBehaviour
     private bool primeraEntradaStandBy =false;
     private float tiempoTotalStandBy = 2.5f;
     private float tiempoActualstandBy =0f;
+    private readonly WaitForSeconds esperaHaptic = new(0.4f);
+    private readonly WaitForSeconds esperaPostHaptic = new(1.6f);
 
     private GameObject instanciaPanelActivo;
 
@@ -599,9 +602,14 @@ private IEnumerator PutRedGridAlert()
             }
             instanciaBolas.Clear();
             DestruirMalla();
+            OVRInput.SetControllerVibration(0.5f, 1f, OVRInput.Controller.RTouch);
+            OVRInput.SetControllerVibration(0.5f, 1f, OVRInput.Controller.LTouch);
             CrearMallaRoja();
             //wait for 2 seconds to let the player see the red grid and understand that they made a mistake
-            yield return new WaitForSeconds(2f);
+            yield return esperaHaptic;
+            OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
+            OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.LTouch);
+            yield return esperaPostHaptic;
             DestruirMalla();
             CrearMalla(numeroCeldas);
 

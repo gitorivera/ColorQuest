@@ -8320,6 +8320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameController
   numeroCeldas: 5
   CeldaPrefab: {fileID: 7328645281302002950, guid: 55c0fc643f8004e38ba009b0001df058, type: 3}
+  CeldaRojaPrefab: {fileID: 7328645281302002950, guid: 43c4fa3fef19b024397d48d11e0a1112, type: 3}
   anchoMalla: 1
   bolasPrefabs:
   - {fileID: 2067720239078130189, guid: ebaab2feb8398d84da66f73469c157de, type: 3}
@@ -9236,7 +9237,7 @@ Transform:
   m_GameObject: {fileID: 1639361581}
   serializedVersion: 2
   m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.010600015, y: 0.00487, z: -0.000039999934}
+  m_LocalPosition: {x: 0.010600015, y: 0.0042, z: -0.000039999934}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []

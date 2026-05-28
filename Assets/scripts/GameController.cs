@@ -1,12 +1,13 @@
 using Unity.Mathematics;
 using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
 //add the random library
 using Random = UnityEngine.Random;
 using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.ShaderGraph.Internal;
+//using UnityEditor.ShaderGraph.Internal;
 //using System.Numerics;
 
 public class GameController : MonoBehaviour
@@ -14,12 +15,13 @@ public class GameController : MonoBehaviour
 
     [SerializeField][Tooltip("Número de celdas por lado (N x N)")][Range(2, 5)] private int numeroCeldas = 2;
     [SerializeField] private GameObject CeldaPrefab;
+    [SerializeField] private GameObject CeldaRojaPrefab;
     [SerializeField] private float anchoMalla = 1f;
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
     private readonly float puntoCentralZ = 1.5f;
-    private float posicionInicialX;
+     private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;
     private GameObject InstanciaDeCelda;
@@ -73,7 +75,7 @@ public class GameController : MonoBehaviour
  
 // Variables para controlar el tiempo total de duración del juego
   
-    private float  DURACION_TOTAL_NIVEL= 20f; // Duración total del juego en segundos
+    private float  DURACION_TOTAL_NIVEL= 20f; // Duración total del nivel de juego en segundos
    
     private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido desde el inicio del juego
 
@@ -89,8 +91,10 @@ public class GameController : MonoBehaviour
     private bool standBy = false;
 
     private bool primeraEntradaStandBy =false;
-    private float tiempoTotalStandBy = 2f;
+    private float tiempoTotalStandBy = 2.5f;
     private float tiempoActualstandBy =0f;
+
+    private GameObject instanciaPanelActivo;
 
     
     private void Awake()
@@ -177,6 +181,58 @@ public class GameController : MonoBehaviour
         listaPosicionesCeldas.Clear();
     }
 
+    void CrearMallaRoja()
+    {
+        DestruirMalla();
+
+        float anchoCelda = (float)anchoMalla / numeroCeldas;
+        float factorEscala = (float)anchoCelda / anchoCeldaPrefab;
+        int numSaltosIniciales = numeroCeldas - 1;
+        float longitudSalto = (float)anchoMalla / (numeroCeldas * 2);
+        posicionInicialX = puntoCentralX - (numSaltosIniciales * longitudSalto);
+        posicionInicialY = puntoCentralY + (numSaltosIniciales * longitudSalto);
+        posicionInicialZ = puntoCentralZ;
+
+        float deltaPosicion = 0.95f * anchoCeldaPrefab * factorEscala;
+        float posicionActualX = posicionInicialX;
+        float posicionActualY = posicionInicialY;
+        float posicionActualZ = posicionInicialZ;
+
+        InstanciaDeCelda = Instantiate(CeldaRojaPrefab, new Vector3(posicionInicialX, posicionInicialY, posicionInicialZ), quaternion.identity);
+        InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
+        listaInstanciasCeldas.Add(InstanciaDeCelda);
+        listaPosicionesCeldas.Add(new Vector3(posicionInicialX, posicionInicialY, posicionInicialZ));
+
+        while (true)
+        {
+            posicionActualX += deltaPosicion;
+
+            if (posicionActualX < anchoMalla / 2)
+            {
+                InstanciaDeCelda = Instantiate(CeldaRojaPrefab, new Vector3(posicionActualX, posicionActualY, posicionActualZ), quaternion.identity);
+                InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
+                listaInstanciasCeldas.Add(InstanciaDeCelda);
+                listaPosicionesCeldas.Add(new Vector3(posicionActualX, posicionActualY, posicionActualZ));
+            }
+            else
+            {
+                posicionActualX = posicionInicialX;
+                posicionActualY -= deltaPosicion;
+                if (posicionActualY > 1 - (anchoMalla / 2))
+                {
+                    InstanciaDeCelda = Instantiate(CeldaRojaPrefab, new Vector3(posicionActualX, posicionActualY, posicionActualZ), quaternion.identity);
+                    InstanciaDeCelda.transform.localScale = new Vector3(factorEscala, factorEscala, factorEscala);
+                    listaInstanciasCeldas.Add(InstanciaDeCelda);
+                    listaPosicionesCeldas.Add(new Vector3(posicionActualX, posicionActualY, posicionActualZ));
+                }
+                else
+                {
+                    break;
+                }
+            }
+        }
+    }
+
     void PosicionarBolas(int numeroBolas)
     {
         List<Vector3> posicionesEscogidas = listaPosicionesCeldas
@@ -255,7 +311,9 @@ public class GameController : MonoBehaviour
             // destruirEsferas = true;
            // PosicionarBolas(numeroBolasTablero);
             indiceActual = 0;
+            // bandera para disparar la pausa del juego
             standBy = true;
+            // bandera para controlar que solo se ejecute la destrucción de esferas y el efecto de partículas una sola vez al entrar en standBy
             primeraEntradaStandBy = true;
         }
     }
@@ -267,7 +325,7 @@ public class GameController : MonoBehaviour
 }
     void PosicionarPanelSecuencia()
     {
-        panelSecuenciaPrefab = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX,puntoCentralY*0.3f, puntoCentralZ), Quaternion.identity);
+        instanciaPanelActivo = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX,puntoCentralY*0.3f, puntoCentralZ), Quaternion.identity);
     }
 
 void PonerSecuencia()
@@ -356,8 +414,9 @@ void PonerSecuencia()
     
     void actualizarBarraProgreso(float progreso)
     {
-        // Aquí puedes implementar la lógica para actualizar la barra de progreso visualmente
-        // Por ejemplo, podrías cambiar el color o la escala de los cuadros según el progreso
+       // progreso de 83% a 100% es verde, de 66% a 83% es naranja, de 50% a 
+       // 66% es amarillo, de 33% a 50% es naranja, de 16% a 33% es rojo, 
+       // de 0% a 16% es rojo intenso
         if (progreso > 0.83f)
         {
             // Cambiar el color a verde
@@ -529,6 +588,31 @@ void PonerSecuencia()
             nivel5 = true;
         }
     }
+private IEnumerator PutRedGridAlert()
+    {
+        // 1. Verificamos que el panel de secuencia realmente exista en la escena
+        if ( CeldaRojaPrefab!= null)
+        {
+            destruirEsferas = true;
+             foreach (var bola in instanciaBolas)            {
+                Destroy(bola);
+            }
+            instanciaBolas.Clear();
+            DestruirMalla();
+            CrearMallaRoja();
+            //wait for 2 seconds to let the player see the red grid and understand that they made a mistake
+            yield return new WaitForSeconds(2f);
+            DestruirMalla();
+            CrearMalla(numeroCeldas);
+
+        }
+        else
+        {
+            Debug.LogWarning("El panel activo es nulo");
+            yield return null;
+        }
+    }
+
     void Update()
     {
         // Tiempo total del juego
@@ -547,11 +631,13 @@ void PonerSecuencia()
                     }
                     instanciaBolas.Clear();
                     primeraEntradaStandBy = false;
+                    StartCoroutine(PutRedGridAlert());
                 }
                 tiempoActual = 0f;
             }
             else
             {
+                
                 PosicionarBolas(numeroBolasTablero);
                 tiempoActualstandBy = 0f;
                 standBy = false;

@@ -99,7 +99,15 @@ public class GameController : MonoBehaviour
 
     private GameObject instanciaPanelActivo;
 
-    
+// elementos para el logger
+    private float tiempoSpawnTablero   = 0f;
+    private float standByStartRealtime = 0f;
+    private float tiempoUltimoAcierto  = 0f;
+    private int   erroresTablero       = 0;
+    private int   erroresSecuencia     = 0;
+    private int   tablerosCompletados  = 0;
+
+
     private void Awake()
     {
         if (Instance == null)
@@ -108,6 +116,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
+            enabled = false;   // impide que Start() corra en el duplicado
             Destroy(gameObject);
         }
 
@@ -272,6 +281,23 @@ public class GameController : MonoBehaviour
                 instanciaBolas.Add(instanciabola);
             }
         }
+        // ── EventLogger ──
+        tiempoSpawnTablero  = Time.realtimeSinceStartup;
+        tiempoUltimoAcierto = tiempoSpawnTablero;
+        erroresTablero = 0;
+        if (SecuenciaBolas.Count >= 3)
+        {
+            EventLogger.Instance.NextBoardId();
+            var secIds = SecuenciaBolas
+                .Select(s => s.name.Replace("(Clone)", "").Trim()).ToList();
+            var todasIds = instanciaBolas
+                .Select(b => b.name.Replace("(Clone)", "").Trim()).ToList();
+            var distractorIds = todasIds.Where(id => !secIds.Contains(id)).ToList();
+            var posiciones = instanciaBolas
+                .Select(b => b.transform.position).ToList();
+            EventLogger.Instance.BoardSpawn(secIds, distractorIds, posiciones, duracionTablero);
+        }
+        // ── fin EventLogger ──
     }
     void PosicionarLetreros()
     {
@@ -282,41 +308,56 @@ public class GameController : MonoBehaviour
     {
         string esferaNombre = esfera.name.Replace("(Clone)", "").Trim();
 
-        // Verificar si el clic coincide con el orden correcto
         if (SecuenciaBolas[indiceActual].name == esferaNombre)
         {
             Debug.Log($"¡Correcto! Bola {esferaNombre} clickeada en el orden correcto.");
-            indiceActual++;
 
-            // Verificar si se completó el orden, exceptuando la ultima esfera
+            long rtBoard = (long)((Time.realtimeSinceStartup - tiempoSpawnTablero) * 1000f);
+            long rtPrev  = (long)((Time.realtimeSinceStartup - tiempoUltimoAcierto) * 1000f);
+            string expectedId = SecuenciaBolas[indiceActual].name.Replace("(Clone)", "").Trim();
+
+            // Loguear ANTES de incrementar
+            EventLogger.Instance.SphereHitCorrect(
+                esferaNombre, indiceActual, expectedId, rtBoard, rtPrev, indiceActual);
+            indiceActual++;
+            tiempoUltimoAcierto = Time.realtimeSinceStartup;
+
             if (indiceActual >= 3)
             {
                 Debug.Log("¡Felicidades! Has clickeado todas las bolas en el orden correcto.");
-                // Reiniciar o realizar alguna acción
+                tablerosCompletados++;
+                int puntajeAnterior = puntaje;
                 puntaje += 10;
                 ContadorPuntos.text = $"{puntaje}";
+
+                EventLogger.Instance.ScoreUpdate(puntajeAnterior, puntaje);
+                EventLogger.Instance.SequenceCompleted(10, puntaje, rtBoard, erroresSecuencia);
+                erroresSecuencia = 0;
+
                 indiceActual = 0;
                 destruirEsferas = true;
                 PosicionarBolas(numeroBolasTablero);
-                // Instanciar confeti basado en la última esfera clickeada
-                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,2f,2f),Quaternion.identity);
-                Destroy(confetiEstrella,2f);
+                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab, new Vector3(0f,2f,2f), Quaternion.identity);
+                Destroy(confetiEstrella, 2f);
                 tiempoActual = 0;
-                // GameObject confetiCorazon = Instantiate(confetiCorazonesPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
-                // Destroy(confetiCorazon,2f);
-                // GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab,new Vector3(0f,1f,2f),Quaternion.identity);
             }
         }
         else
         {
             Debug.Log($"Error: Bola {esferaNombre} no está en el orden correcto.");
+            string expectedId = SecuenciaBolas[indiceActual].name.Replace("(Clone)", "").Trim();
+            long rt = (long)((Time.realtimeSinceStartup - tiempoSpawnTablero) * 1000f);
+
+            erroresTablero++;
+            erroresSecuencia++;
+            EventLogger.Instance.SphereHitIncorrect(esferaNombre, expectedId, indiceActual, rt);
+            EventLogger.Instance.BoardFailed(indiceActual, esferaNombre, expectedId, rt);
+            EventLogger.Instance.ErrorPauseEnter(esferaNombre, expectedId);
+
+            standByStartRealtime = Time.realtimeSinceStartup;
             tiempoActual = 0;
-            // destruirEsferas = true;
-           // PosicionarBolas(numeroBolasTablero);
             indiceActual = 0;
-            // bandera para disparar la pausa del juego
             standBy = true;
-            // bandera para controlar que solo se ejecute la destrucción de esferas y el efecto de partículas una sola vez al entrar en standBy
             primeraEntradaStandBy = true;
         }
     }
@@ -326,6 +367,10 @@ public class GameController : MonoBehaviour
     // Verificar si el objeto está en la lista de esferas instanciadas
     return instanciaBolas.Contains(objeto);
 }
+    public long GetRTSinceBoardSpawn()
+    {
+        return (long)((Time.realtimeSinceStartup - tiempoSpawnTablero) * 1000f);
+    }
     void PosicionarPanelSecuencia()
     {
         instanciaPanelActivo = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX,puntoCentralY*0.3f, puntoCentralZ), Quaternion.identity);
@@ -349,6 +394,12 @@ void PonerSecuencia()
     instanciasPanelSecuencia.Add(bolaSecuencia1);
     instanciasPanelSecuencia.Add(bolaSecuencia2);
     instanciasPanelSecuencia.Add(bolaSecuencia3);
+
+    if (EventLogger.Instance != null)
+    {
+        var ids = SecuenciaBolas.Select(s => s.name.Replace("(Clone)", "").Trim()).ToList();
+        EventLogger.Instance.SequenceShown(ids);
+    }
 }
 
     void BarajarBolasPrefabs()
@@ -484,6 +535,15 @@ void PonerSecuencia()
     
         void Start()
     {
+        tiempoSpawnTablero  = Time.realtimeSinceStartup;
+        tiempoUltimoAcierto = Time.realtimeSinceStartup;
+        EventLogger.Instance.StartSession(
+            SystemInfo.deviceModel,
+            Application.version,
+            "RTouch",
+            DURACION_TOTAL_NIVEL,
+            duracionTablero
+        );
         CrearMalla(2);
         ////BarajarBolasPrefabs();
         PosicionarBolas(numeroBolasTablero);
@@ -503,14 +563,15 @@ void PonerSecuencia()
             numeroCeldas =2;
             if (nivel1)
             {
+                EventLogger.Instance.SetContext(1, numeroCeldas, numeroBolasTablero - 3);
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
                 BarajarBolasPrefabs();
                 PonerSecuencia();
-                PosicionarBolas(numeroBolasTablero);
-
+                EventLogger.Instance.LevelStart();
                 nivel1 = false;
+                PosicionarBolas(numeroBolasTablero);
             }
         }else if (tiempo>=DURACION_TOTAL_NIVEL && tiempo<DURACION_TOTAL_NIVEL * 2)
         {
@@ -520,15 +581,19 @@ void PonerSecuencia()
             numeroCeldas =3;
             if (nivel2)
             {
+                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
+                indiceActual = 0;
+                erroresSecuencia = 0;
+                tiempoActual = 0;
+                EventLogger.Instance.SetContext(2, numeroCeldas, numeroBolasTablero - 3);
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
-                    destruirEsferas = true;
-               
+                destruirEsferas = true;
                 BarajarBolasPrefabs();
                 PonerSecuencia();
-                PosicionarBolas(numeroBolasTablero);
-            
+                EventLogger.Instance.LevelStart();
                 nivel2 = false;
+                PosicionarBolas(numeroBolasTablero);
             }
 
         }else if (tiempo>=DURACION_TOTAL_NIVEL * 2 && tiempo<DURACION_TOTAL_NIVEL * 3)
@@ -539,13 +604,19 @@ void PonerSecuencia()
             numeroCeldas =4;
             if (nivel3)
             {
+                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
+                indiceActual = 0;
+                erroresSecuencia = 0;
+                tiempoActual = 0;
+                EventLogger.Instance.SetContext(3, numeroCeldas, numeroBolasTablero - 3);
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
                 BarajarBolasPrefabs();
                 PonerSecuencia();
-                PosicionarBolas(numeroBolasTablero);
+                EventLogger.Instance.LevelStart();
                 nivel3 = false;
+                PosicionarBolas(numeroBolasTablero);
             }
         }else if (tiempo>=DURACION_TOTAL_NIVEL * 3 && tiempo<DURACION_TOTAL_NIVEL * 4)
         {
@@ -555,13 +626,19 @@ void PonerSecuencia()
             numeroCeldas =5;
             if (nivel4)
             {
+                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
+                indiceActual = 0;
+                erroresSecuencia = 0;
+                tiempoActual = 0;
+                EventLogger.Instance.SetContext(4, numeroCeldas, numeroBolasTablero - 3);
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
                 BarajarBolasPrefabs();
                 PonerSecuencia();
-                PosicionarBolas(numeroBolasTablero);
+                EventLogger.Instance.LevelStart();
                 nivel4 = false;
+                PosicionarBolas(numeroBolasTablero);
             }
         }else if (tiempo>=DURACION_TOTAL_NIVEL * 4 && tiempo<DURACION_TOTAL_NIVEL * 5)
         {
@@ -572,17 +649,26 @@ void PonerSecuencia()
             numeroCeldas =6;
             if (nivel5)
             {
+                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
+                indiceActual = 0;
+                erroresSecuencia = 0;
+                tiempoActual = 0;
+                EventLogger.Instance.SetContext(5, numeroCeldas, numeroBolasTablero - 3);
                 DestruirMalla();
                 CrearMalla(numeroCeldas);
                 destruirEsferas = true;
                 BarajarBolasPrefabs();
                 PonerSecuencia();
-                PosicionarBolas(numeroBolasTablero);
+                EventLogger.Instance.LevelStart();
                 nivel5 = false;
+                PosicionarBolas(numeroBolasTablero);
             }
 
         }else
         {
+            EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
+            indiceActual = 0;
+            EventLogger.Instance.EndSession(puntaje, tablerosCompletados);
             tiempoTranscurridoJuego = 0f;
             nivel1 = true;
             nivel2 = true;
@@ -593,26 +679,23 @@ void PonerSecuencia()
     }
 private IEnumerator PutRedGridAlert()
     {
-        // 1. Verificamos que el panel de secuencia realmente exista en la escena
-        if ( CeldaRojaPrefab!= null)
+        if (CeldaRojaPrefab != null)
         {
             destruirEsferas = true;
-             foreach (var bola in instanciaBolas)            {
-                Destroy(bola);
-            }
+            foreach (var bola in instanciaBolas) { Destroy(bola); }
             instanciaBolas.Clear();
             DestruirMalla();
             OVRInput.SetControllerVibration(0.5f, 1f, OVRInput.Controller.RTouch);
             OVRInput.SetControllerVibration(0.5f, 1f, OVRInput.Controller.LTouch);
+            EventLogger.Instance.HapticFeedback(0.5f, 400, "sequence_error");
             CrearMallaRoja();
-            //wait for 2 seconds to let the player see the red grid and understand that they made a mistake
             yield return esperaHaptic;
             OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
             OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.LTouch);
             yield return esperaPostHaptic;
             DestruirMalla();
+            EventLogger.Instance.ErrorPauseExit((long)(tiempoTotalStandBy * 1000f));
             CrearMalla(numeroCeldas);
-
         }
         else
         {
@@ -645,10 +728,16 @@ private IEnumerator PutRedGridAlert()
             }
             else
             {
-                
-                PosicionarBolas(numeroBolasTablero);
                 tiempoActualstandBy = 0f;
                 standBy = false;
+                // Run AjustarNivel first so a pending level transition handles the board spawn.
+                // Only spawn manually when no level transition occurred (nivel flags unchanged).
+                bool sn1 = nivel1, sn2 = nivel2, sn3 = nivel3, sn4 = nivel4, sn5 = nivel5;
+                AjustarNivel(tiempoTranscurridoJuego);
+                bool levelChanged = sn1 != nivel1 || sn2 != nivel2 || sn3 != nivel3
+                                    || sn4 != nivel4 || sn5 != nivel5;
+                if (!levelChanged)
+                    PosicionarBolas(numeroBolasTablero);
             }
         }
         else
@@ -668,13 +757,13 @@ private IEnumerator PutRedGridAlert()
 
 
       //  RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
-        if (tiempoActual > duracionTablero)
+        if (!standBy && GetRTSinceBoardSpawn() > duracionTablero * 1000f)
         {
+            EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
             tiempoActual = 0;
             destruirEsferas = true;
-            PosicionarBolas(numeroBolasTablero);
             indiceActual = 0;
-             // Reiniciar el contador de tiempo y actualizar el reloj
+            PosicionarBolas(numeroBolasTablero);
         }
         
         }

@@ -72,7 +72,7 @@ MonoBehaviour:
     XR_META_hand_tracking_wide_motion_mode2
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &-8094477293053635839
@@ -116,7 +116,7 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_detached_controllers
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &-7695381494723376271
@@ -386,7 +386,7 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_detached_controllers
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &-5458557225958345134
@@ -475,7 +475,7 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_detached_controllers
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &-4063920574443990164
@@ -1029,7 +1029,7 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_detached_controllers
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &219963600689965261
@@ -1098,7 +1098,7 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_detached_controllers
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &899823783456686247
@@ -1420,7 +1420,7 @@ MonoBehaviour:
     XR_META_hand_tracking_wide_motion_mode2
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 
 --- !u!114 &3539796791335829023
@@ -2130,6 +2130,6 @@ MonoBehaviour:
   openxrExtensionStrings: XR_META_detached_controllers
   company: Meta
   priority: 0
-  targetOpenXRApiVersion: 1.1.45
+  targetOpenXRApiVersion: 1.1.53
   required: 0
   customRuntimeLoaderName: 

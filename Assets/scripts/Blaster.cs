@@ -68,7 +68,8 @@ public class Blaster : MonoBehaviour
         {
             if (hitType == "sphere")
             {
-                GameController.Instance.EsferaClickeada(objetoImpactado);
+                bool correcto = GameController.Instance.EsferaClickeada(objetoImpactado);
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(correcto ? UdpSender.CODE_SPHERE_CORRECT : UdpSender.CODE_SPHERE_INCORRECT);
                 GameObject explosion = Instantiate(ExplosionParticulasPrefab, puntoFinal, Quaternion.identity);
                 Renderer rendererEsfera = objetoImpactado.GetComponent<Renderer>();
                 if (rendererEsfera != null)

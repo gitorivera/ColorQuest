@@ -296,6 +296,7 @@ public class GameController : MonoBehaviour
             var posiciones = instanciaBolas
                 .Select(b => b.transform.position).ToList();
             EventLogger.Instance.BoardSpawn(secIds, distractorIds, posiciones, duracionTablero);
+            if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_BOARD_SPAWN);
         }
         // ── fin EventLogger ──
     }
@@ -304,7 +305,7 @@ public class GameController : MonoBehaviour
         ContadorPuntos = Instantiate(RelojContador, new Vector3(puntoCentralX+0.2f, puntoCentralY+0.6f, puntoCentralZ), Quaternion.identity);
         ContadorPuntos.text = $"00";
     }
-    public void EsferaClickeada(GameObject esfera)
+    public bool EsferaClickeada(GameObject esfera)
     {
         string esferaNombre = esfera.name.Replace("(Clone)", "").Trim();
 
@@ -332,6 +333,7 @@ public class GameController : MonoBehaviour
 
                 EventLogger.Instance.ScoreUpdate(puntajeAnterior, puntaje);
                 EventLogger.Instance.SequenceCompleted(10, puntaje, rtBoard, erroresSecuencia);
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_SEQ_COMPLETED);
                 erroresSecuencia = 0;
 
                 indiceActual = 0;
@@ -341,6 +343,7 @@ public class GameController : MonoBehaviour
                 Destroy(confetiEstrella, 2f);
                 tiempoActual = 0;
             }
+            return true;
         }
         else
         {
@@ -359,6 +362,7 @@ public class GameController : MonoBehaviour
             indiceActual = 0;
             standBy = true;
             primeraEntradaStandBy = true;
+            return false;
         }
     }
 
@@ -570,6 +574,7 @@ void PonerSecuencia()
                 BarajarBolasPrefabs();
                 PonerSecuencia();
                 EventLogger.Instance.LevelStart();
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_LEVEL_START);
                 nivel1 = false;
                 PosicionarBolas(numeroBolasTablero);
             }
@@ -592,6 +597,7 @@ void PonerSecuencia()
                 BarajarBolasPrefabs();
                 PonerSecuencia();
                 EventLogger.Instance.LevelStart();
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_LEVEL_START);
                 nivel2 = false;
                 PosicionarBolas(numeroBolasTablero);
             }
@@ -615,6 +621,7 @@ void PonerSecuencia()
                 BarajarBolasPrefabs();
                 PonerSecuencia();
                 EventLogger.Instance.LevelStart();
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_LEVEL_START);
                 nivel3 = false;
                 PosicionarBolas(numeroBolasTablero);
             }
@@ -637,6 +644,7 @@ void PonerSecuencia()
                 BarajarBolasPrefabs();
                 PonerSecuencia();
                 EventLogger.Instance.LevelStart();
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_LEVEL_START);
                 nivel4 = false;
                 PosicionarBolas(numeroBolasTablero);
             }
@@ -660,6 +668,7 @@ void PonerSecuencia()
                 BarajarBolasPrefabs();
                 PonerSecuencia();
                 EventLogger.Instance.LevelStart();
+                if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_LEVEL_START);
                 nivel5 = false;
                 PosicionarBolas(numeroBolasTablero);
             }
@@ -669,6 +678,7 @@ void PonerSecuencia()
             EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
             indiceActual = 0;
             EventLogger.Instance.EndSession(puntaje, tablerosCompletados);
+            if (UdpSender.Instance != null) UdpSender.Instance.Send(UdpSender.CODE_GAME_END);
             tiempoTranscurridoJuego = 0f;
             nivel1 = true;
             nivel2 = true;

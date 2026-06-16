@@ -1,3 +1,5 @@
 ﻿<Solution>
   <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="labstreaminglayer.LSL4Unity.Runtime.csproj" />
+  <Project Path="labstreaminglayer.LSL4Unity.Editor.csproj" />
 </Solution>

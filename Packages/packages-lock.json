@@ -1,11 +1,10 @@
 {
   "dependencies": {
     "com.labstreaminglayer.lsl4unity": {
-      "version": "https://github.com/labstreaminglayer/LSL4Unity.git",
+      "version": "file:com.labstreaminglayer.lsl4unity",
       "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "75d54ab160edaf02d2173350bbd91f1afbdb66d8"
+      "source": "embedded",
+      "dependencies": {}
     },
     "com.meta.xr.mrutilitykit": {
       "version": "203.0.0",

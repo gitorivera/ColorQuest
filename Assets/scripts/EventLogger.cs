@@ -97,6 +97,7 @@ public class EventLogger : MonoBehaviour
             { "board_duration_s", boardDurationS }
         };
         Log("session_start", fields);
+        LSLMarkerSender.Instance?.SendSessionStart();
         Debug.Log($"[EventLogger] Session started -> {filePath}");
     }
 
@@ -111,6 +112,7 @@ public class EventLogger : MonoBehaviour
             { "total_duration_ms", SessionTimeMs() }
         };
         Log("session_end", fields);
+        LSLMarkerSender.Instance?.SendSessionEnd();
         Flush();
         sessionActive = false;
     }
@@ -142,6 +144,7 @@ public class EventLogger : MonoBehaviour
 
     public void LevelStart()
     {
+        LSLMarkerSender.Instance?.SendLevelStart(level);
         Log("level_start", null);
     }
 
@@ -157,6 +160,7 @@ public class EventLogger : MonoBehaviour
             { "sphere_positions", Vec3List(spherePositions) },
             { "board_duration_s", boardDurationS }
         };
+        LSLMarkerSender.Instance?.SendBoardSpawn(boardId, level, gridSize);
         Log("board_spawn", fields);
     }
 
@@ -166,6 +170,7 @@ public class EventLogger : MonoBehaviour
         {
             { "target_sequence", new List<string>(targetSequence) }
         };
+        LSLMarkerSender.Instance?.SendSequenceShown(level);
         Log("sequence_shown", fields);
     }
 
@@ -198,6 +203,7 @@ public class EventLogger : MonoBehaviour
             { "rt_since_prev_hit_ms", rtSincePrevHitMs },
             { "current_index", currentIndex }
         };
+        LSLMarkerSender.Instance?.SendSphereHitCorrect(sphereId, positionInSequence, rtSinceBoardSpawnMs, rtSincePrevHitMs);
         Log("sphere_hit_correct", fields);
     }
 
@@ -211,6 +217,7 @@ public class EventLogger : MonoBehaviour
             { "position_in_sequence", positionInSequence },
             { "rt_ms", rtMs }
         };
+        LSLMarkerSender.Instance?.SendSphereHitIncorrect(clickedId, expectedId, positionInSequence, rtMs);
         Log("sphere_hit_incorrect", fields);
     }
 
@@ -234,6 +241,7 @@ public class EventLogger : MonoBehaviour
             { "targets_hit_before_timeout", targetsHitBeforeTimeout },
             { "partial_progress", partialProgress }
         };
+        LSLMarkerSender.Instance?.SendBoardTimeout(targetsHitBeforeTimeout);
         Log("board_timeout", fields);
     }
 
@@ -246,6 +254,7 @@ public class EventLogger : MonoBehaviour
             { "expected_id", expectedId },
             { "rt_ms", rtMs }
         };
+        LSLMarkerSender.Instance?.SendBoardFailed(clickedId, expectedId, rtMs);
         Log("board_failed", fields);
     }
 
@@ -256,6 +265,7 @@ public class EventLogger : MonoBehaviour
             { "triggering_clicked_id", triggeringClickedId },
             { "triggering_expected_id", triggeringExpectedId }
         };
+        LSLMarkerSender.Instance?.SendErrorPauseEnter(triggeringClickedId, triggeringExpectedId);
         Log("error_pause_enter", fields);
     }
 
@@ -265,6 +275,7 @@ public class EventLogger : MonoBehaviour
         {
             { "pause_duration_ms", pauseDurationMs }
         };
+        LSLMarkerSender.Instance?.SendErrorPauseExit(pauseDurationMs);
         Log("error_pause_exit", fields);
     }
 

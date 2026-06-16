@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "com.labstreaminglayer.lsl4unity": "https://github.com/labstreaminglayer/LSL4Unity.git",
     "com.meta.xr.sdk.all": "203.0.0",
     "com.meta.xr.sdk.core": "203.0.0",
     "com.unity.collab-proxy": "2.11.4",

@@ -23,8 +23,15 @@ import argparse
 import sys
 import time
 
+# Print live instead of block-buffering, so markers show as they arrive even
+# when stdout is piped. Removes any need for the `python -u` interpreter flag.
 try:
-    from pylsl import resolve_byprop, StreamInlet
+    sys.stdout.reconfigure(line_buffering=True)
+except (AttributeError, ValueError):
+    pass
+
+try:
+    from pylsl import resolve_byprop, resolve_streams, StreamInlet
 except ImportError:
     print("[ERROR] pylsl not installed. Run:  pip install pylsl")
     sys.exit(1)
@@ -46,7 +53,16 @@ def main():
     streams = resolve_byprop("name", args.name, minimum=1, timeout=args.timeout)
     if not streams:
         print(f"[ERROR] Stream '{args.name}' not found within {args.timeout} s.")
-        print("        Make sure the Quest is running and on the same WiFi subnet.")
+        # Show whatever LSL streams ARE visible, so a wrong --name is obvious.
+        others = resolve_streams(wait_time=2.0)
+        if others:
+            print("        Streams currently visible on the network:")
+            for s in others:
+                print(f"          - name='{s.name()}'  type='{s.type()}'  host='{s.hostname()}'")
+            print(f"        → re-run with one of those, e.g.:  python lsl_receiver.py --name {others[0].name()}")
+        else:
+            print("        No LSL streams visible at all. Check that the Quest is running")
+            print("        and on the same WiFi subnet (campus WiFi often blocks multicast).")
         sys.exit(1)
 
     inlet = StreamInlet(streams[0])

@@ -73,12 +73,58 @@ public class LSLMarkerSender : MonoBehaviour
     // ── Internal ──────────────────────────────────────────────────────────────
     private StreamOutlet outlet;
 
+#if UNITY_ANDROID && !UNITY_EDITOR
+    // Android filters out multicast/broadcast packets to save power unless an app
+    // holds a MulticastLock. LSL stream discovery is multicast-based, so without
+    // this lock a remote inlet (e.g. the Python receiver) can never resolve the
+    // outlet — even though the outlet is open. A high-perf WifiLock keeps the
+    // radio from sleeping during the session. Both are released in OnDestroy.
+    private AndroidJavaObject multicastLock;
+    private AndroidJavaObject wifiLock;
+
+    private void AcquireAndroidNetworkLocks()
+    {
+        try
+        {
+            using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            using var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            using var wifiManager = activity.Call<AndroidJavaObject>("getSystemService", "wifi");
+
+            multicastLock = wifiManager.Call<AndroidJavaObject>("createMulticastLock", "ColorQuestLSL");
+            multicastLock.Call("setReferenceCounted", false);
+            multicastLock.Call("acquire");
+
+            // WIFI_MODE_FULL_HIGH_PERF = 3
+            wifiLock = wifiManager.Call<AndroidJavaObject>("createWifiLock", 3, "ColorQuestLSLWifi");
+            wifiLock.Call("setReferenceCounted", false);
+            wifiLock.Call("acquire");
+
+            Debug.Log("[LSLMarkerSender] Android multicast + wifi locks acquired.");
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[LSLMarkerSender] Could not acquire Android network locks: {e.Message}\n" +
+                             "LSL discovery may fail on-device if WiFi drops multicast packets.");
+        }
+    }
+
+    private void ReleaseAndroidNetworkLocks()
+    {
+        try { if (multicastLock != null) { multicastLock.Call("release"); multicastLock.Dispose(); multicastLock = null; } } catch { }
+        try { if (wifiLock != null)      { wifiLock.Call("release");      wifiLock.Dispose();      wifiLock = null; } }      catch { }
+    }
+#endif
+
     private void Awake()
     {
         if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
         else { Destroy(gameObject); return; }
 
         if (!markersEnabled) return;
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        AcquireAndroidNetworkLocks();
+#endif
         try
         {
             // channel_count=1, nominal_srate=0 (irregular rate), cf_string
@@ -94,6 +140,14 @@ public class LSLMarkerSender : MonoBehaviour
                            "Check: LSL4Unity installed? Android arm64-v8a liblsl.so present?");
             markersEnabled = false;
         }
+    }
+
+    private void OnDestroy()
+    {
+        if (Instance != this) return;
+#if UNITY_ANDROID && !UNITY_EDITOR
+        ReleaseAndroidNetworkLocks();
+#endif
     }
 
     // ── Core send ──────────────────────────────────────────────────────────────

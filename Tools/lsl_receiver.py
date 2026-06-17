@@ -24,7 +24,7 @@ import sys
 import time
 
 try:
-    from pylsl import resolve_stream, StreamInlet
+    from pylsl import resolve_byprop, StreamInlet
 except ImportError:
     print("[ERROR] pylsl not installed. Run:  pip install pylsl")
     sys.exit(1)
@@ -43,7 +43,7 @@ def main():
     print(f"[LSL] Searching for stream '{args.name}' on the local network ...")
     print(f"      (timeout = {args.timeout} s)\n")
 
-    streams = resolve_stream("name", args.name, minimum=1, timeout=args.timeout)
+    streams = resolve_byprop("name", args.name, minimum=1, timeout=args.timeout)
     if not streams:
         print(f"[ERROR] Stream '{args.name}' not found within {args.timeout} s.")
         print("        Make sure the Quest is running and on the same WiFi subnet.")

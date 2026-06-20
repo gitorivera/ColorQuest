@@ -1,0 +1,19 @@
+# Miniconda environment for the ColorQuest LSL tools.
+#
+# Create:   conda env create -f requirements.yml
+# Activate: conda activate colorquest-lsl
+# Update:   conda env update -f requirements.yml --prune
+# Remove:   conda env remove -n colorquest-lsl
+#
+# conda-forge ships pylsl bundled with the native liblsl, so no separate
+# liblsl install is needed on the PC.
+name: colorquest-lsl
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pyxdf
+  - numpy
+  - pip:
+    - pylsl

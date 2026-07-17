@@ -55,16 +55,30 @@ public class Blaster : MonoBehaviour
             puntoFinal = puntoDisparo.position + puntoDisparo.forward * fuerzaDisparo;
         }
 
+        // Arranque del juego: si estamos en la pantalla de inicio y el disparo golpea
+        // el botón, empezamos la sesión con el mismo gesto de disparo que se usa para jugar.
+        // (El sonido ya sonó arriba y el rayo se dibuja al final; sólo iniciamos aquí.)
+        if (hasHit && GameController.Instance != null
+            && GameController.Instance.EsperandoInicio
+            && GameController.Instance.EsBotonInicio(objetoImpactado))
+        {
+            GameController.Instance.IniciarJuego();
+        }
+
+        // El juego sólo reacciona a los disparos mientras se está jugando.
+        bool juegoActivo = GameController.Instance != null && GameController.Instance.JuegoActivo;
+
         // 2. LOG trigger_pull before any hit handling so it precedes sphere_hit_correct
-        if (GameController.Instance != null && EventLogger.Instance != null)
+        //    (sólo se registra durante el juego, no en menús ni presentaciones)
+        if (juegoActivo && EventLogger.Instance != null)
         {
             EventLogger.Instance.TriggerPull(hasHit, hitType, targetObjectId,
                 puntoDisparo.position, puntoDisparo.forward,
                 GameController.Instance.GetRTSinceBoardSpawn());
         }
 
-        // 3. ACT — call EsferaClickeada / spawn effects
-        if (hasHit && GameController.Instance != null)
+        // 3. ACT — call EsferaClickeada / spawn effects (sólo si el juego está activo)
+        if (hasHit && juegoActivo)
         {
             if (hitType == "sphere")
             {

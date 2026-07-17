@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
-    private readonly float puntoCentralZ = 1.5f;
+    private readonly float puntoCentralZ = 1f;
      private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;
@@ -75,22 +75,52 @@ public class GameController : MonoBehaviour
     private GameObject cuadroSeis;
  
 // Variables para controlar el tiempo total de duración del juego
-  
-    private float  DURACION_TOTAL_NIVEL= 20f; // Duración total del nivel de juego en segundos
-   
-    private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido desde el inicio del juego
+
+    private float  DURACION_TOTAL_NIVEL= 20f; // Duración de CADA nivel (el reloj se reinicia por nivel)
+
+    private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido dentro del nivel actual
+
+// ── Máquina de estados ──────────────────────────────────────────────
+    private enum EstadoJuego { EsperandoInicio, MostrandoSecuencia, Jugando, StandByError, Finalizado }
+    private EstadoJuego estado = EstadoJuego.EsperandoInicio;
+
+    // El juego sólo procesa disparos contra esferas mientras se está jugando.
+    public bool JuegoActivo => estado == EstadoJuego.Jugando;
+
+    // True mientras se muestra el botón de inicio y no ha comenzado la sesión.
+    public bool EsperandoInicio => estado == EstadoJuego.EsperandoInicio;
+
+    // True si el objeto impactado es el botón de inicio (o parte de su jerarquía),
+    // para que el blaster pueda arrancar el juego disparándole.
+    public bool EsBotonInicio(GameObject obj)
+    {
+        if (obj == null || botonInicio == null) return false;
+        return obj == botonInicio || obj.transform.IsChildOf(botonInicio.transform);
+    }
+
+// ── Niveles como datos ──────────────────────────────────────────────
+    private struct ConfigNivel { public int celdas; public int bolas; }
+    private static readonly ConfigNivel[] niveles = {
+        new ConfigNivel{ celdas = 2, bolas = 3 },
+        new ConfigNivel{ celdas = 3, bolas = 4 },
+        new ConfigNivel{ celdas = 4, bolas = 5 },
+        new ConfigNivel{ celdas = 5, bolas = 6 },
+        new ConfigNivel{ celdas = 6, bolas = 7 },
+    };
+    private int nivelActual = 0;                 // índice 0..4
+    private bool finDeNivelPendiente = false;    // el nivel terminó pero esperamos a que el tablero se resuelva
 
 // variables para la flexibilidad del numero de bolas por tablero
     private int numeroBolasTablero = 3; // Número de bolas a posicionar en el tablero (puede ser ajustado)
-    
-    private bool nivel1 = true;
-    private bool nivel2 = true; 
-    private bool nivel3 = true;
-    private bool nivel4 = true;
-    private bool nivel5 = true;
-// elementos para generar las pausas en el juego cuando hay victoria u error
-    private bool standBy = false;
 
+// ── Presentación de la secuencia en el centro (ajustable en el Inspector) ──
+    [SerializeField][Tooltip("Segundos que la secuencia permanece en el centro")] private float duracionPresentacionSecuencia = 3f;
+    [SerializeField][Tooltip("Segundos que tarda la secuencia en bajar a su posición")] private float duracionAnimacionBajada = 1f;
+
+// ── Botón físico de inicio (Meta Building Blocks) ──
+    [SerializeField][Tooltip("Objeto raíz del botón INICIAR; se desactiva al empezar")] private GameObject botonInicio;
+
+// elementos para generar las pausas en el juego cuando hay victoria u error
     private bool primeraEntradaStandBy =false;
     private float tiempoTotalStandBy = 2.5f;
     private float tiempoActualstandBy =0f;
@@ -301,7 +331,10 @@ public class GameController : MonoBehaviour
     }
     void PosicionarLetreros()
     {
-        ContadorPuntos = Instantiate(RelojContador, new Vector3(puntoCentralX+0.2f, puntoCentralY+0.6f, puntoCentralZ), Quaternion.identity);
+        ContadorPuntos = Instantiate(RelojContador, new Vector3(puntoCentralX, puntoCentralY+0.6f, puntoCentralZ), Quaternion.identity);
+        // Alineación centrada para que el texto quede siempre centrado sobre puntoCentralX,
+        // sin importar su longitud ("00" vs "Secuencia").
+        ContadorPuntos.alignment = TextAlignmentOptions.Center;
         ContadorPuntos.text = $"00";
     }
     public void EsferaClickeada(GameObject esfera)
@@ -334,12 +367,9 @@ public class GameController : MonoBehaviour
                 EventLogger.Instance.SequenceCompleted(10, puntaje, rtBoard, erroresSecuencia);
                 erroresSecuencia = 0;
 
-                indiceActual = 0;
-                destruirEsferas = true;
-                PosicionarBolas(numeroBolasTablero);
                 GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab, new Vector3(0f,2f,2f), Quaternion.identity);
                 Destroy(confetiEstrella, 2f);
-                tiempoActual = 0;
+                TableroResuelto("completed");
             }
         }
         else
@@ -357,7 +387,7 @@ public class GameController : MonoBehaviour
             standByStartRealtime = Time.realtimeSinceStartup;
             tiempoActual = 0;
             indiceActual = 0;
-            standBy = true;
+            estado = EstadoJuego.StandByError;
             primeraEntradaStandBy = true;
         }
     }
@@ -371,36 +401,87 @@ public class GameController : MonoBehaviour
     {
         return (long)((Time.realtimeSinceStartup - tiempoSpawnTablero) * 1000f);
     }
-    void PosicionarPanelSecuencia()
+    // Y de la posición final (habitual) del panel y las esferas de secuencia.
+    private float PanelSecuenciaYFinal => puntoCentralY * 0.3f;   // = 0.3
+
+    // Crea el panel y las 3 esferas de la secuencia a una altura "baseY" dada.
+    // Reutilizado tanto para la presentación centrada como para su posición final.
+    void CrearPanelYSecuencia(float baseY)
     {
-        instanciaPanelActivo = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX,puntoCentralY*0.3f, puntoCentralZ), Quaternion.identity);
+        // 1. Destruimos el panel y las esferas del nivel anterior (si existen)
+        if (instanciaPanelActivo != null) Destroy(instanciaPanelActivo);
+        foreach (var bola in instanciasPanelSecuencia)
+        {
+            Destroy(bola);
+        }
+        instanciasPanelSecuencia.Clear();
+
+        // 2. Instanciamos el panel y las 3 bolas de la nueva secuencia a la altura dada
+        instanciaPanelActivo = Instantiate(panelSecuenciaPrefab, new Vector3(puntoCentralX, baseY, puntoCentralZ), Quaternion.identity);
+
+        GameObject bolaSecuencia1 = Instantiate(SecuenciaBolas[0], new Vector3(puntoCentralX - 0.25f, baseY, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia2 = Instantiate(SecuenciaBolas[1], new Vector3(puntoCentralX, baseY, puntoCentralZ), Quaternion.identity);
+        GameObject bolaSecuencia3 = Instantiate(SecuenciaBolas[2], new Vector3(puntoCentralX + 0.25f, baseY, puntoCentralZ), Quaternion.identity);
+
+        instanciasPanelSecuencia.Add(bolaSecuencia1);
+        instanciasPanelSecuencia.Add(bolaSecuencia2);
+        instanciasPanelSecuencia.Add(bolaSecuencia3);
     }
 
-void PonerSecuencia()
-{
-    // 1. Destruimos las bolas del panel del nivel anterior (si existen)
-    foreach (var bola in instanciasPanelSecuencia)
+    // Presenta la secuencia en el centro del espacio de juego, la mantiene unos
+    // segundos y luego la baja suavemente a su posición habitual. Mientras corre,
+    // el estado MostrandoSecuencia congela el reloj de nivel y el timeout de tablero.
+    private IEnumerator MostrarSecuenciaNivel()
     {
-        Destroy(bola);
+        estado = EstadoJuego.MostrandoSecuencia;
+
+        // El letrero de puntaje avisa que se está mostrando la nueva secuencia a memorizar
+        if (ContadorPuntos != null) ContadorPuntos.text = "Secuencia";
+
+        // Panel + esferas en el CENTRO (la malla permanece oculta durante la presentación)
+        CrearPanelYSecuencia(puntoCentralY);
+
+        // Marcador LSL/EEG en el momento en que el niño ve la secuencia
+        if (EventLogger.Instance != null)
+        {
+            var ids = SecuenciaBolas.Select(s => s.name.Replace("(Clone)", "").Trim()).ToList();
+            EventLogger.Instance.SequenceShown(ids);
+        }
+
+        yield return new WaitForSeconds(duracionPresentacionSecuencia);
+
+        // Animación de bajada: panel y esferas se mueven juntos del centro a la posición final
+        float yInicio = puntoCentralY;
+        float yFinal  = PanelSecuenciaYFinal;
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / Mathf.Max(0.0001f, duracionAnimacionBajada);
+            float y = Mathf.Lerp(yInicio, yFinal, Mathf.Clamp01(t));
+
+            if (instanciaPanelActivo != null)
+            {
+                Vector3 p = instanciaPanelActivo.transform.position;
+                instanciaPanelActivo.transform.position = new Vector3(p.x, y, p.z);
+            }
+            foreach (var bola in instanciasPanelSecuencia)
+            {
+                if (bola == null) continue;
+                Vector3 p = bola.transform.position;
+                bola.transform.position = new Vector3(p.x, y, p.z);
+            }
+            yield return null;
+        }
+
+        // Recién al iniciar el nivel aparece la malla y, sobre ella, el tablero.
+        // PosicionarBolas fija tiempoSpawnTablero y emite BoardSpawn, de modo que la
+        // presentación no consume el timeout de tablero.
+        estado = EstadoJuego.Jugando;
+        if (ContadorPuntos != null) ContadorPuntos.text = $"{puntaje}";
+        CrearMalla(numeroCeldas);
+        tiempoActual = 0f;
+        PosicionarBolas(numeroBolasTablero);
     }
-    instanciasPanelSecuencia.Clear(); // Vaciamos la lista
-
-    // 2. Instanciamos las 3 bolas de la nueva secuencia
-    GameObject bolaSecuencia1 = Instantiate(SecuenciaBolas[0], new Vector3(puntoCentralX - 0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
-    GameObject bolaSecuencia2 = Instantiate(SecuenciaBolas[1], new Vector3(puntoCentralX, 0.3f, puntoCentralZ), Quaternion.identity);
-    GameObject bolaSecuencia3 = Instantiate(SecuenciaBolas[2], new Vector3(puntoCentralX + 0.25f, 0.3f, puntoCentralZ), Quaternion.identity);
-
-    // 3. Las guardamos en la lista para poder destruirlas en el siguiente nivel
-    instanciasPanelSecuencia.Add(bolaSecuencia1);
-    instanciasPanelSecuencia.Add(bolaSecuencia2);
-    instanciasPanelSecuencia.Add(bolaSecuencia3);
-
-    if (EventLogger.Instance != null)
-    {
-        var ids = SecuenciaBolas.Select(s => s.name.Replace("(Clone)", "").Trim()).ToList();
-        EventLogger.Instance.SequenceShown(ids);
-    }
-}
 
     void BarajarBolasPrefabs()
     {
@@ -427,13 +508,6 @@ void PonerSecuencia()
         Debug.Log("bolas 3" + SecuenciaBolas[2].name);
     }
 
-    void InicializarSecuenciaBolas()
-    {
-        for (int i = 0; i < 3; i++)
-        {
-            SecuenciaBolas.Add(bolasPrefabs[i]);
-        }
-    }   
     void PosicionarCuadroBarraProgreso()
     {
         Vector3 posicionUno = new Vector3(puntoCentralX - 0.45f, puntoCentralY + 0.8f, puntoCentralZ);
@@ -533,10 +607,31 @@ void PonerSecuencia()
         }
     }
     
-        void Start()
+    void Start()
     {
+        // La escena inicial sólo muestra el botón de inicio. Nada del juego corre
+        // ni se emite ningún evento de sesión hasta que el jugador oprime el botón.
+        estado = EstadoJuego.EsperandoInicio;
+        if (botonInicio != null) botonInicio.SetActive(true);
+    }
+
+    // Punto de entrada al juego: se llama desde el evento del botón físico (poke).
+    public void IniciarJuego()
+    {
+        if (estado != EstadoJuego.EsperandoInicio) return;
+
+        // Reiniciar contadores de sesión (permite sesiones experimentales repetibles)
+        puntaje = 0;
+        tablerosCompletados = 0;
+        erroresSecuencia = 0;
+        indiceActual = 0;
+        tiempoTranscurridoJuego = 0f;
+        finDeNivelPendiente = false;
+
         tiempoSpawnTablero  = Time.realtimeSinceStartup;
         tiempoUltimoAcierto = Time.realtimeSinceStartup;
+
+        // La sesión EEG/LSL empieza con el gesto del jugador
         EventLogger.Instance.StartSession(
             SystemInfo.deviceModel,
             Application.version,
@@ -544,137 +639,110 @@ void PonerSecuencia()
             DURACION_TOTAL_NIVEL,
             duracionTablero
         );
-        CrearMalla(2);
-        ////BarajarBolasPrefabs();
-        PosicionarBolas(numeroBolasTablero);
-        PosicionarLetreros();
-        PosicionarPanelSecuencia();
-        InicializarSecuenciaBolas();
-        //PonerSecuencia();
-        PosicionarCuadroBarraProgreso();
+
+        // Elementos pasivos de HUD (sólo una vez, aunque se repita la sesión)
+        if (ContadorPuntos == null) PosicionarLetreros();
+        else ContadorPuntos.text = "00";
+        if (cuadroUno == null) PosicionarCuadroBarraProgreso();
+
+        if (botonInicio != null) botonInicio.SetActive(false);
+
+        nivelActual = 0;
+        EntrarANivel(0);
     }
-    void AjustarNivel(float tiempo)
+
+    // Configura el nivel idx, crea la malla y arranca la presentación de la secuencia.
+    private void EntrarANivel(int idx)
     {
-        if (tiempo<DURACION_TOTAL_NIVEL)
-        {
-            // nivel 1
-            //bool nivel1 = true;
-            numeroBolasTablero = 3;
-            numeroCeldas =2;
-            if (nivel1)
-            {
-                EventLogger.Instance.SetContext(1, numeroCeldas, numeroBolasTablero - 3);
-                DestruirMalla();
-                CrearMalla(numeroCeldas);
-                destruirEsferas = true;
-                BarajarBolasPrefabs();
-                PonerSecuencia();
-                EventLogger.Instance.LevelStart();
-                nivel1 = false;
-                PosicionarBolas(numeroBolasTablero);
-            }
-        }else if (tiempo>=DURACION_TOTAL_NIVEL && tiempo<DURACION_TOTAL_NIVEL * 2)
-        {
-            // nivel 2
-            //bool nivel2 = true;
-            numeroBolasTablero = 4;
-            numeroCeldas =3;
-            if (nivel2)
-            {
-                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
-                indiceActual = 0;
-                erroresSecuencia = 0;
-                tiempoActual = 0;
-                EventLogger.Instance.SetContext(2, numeroCeldas, numeroBolasTablero - 3);
-                DestruirMalla();
-                CrearMalla(numeroCeldas);
-                destruirEsferas = true;
-                BarajarBolasPrefabs();
-                PonerSecuencia();
-                EventLogger.Instance.LevelStart();
-                nivel2 = false;
-                PosicionarBolas(numeroBolasTablero);
-            }
+        numeroCeldas       = niveles[idx].celdas;
+        numeroBolasTablero = niveles[idx].bolas;
 
-        }else if (tiempo>=DURACION_TOTAL_NIVEL * 2 && tiempo<DURACION_TOTAL_NIVEL * 3)
-        {
-            // nivel 3
-            //bool nivel3 = true;
-            numeroBolasTablero = 5;
-            numeroCeldas =4;
-            if (nivel3)
-            {
-                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
-                indiceActual = 0;
-                erroresSecuencia = 0;
-                tiempoActual = 0;
-                EventLogger.Instance.SetContext(3, numeroCeldas, numeroBolasTablero - 3);
-                DestruirMalla();
-                CrearMalla(numeroCeldas);
-                destruirEsferas = true;
-                BarajarBolasPrefabs();
-                PonerSecuencia();
-                EventLogger.Instance.LevelStart();
-                nivel3 = false;
-                PosicionarBolas(numeroBolasTablero);
-            }
-        }else if (tiempo>=DURACION_TOTAL_NIVEL * 3 && tiempo<DURACION_TOTAL_NIVEL * 4)
-        {
-            // nivel 4
-            //bool nivel4 = true;
-            numeroBolasTablero = 6;
-            numeroCeldas =5;
-            if (nivel4)
-            {
-                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
-                indiceActual = 0;
-                erroresSecuencia = 0;
-                tiempoActual = 0;
-                EventLogger.Instance.SetContext(4, numeroCeldas, numeroBolasTablero - 3);
-                DestruirMalla();
-                CrearMalla(numeroCeldas);
-                destruirEsferas = true;
-                BarajarBolasPrefabs();
-                PonerSecuencia();
-                EventLogger.Instance.LevelStart();
-                nivel4 = false;
-                PosicionarBolas(numeroBolasTablero);
-            }
-        }else if (tiempo>=DURACION_TOTAL_NIVEL * 4 && tiempo<DURACION_TOTAL_NIVEL * 5)
-        {
-            // nivel 5
-            
-            //bool nivel5 = true;
-            numeroBolasTablero = 7;
-            numeroCeldas =6;
-            if (nivel5)
-            {
-                EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
-                indiceActual = 0;
-                erroresSecuencia = 0;
-                tiempoActual = 0;
-                EventLogger.Instance.SetContext(5, numeroCeldas, numeroBolasTablero - 3);
-                DestruirMalla();
-                CrearMalla(numeroCeldas);
-                destruirEsferas = true;
-                BarajarBolasPrefabs();
-                PonerSecuencia();
-                EventLogger.Instance.LevelStart();
-                nivel5 = false;
-                PosicionarBolas(numeroBolasTablero);
-            }
+        EventLogger.Instance.SetContext(idx + 1, numeroCeldas, numeroBolasTablero - 3);
 
-        }else
+        // La malla NO se crea aquí: permanece oculta durante la presentación de la
+        // secuencia y se crea al final de la corrutina, al iniciar el nivel.
+        DestruirMalla();
+
+        // Limpiar las esferas del tablero anterior de inmediato: la presentación de la
+        // secuencia se muestra sobre el espacio vacío (PosicionarBolas se difiere al final).
+        foreach (var bola in instanciaBolas) Destroy(bola);
+        instanciaBolas.Clear();
+        destruirEsferas = false;
+
+        indiceActual = 0;
+        erroresSecuencia = 0;
+        BarajarBolasPrefabs();
+        EventLogger.Instance.LevelStart();
+
+        // La corrutina termina llamando PosicionarBolas (spawn del tablero)
+        StartCoroutine(MostrarSecuenciaNivel());
+    }
+
+    // Único punto de resolución de tablero: se llama cuando el tablero en curso
+    // se completa, agota (timeout) o se recupera de un error. Si el nivel ya
+    // terminó, avanza; si no, genera un nuevo tablero del mismo nivel.
+    private void TableroResuelto(string motivo)
+    {
+        if (finDeNivelPendiente) { AvanzarNivel(); return; }
+
+        destruirEsferas = true;
+        indiceActual = 0;
+        tiempoActual = 0;
+        PosicionarBolas(numeroBolasTablero);
+    }
+
+    private void AvanzarNivel()
+    {
+        finDeNivelPendiente = false;
+        tiempoTranscurridoJuego = 0f;   // el reloj de nivel es POR NIVEL, ya no acumulado
+        nivelActual++;
+        if (nivelActual >= niveles.Length) { FinalizarSesion(); return; }
+        EntrarANivel(nivelActual);
+    }
+
+    private void FinalizarSesion()
+    {
+        // Al llegar aquí el tablero ya fue resuelto por TableroResuelto (que emitió su
+        // evento correspondiente), así que sólo cerramos la sesión, una sola vez.
+        indiceActual = 0;
+        EventLogger.Instance.EndSession(puntaje, tablerosCompletados);
+
+        // Limpiar malla, esferas y panel de secuencia (el letrero de puntaje se conserva)
+        DestruirMalla();
+        foreach (var bola in instanciaBolas) Destroy(bola);
+        instanciaBolas.Clear();
+        destruirEsferas = false;
+        if (instanciaPanelActivo != null) Destroy(instanciaPanelActivo);
+        foreach (var bola in instanciasPanelSecuencia) Destroy(bola);
+        instanciasPanelSecuencia.Clear();
+
+        // Pantalla final: mostrar el puntaje total en el centro del tablero. No se
+        // reinicia nada ni se vuelve al botón de inicio; ésta es la pantalla de fin.
+        if (ContadorPuntos != null)
         {
-            EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
-            indiceActual = 0;
-            EventLogger.Instance.EndSession(puntaje, tablerosCompletados);
-            tiempoTranscurridoJuego = 0f;
-            nivel1 = true;
-            nivel2 = true;
-            nivel3 = true;
-            nivel4 = true;
-            nivel5 = true;
+            ContadorPuntos.transform.position = new Vector3(puntoCentralX, puntoCentralY, puntoCentralZ);
+            ContadorPuntos.alignment = TextAlignmentOptions.Center;
+            ContadorPuntos.text = $"Puntaje total: {puntaje}";
+        }
+        estado = EstadoJuego.Finalizado;
+
+        // Celebración de fin: confeti durante 10 segundos, uno por segundo.
+        StartCoroutine(LanzarConfetiFinal());
+    }
+
+    private IEnumerator LanzarConfetiFinal()
+    {
+        GameObject[] confetis = { confetiCorazonesPrefab, confetiEstrellasPrefab, confetiMariposasPrefab };
+        var esperaUnSegundo = new WaitForSeconds(1f);
+        for (int i = 0; i < 10; i++)
+        {
+            GameObject prefab = confetis[i % confetis.Length];   // alterna los tres tipos
+            if (prefab != null)
+            {
+                GameObject confeti = Instantiate(prefab, new Vector3(puntoCentralX, 2f, puntoCentralZ), Quaternion.identity);
+                Destroy(confeti, 2f);
+            }
+            yield return esperaUnSegundo;
         }
     }
 private IEnumerator PutRedGridAlert()
@@ -706,66 +774,66 @@ private IEnumerator PutRedGridAlert()
 
     void Update()
     {
-        // Tiempo total del juego
-        tiempoTranscurridoJuego += Time.deltaTime;
-        if (standBy)
+        switch (estado)
         {
-            tiempoActualstandBy+=Time.deltaTime;
-            if (tiempoActualstandBy<=tiempoTotalStandBy)
+            case EstadoJuego.Jugando:
+                ActualizarJugando();
+                break;
+            case EstadoJuego.StandByError:
+                ActualizarStandBy();
+                break;
+            // EsperandoInicio, MostrandoSecuencia y Finalizado no consumen reloj de nivel
+            // ni evalúan el timeout de tablero (la barra queda congelada).
+        }
+    }
+
+    private void ActualizarJugando()
+    {
+        // El reloj de nivel SÓLO corre mientras se juega.
+        tiempoTranscurridoJuego += Time.deltaTime;
+        if (tiempoTranscurridoJuego >= DURACION_TOTAL_NIVEL)
+            finDeNivelPendiente = true;   // no cortamos el tablero; se resolverá al terminarlo
+
+        tiempoActual += Time.deltaTime;
+
+        // Porcentaje de tablero completado
+        float progreso = Mathf.Clamp01(tiempoActual / duracionTablero);
+        actualizarBarraProgreso(1 - progreso);
+
+        // Timeout real de tablero
+        if (GetRTSinceBoardSpawn() > duracionTablero * 1000f)
+        {
+            EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
+            TableroResuelto("timeout");
+        }
+    }
+
+    private void ActualizarStandBy()
+    {
+        // El tiempo de stand-by NO consume reloj de nivel (coherente con la presentación
+        // de secuencia): ni tiempoTranscurridoJuego ni el timeout de tablero avanzan aquí.
+        tiempoActualstandBy += Time.deltaTime;
+        if (tiempoActualstandBy <= tiempoTotalStandBy)
+        {
+            if (primeraEntradaStandBy)
             {
-                if (primeraEntradaStandBy)
+                destruirEsferas = true;
+                foreach (var bola in instanciaBolas)
                 {
-                    destruirEsferas = true;
-                    foreach (var bola in instanciaBolas)
-                    {
-                        Destroy(bola);
-                    }
-                    instanciaBolas.Clear();
-                    primeraEntradaStandBy = false;
-                    StartCoroutine(PutRedGridAlert());
+                    Destroy(bola);
                 }
-                tiempoActual = 0f;
+                instanciaBolas.Clear();
+                primeraEntradaStandBy = false;
+                StartCoroutine(PutRedGridAlert());
             }
-            else
-            {
-                tiempoActualstandBy = 0f;
-                standBy = false;
-                // Run AjustarNivel first so a pending level transition handles the board spawn.
-                // Only spawn manually when no level transition occurred (nivel flags unchanged).
-                bool sn1 = nivel1, sn2 = nivel2, sn3 = nivel3, sn4 = nivel4, sn5 = nivel5;
-                AjustarNivel(tiempoTranscurridoJuego);
-                bool levelChanged = sn1 != nivel1 || sn2 != nivel2 || sn3 != nivel3
-                                    || sn4 != nivel4 || sn5 != nivel5;
-                if (!levelChanged)
-                    PosicionarBolas(numeroBolasTablero);
-            }
+            tiempoActual = 0f;
         }
         else
         {
-            AjustarNivel(tiempoTranscurridoJuego);
-        
-        }
-        tiempoActual += Time.deltaTime;
-     
-       
-         
-        //porcentaje de tablero completado
-        float progreso =Mathf.Clamp01(tiempoActual / duracionTablero);
-        actualizarBarraProgreso(1-progreso);
-        
-        
-
-
-      //  RelojContador.text = $"{segundosTranscurridos:00}:{tiempoActual:00}";
-        if (!standBy && GetRTSinceBoardSpawn() > duracionTablero * 1000f)
-        {
-            EventLogger.Instance.BoardTimeout(indiceActual, indiceActual / 3f);
-            tiempoActual = 0;
-            destruirEsferas = true;
-            indiceActual = 0;
-            PosicionarBolas(numeroBolasTablero);
-        }
-        
+            tiempoActualstandBy = 0f;
+            estado = EstadoJuego.Jugando;
+            TableroResuelto("error_recovered");
         }
     }
+}
 

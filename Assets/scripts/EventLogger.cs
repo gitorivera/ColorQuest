@@ -118,7 +118,7 @@ public class EventLogger : MonoBehaviour
     }
 
     /// <summary>
-    /// Update the difficulty/board context. Call from AjustarNivel() and
+    /// Update the difficulty/board context. Call from EntrarANivel() and
     /// whenever a new board spawns so subsequent events are tagged correctly.
     /// </summary>
     public void SetContext(int level, int gridSize, int numDistractors)

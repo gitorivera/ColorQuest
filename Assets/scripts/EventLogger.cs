@@ -145,6 +145,7 @@ public class EventLogger : MonoBehaviour
     public void LevelStart()
     {
         LSLMarkerSender.Instance?.SendLevelStart(level);
+        LSLMarkerSender.Instance?.SendTet($"inicio nivel {level}");
         Log("level_start", null);
     }
 
@@ -204,6 +205,7 @@ public class EventLogger : MonoBehaviour
             { "current_index", currentIndex }
         };
         LSLMarkerSender.Instance?.SendSphereHitCorrect(sphereId, positionInSequence, rtSinceBoardSpawnMs, rtSincePrevHitMs);
+        LSLMarkerSender.Instance?.SendTet($"acierto objetivo {positionInSequence + 1}");
         Log("sphere_hit_correct", fields);
     }
 
@@ -218,6 +220,7 @@ public class EventLogger : MonoBehaviour
             { "rt_ms", rtMs }
         };
         LSLMarkerSender.Instance?.SendSphereHitIncorrect(clickedId, expectedId, positionInSequence, rtMs);
+        LSLMarkerSender.Instance?.SendTet($"error objetivo {positionInSequence + 1}");
         Log("sphere_hit_incorrect", fields);
     }
 
@@ -231,6 +234,7 @@ public class EventLogger : MonoBehaviour
             { "completion_time_ms", completionTimeMs },
             { "errors_this_board", errorsThisBoard }
         };
+        LSLMarkerSender.Instance?.SendTet($"premio puntos {pointsAwarded}");
         Log("sequence_completed", fields);
     }
 
@@ -288,6 +292,22 @@ public class EventLogger : MonoBehaviour
             { "reason", reason }
         };
         Log("haptic_feedback", fields);
+    }
+
+    /// <summary>
+    /// TET sync flash k shown (GAME-SPECS §3). lsl_time is the LSL timestamp
+    /// pushed with the "sync_k" marker, so the NDJSON can be cross-checked
+    /// against the XDF.
+    /// </summary>
+    public void SyncFlash(int index, double lslTime)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "sync_index", index },
+            { "label", $"sync_{index}" },
+            { "lsl_time", lslTime }
+        };
+        Log("sync_flash", fields);
     }
 
     public void ScoreUpdate(int oldScore, int newScore)

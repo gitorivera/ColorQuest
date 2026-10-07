@@ -640,6 +640,9 @@ public class GameController : MonoBehaviour
             duracionTablero
         );
 
+        // TET: primer destello + "sync_1" + "inicio partida" en este mismo cuadro
+        SyncFlash.Asegurar().IniciarPartida();
+
         // Elementos pasivos de HUD (sólo una vez, aunque se repita la sesión)
         if (ContadorPuntos == null) PosicionarLetreros();
         else ContadorPuntos.text = "00";
@@ -705,6 +708,9 @@ public class GameController : MonoBehaviour
         // Al llegar aquí el tablero ya fue resuelto por TableroResuelto (que emitió su
         // evento correspondiente), así que sólo cerramos la sesión, una sola vez.
         indiceActual = 0;
+
+        // TET: último destello + "sync_N" + "fin partida", antes de la pantalla final
+        SyncFlash.Instance?.FinalizarPartida();
         EventLogger.Instance.EndSession(puntaje, tablerosCompletados);
 
         // Limpiar malla, esferas y panel de secuencia (el letrero de puntaje se conserva)
@@ -728,6 +734,17 @@ public class GameController : MonoBehaviour
 
         // Celebración de fin: confeti durante 10 segundos, uno por segundo.
         StartCoroutine(LanzarConfetiFinal());
+    }
+
+    // TET: ¿puede salir ahora un destello intermedio sin quedar a menos de
+    // "margenSegundos" del destello final? El juego sólo termina cuando el reloj
+    // del ÚLTIMO nivel llega a DURACION_TOTAL_NIVEL, y ese reloj sólo avanza
+    // jugando, así que el final está como mínimo a (duración - transcurrido).
+    public bool PermiteSyncIntermedio(float margenSegundos)
+    {
+        if (estado == EstadoJuego.Finalizado) return false;
+        if (nivelActual < niveles.Length - 1) return true;
+        return DURACION_TOTAL_NIVEL - tiempoTranscurridoJuego >= margenSegundos;
     }
 
     private IEnumerator LanzarConfetiFinal()

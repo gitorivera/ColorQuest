@@ -42,6 +42,14 @@ using LSL;   // requires LSL4Unity — install via Package Manager (see below)
 ///   43  board_failed
 ///   50  error_pause_enter      — post-error inhibition onset → ERN
 ///   51  error_pause_exit       — inhibition recovery / post-error slowing
+///
+/// ── Stream TET (GAME-SPECS.md §4–§5) ─────────────────────────────────────────
+/// A second outlet carries plain-label markers for the TET (temporal experience
+/// tracing) app, so its CSV export only contains events it understands:
+///     name = "JuegoEventos", type = "Markers", source_id = "juego-rm-quest"
+///     labels: sync_1, sync_2, …, "inicio partida", "inicio nivel N",
+///             "acierto …", "error …", "premio …", "fin partida"
+/// Both outlets share the same LSL clock, so they align in the same XDF.
 /// </summary>
 public class LSLMarkerSender : MonoBehaviour
 {
@@ -53,6 +61,12 @@ public class LSLMarkerSender : MonoBehaviour
 
     [Tooltip("Uncheck to disable all markers without removing calls from EventLogger")]
     [SerializeField] private bool markersEnabled = true;
+
+    [Header("LSL Stream TET")]
+    [Tooltip("Stream with plain-label markers for the TET app (sync_k, inicio partida, …)")]
+    [SerializeField] private string tetStreamName = "JuegoEventos";
+    [Tooltip("Fixed source_id so LabRecorder reconnects if the stream drops")]
+    [SerializeField] private string tetSourceId = "juego-rm-quest";
 
     // ── Marker codes ──────────────────────────────────────────────────────────
     public static class Codes
@@ -72,6 +86,7 @@ public class LSLMarkerSender : MonoBehaviour
 
     // ── Internal ──────────────────────────────────────────────────────────────
     private StreamOutlet outlet;
+    private StreamOutlet tetOutlet;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
     // Android filters out multicast/broadcast packets to save power unless an app
@@ -133,6 +148,12 @@ public class LSLMarkerSender : MonoBehaviour
                 channel_format_t.cf_string, "colorquest-adhd-v1");
             outlet = new StreamOutlet(info);
             Debug.Log($"[LSLMarkerSender] LSL outlet '{streamName}' open — visible on local network.");
+
+            var tetInfo = new StreamInfo(
+                tetStreamName, "Markers", 1, 0.0,
+                channel_format_t.cf_string, tetSourceId);
+            tetOutlet = new StreamOutlet(tetInfo);
+            Debug.Log($"[LSLMarkerSender] LSL outlet '{tetStreamName}' open (TET).");
         }
         catch (Exception e)
         {
@@ -168,6 +189,27 @@ public class LSLMarkerSender : MonoBehaviour
         catch (Exception e)
         {
             Debug.LogWarning($"[LSLMarkerSender] push_sample error: {e.Message}");
+        }
+    }
+
+    /// <summary>Current LSL clock (seconds), the time base of every marker.</summary>
+    public double LocalClock() => LSL.LSL.local_clock();
+
+    /// <summary>
+    /// Push one plain-label marker to the TET stream (GAME-SPECS §5). Pass an
+    /// explicit LSL timestamp to stamp several markers with the same instant
+    /// (e.g. "sync_1" and "inicio partida"); 0 = stamp now.
+    /// </summary>
+    public void SendTet(string label, double lslTimestamp = 0.0)
+    {
+        if (!markersEnabled || tetOutlet == null) return;
+        try
+        {
+            tetOutlet.push_sample(new[] { label }, lslTimestamp);
+        }
+        catch (Exception e)
+        {
+            Debug.LogWarning($"[LSLMarkerSender] TET push_sample error: {e.Message}");
         }
     }
 

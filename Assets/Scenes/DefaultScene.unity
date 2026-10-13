@@ -9469,6 +9469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LSLMarkerSender
   streamName: ColorQuestMarkers
   markersEnabled: 1
+  tetStreamName: JuegoEventos
+  tetSourceId: juego-rm-quest
 --- !u!1 &1389349316
 GameObject:
   m_ObjectHideFlags: 0

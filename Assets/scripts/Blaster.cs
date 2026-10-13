@@ -10,6 +10,8 @@ public class Blaster : MonoBehaviour
     public LayerMask capaImpacto;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip sonidoDisparo;
+    // Escala lineal del sonido de disparo: 0.708 = -3 dB (compensa el +3 dB del archivo original).
+    [SerializeField, Range(0f, 1f)] private float volumenDisparo = 0.708f;
     [SerializeField] private GameObject impactoRayoPrefab;
     [SerializeField] private GameObject ExplosionParticulasPrefab;
 
@@ -23,7 +25,7 @@ public class Blaster : MonoBehaviour
 
     void Shoot()
     {
-        audioSource.PlayOneShot(sonidoDisparo);
+        audioSource.PlayOneShot(sonidoDisparo, volumenDisparo);
         Ray ray = new Ray(puntoDisparo.position, puntoDisparo.forward);
         bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, capaImpacto);
         Vector3 puntoFinal = Vector3.zero;

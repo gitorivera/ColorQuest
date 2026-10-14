@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ColorQuest: a mixed-reality attention-training game with LSL instrumentation for ADHD research"
+type: software
+authors:
+  - family-names: Rivera
+    given-names: Jorge
+    affiliation: "Universidad Tecnológica de Pereira"
+    email: j.rivera@utp.edu.co
+repository-code: "https://github.com/gitorivera/ColorQuest"
+license: MIT
+doi: 10.5281/zenodo.23373466
+keywords:
+  - ADHD
+  - virtual reality
+  - mixed reality
+  - Meta Quest
+  - Lab Streaming Layer
+  - EEG
+  - Unity

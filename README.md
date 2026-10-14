@@ -1,6 +1,6 @@
 # ColorQuest
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23373466.svg)](https://doi.org/10.5281/zenodo.23373466)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23373465.svg)](https://doi.org/10.5281/zenodo.23373465)
 
 **English** | [Español](README.es.md)
 
@@ -69,7 +69,7 @@ Third-party components keep their own licenses: the Meta XR SDK is subject to Me
 
 ## How to cite
 
-If you use ColorQuest in your research, please cite it. See [CITATION.cff](CITATION.cff) or use the DOI: [10.5281/zenodo.23373466](https://doi.org/10.5281/zenodo.23373466).
+If you use ColorQuest in your research, please cite it. See [CITATION.cff](CITATION.cff) or use the DOI: [10.5281/zenodo.23373465](https://doi.org/10.5281/zenodo.23373465).
 
 ## Author
 

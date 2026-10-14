@@ -43,6 +43,9 @@ public class SyncFlash : MonoBehaviour
     private float ultimoSyncRealtime;
     private float proximoSyncRealtime;
 
+    /// <summary>Cuánto dura visible cada destello, en segundos.</summary>
+    public float DuracionSegundos => duracionSegundos;
+
     /// <summary>Devuelve la instancia, creándola si no existe.</summary>
     public static SyncFlash Asegurar()
     {
@@ -165,13 +168,13 @@ public class SyncFlash : MonoBehaviour
         // Tamaño lineal que subtiende un ángulo dado a esa distancia
         float Lado(float grados) => 2f * distanciaMetros * Mathf.Tan(grados * 0.5f * Mathf.Deg2Rad);
 
-        CrearCuadrado("Marco", Lado(tamanoGrados + 2f * marcoGrados), Color.black, shader, 4100);
-        CrearCuadrado("Blanco", Lado(tamanoGrados), Color.white, shader, 4101);
+        CrearCuadrado("Marco", Lado(tamanoGrados + 2f * marcoGrados), Color.black, shader, 4100, short.MaxValue - 1);
+        CrearCuadrado("Blanco", Lado(tamanoGrados), Color.white, shader, 4101, short.MaxValue);
 
         destello.SetActive(false);
     }
 
-    private void CrearCuadrado(string nombre, float lado, Color color, Shader shader, int renderQueue)
+    private void CrearCuadrado(string nombre, float lado, Color color, Shader shader, int renderQueue, int ordenDibujo)
     {
         GameObject quad = GameObject.CreatePrimitive(PrimitiveType.Quad);
         quad.name = nombre;
@@ -187,5 +190,9 @@ public class SyncFlash : MonoBehaviour
         rend.sharedMaterial = mat;
         rend.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         rend.receiveShadows = false;
+        // URP ordena lo transparente primero por capa y orden de dibujo, y después por
+        // cola: con el orden máximo, el destello se dibuja después de cualquier texto
+        // (TextMeshPro) o partícula aunque estos tengan una cola alta.
+        rend.sortingOrder = ordenDibujo;
     }
 }

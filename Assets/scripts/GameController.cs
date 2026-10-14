@@ -722,18 +722,30 @@ public class GameController : MonoBehaviour
         foreach (var bola in instanciasPanelSecuencia) Destroy(bola);
         instanciasPanelSecuencia.Clear();
 
-        // Pantalla final: mostrar el puntaje total en el centro del tablero. No se
-        // reinicia nada ni se vuelve al botón de inicio; ésta es la pantalla de fin.
+        estado = EstadoJuego.Finalizado;
+
+        // Pantalla final: el puntaje total se muestra cuando el último destello ya se
+        // apagó. En la prueba exp006 (2026-10-14) el texto «Puntaje total» apareció en el
+        // mismo cuadro que el destello final y tapaba parte del cuadrado blanco.
+        StartCoroutine(MostrarPuntajeFinal());
+
+        // Celebración de fin: confeti durante 10 segundos, uno por segundo.
+        StartCoroutine(LanzarConfetiFinal());
+    }
+
+    // Muestra el puntaje total en el centro del tablero. No se reinicia nada ni se
+    // vuelve al botón de inicio; ésta es la pantalla de fin.
+    private IEnumerator MostrarPuntajeFinal()
+    {
+        float espera = SyncFlash.Instance != null ? SyncFlash.Instance.DuracionSegundos + 0.1f : 0f;
+        if (espera > 0f) yield return new WaitForSecondsRealtime(espera);
+
         if (ContadorPuntos != null)
         {
             ContadorPuntos.transform.position = new Vector3(puntoCentralX, puntoCentralY, puntoCentralZ);
             ContadorPuntos.alignment = TextAlignmentOptions.Center;
             ContadorPuntos.text = $"Puntaje total: {puntaje}";
         }
-        estado = EstadoJuego.Finalizado;
-
-        // Celebración de fin: confeti durante 10 segundos, uno por segundo.
-        StartCoroutine(LanzarConfetiFinal());
     }
 
     // TET: ¿puede salir ahora un destello intermedio sin quedar a menos de

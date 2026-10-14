@@ -63,7 +63,7 @@ Notas sobre LSL por Wi-Fi: muchas redes universitarias bloquean multicast. Si no
 
 ## Licencia
 
-El código y la documentación propios del proyecto se publican bajo la [Licencia MIT](LICENSE).
+Actualmente no se concede ninguna licencia de código abierto para el código y la documentación propios del proyecto. Copyright (c) 2026 Jorge Rivera, Universidad Tecnológica de Pereira. Todos los derechos reservados.
 
 Los componentes de terceros conservan sus propias licencias: el Meta XR SDK está sujeto a los términos de Meta, y LSL4Unity / liblsl tienen licencia MIT. Unity está sujeto a los términos de Unity.
 

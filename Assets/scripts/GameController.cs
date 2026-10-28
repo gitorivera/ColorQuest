@@ -141,6 +141,13 @@ public class GameController : MonoBehaviour
     [SerializeField] private string textoBotonPractica = "Iniciar práctica";
     [SerializeField][Tooltip("Segundos que dura la práctica")] private float duracionPractica = 45f;
     [SerializeField][Tooltip("Malla N x N sobre la que aparecen los objetivos de práctica")][Range(2, 6)] private int celdasPractica = 4;
+    [SerializeField, TextArea(6, 12)][Tooltip("Aviso de bienvenida, en el tablero de instrucciones junto al botón de práctica. {segundos} se reemplaza por la duración de la práctica")]
+    private string textoBienvenida =
+        "<align=center><b><size=125%>¡Bienvenido a ColorQuest!</size></b>\n" +
+        "Un juego de puntería y memoria. ¡Esperamos que lo disfrutes!</align>\n" +
+        "Antes de empezar vamos a <b>practicar la puntería durante {segundos} segundos</b>.\n" +
+        "Apunta con el láser y <b>aprieta el gatillo</b> para disparar a cada esfera que aparezca en la cuadrícula. La práctica no suma puntos.\n" +
+        "<align=center><b>Cuando estés listo, dispara al botón \"Iniciar práctica\".</b></align>";
 
     private float tiempoPractica = 0f;
     private int segundoMostradoPractica = -1;
@@ -151,6 +158,10 @@ public class GameController : MonoBehaviour
     private int aciertosPractica = 0;
     private float sumaTiempoAciertoPractica = 0f;
     private bool practicaRealizada = false;
+
+    private GameObject panelBienvenida;
+    private float tiempoPanelBienvenidaMostrado = -1f;
+    private long bienvenidaVisibleMs = -1;   // se registra al abrir la sesión
 
 // ── Panel de instrucciones: visible junto al botón INICIAR ──
     [Header("Instrucciones")]
@@ -682,6 +693,7 @@ public class GameController : MonoBehaviour
             estado = EstadoJuego.EsperandoPractica;
             botonPractica.SetActive(true);
             if (botonInicio != null) botonInicio.SetActive(false);
+            MostrarPanelBienvenida();
         }
         else
         {
@@ -707,12 +719,32 @@ public class GameController : MonoBehaviour
         tiempoPanelInstruccionesMostrado = Time.realtimeSinceStartup;
     }
 
-    // Oculta el panel y devuelve cuánto tiempo estuvo visible (ms), o -1 si no se mostró.
-    private long OcultarPanelInstrucciones()
+    private long OcultarPanelInstrucciones() => OcultarPanel(panelInstrucciones, tiempoPanelInstruccionesMostrado);
+
+    // Aviso de bienvenida: el mismo tablero de las instrucciones con otro texto,
+    // visible mientras se espera el disparo al botón de práctica.
+    private void MostrarPanelBienvenida()
     {
-        if (panelInstrucciones == null || !panelInstrucciones.activeSelf) return -1;
-        panelInstrucciones.SetActive(false);
-        return (long)((Time.realtimeSinceStartup - tiempoPanelInstruccionesMostrado) * 1000f);
+        if (panelInstruccionesPrefab == null) return;
+        if (panelBienvenida == null)
+        {
+            panelBienvenida = Instantiate(panelInstruccionesPrefab, posicionPanelInstrucciones, Quaternion.identity);
+            panelBienvenida.name = "PanelBienvenida";
+            TMP_Text texto = panelBienvenida.GetComponentInChildren<TMP_Text>(true);
+            if (texto != null) texto.text = textoBienvenida.Replace("{segundos}", duracionPractica.ToString("0"));
+        }
+        panelBienvenida.SetActive(true);
+        tiempoPanelBienvenidaMostrado = Time.realtimeSinceStartup;
+    }
+
+    private long OcultarPanelBienvenida() => OcultarPanel(panelBienvenida, tiempoPanelBienvenidaMostrado);
+
+    // Oculta el panel y devuelve cuánto tiempo estuvo visible (ms), o -1 si no se mostró.
+    private static long OcultarPanel(GameObject panel, float mostradoDesde)
+    {
+        if (panel == null || !panel.activeSelf) return -1;
+        panel.SetActive(false);
+        return (long)((Time.realtimeSinceStartup - mostradoDesde) * 1000f);
     }
 
     // ── Práctica ────────────────────────────────────────────────────────
@@ -752,6 +784,7 @@ public class GameController : MonoBehaviour
     {
         if (estado != EstadoJuego.EsperandoPractica) return;
         if (botonPractica != null) botonPractica.SetActive(false);
+        bienvenidaVisibleMs = OcultarPanelBienvenida();
 
         tiempoPractica = 0f;
         segundoMostradoPractica = -1;
@@ -863,6 +896,13 @@ public class GameController : MonoBehaviour
                 ? (long)(sumaTiempoAciertoPractica / aciertosPractica * 1000f) : 0;
             EventLogger.Instance.PracticeSummary(duracionPractica, celdasPractica,
                 objetivosPractica, disparosPractica, aciertosPractica, tiempoMedioAciertoMs);
+        }
+
+        // Tiempo que el aviso de bienvenida estuvo a la vista antes de disparar a la práctica
+        if (bienvenidaVisibleMs >= 0)
+        {
+            EventLogger.Instance.WelcomeViewed(bienvenidaVisibleMs);
+            bienvenidaVisibleMs = -1;
         }
 
         // Tiempo que las instrucciones estuvieron a la vista antes de disparar a INICIAR

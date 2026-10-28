@@ -393,6 +393,19 @@ public class EventLogger : MonoBehaviour
     }
 
     /// <summary>
+    /// Time the welcome panel was visible before the player shot the practice button.
+    /// Logged right after session_start (practice happens before the session opens).
+    /// </summary>
+    public void WelcomeViewed(long visibleMs)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "visible_ms", visibleMs }
+        };
+        Log("welcome_viewed", fields);
+    }
+
+    /// <summary>
     /// Time the instructions panel was visible before the player shot INICIAR.
     /// Logged right after session_start (the panel is shown before the session opens).
     /// </summary>

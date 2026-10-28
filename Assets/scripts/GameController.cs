@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
-    private readonly float puntoCentralZ = 1f;
+    private readonly float puntoCentralZ = 2f;
      private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;

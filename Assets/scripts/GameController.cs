@@ -81,14 +81,28 @@ public class GameController : MonoBehaviour
     private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido dentro del nivel actual
 
 // ── Máquina de estados ──────────────────────────────────────────────
-    private enum EstadoJuego { EsperandoInicio, MostrandoSecuencia, Jugando, StandByError, Finalizado }
+    private enum EstadoJuego { EsperandoPractica, Practicando, EsperandoInicio, MostrandoSecuencia, Jugando, StandByError, Finalizado }
     private EstadoJuego estado = EstadoJuego.EsperandoInicio;
 
     // El juego sólo procesa disparos contra esferas mientras se está jugando.
     public bool JuegoActivo => estado == EstadoJuego.Jugando;
 
+    // Disparos y resaltado contra esferas: durante el juego y durante la práctica.
+    public bool PunteriaActiva => estado == EstadoJuego.Jugando || estado == EstadoJuego.Practicando;
+
+    public bool EnPractica => estado == EstadoJuego.Practicando;
+
     // True mientras se muestra el botón de inicio y no ha comenzado la sesión.
     public bool EsperandoInicio => estado == EstadoJuego.EsperandoInicio;
+
+    // True mientras se muestra el botón de práctica, antes del botón de inicio.
+    public bool EsperandoPractica => estado == EstadoJuego.EsperandoPractica;
+
+    public bool EsBotonPractica(GameObject obj)
+    {
+        if (obj == null || botonPractica == null) return false;
+        return obj == botonPractica || obj.transform.IsChildOf(botonPractica.transform);
+    }
 
     // True si el objeto impactado es el botón de inicio (o parte de su jerarquía),
     // para que el blaster pueda arrancar el juego disparándole.
@@ -119,6 +133,24 @@ public class GameController : MonoBehaviour
 
 // ── Botón físico de inicio (Meta Building Blocks) ──
     [SerializeField][Tooltip("Objeto raíz del botón INICIAR; se desactiva al empezar")] private GameObject botonInicio;
+
+// ── Fase de práctica: familiarización con la puntería antes del juego ──
+    [Header("Práctica")]
+    [SerializeField][Tooltip("Si está activa, antes del botón INICIAR aparece el botón de práctica")] private bool practicaHabilitada = true;
+    [SerializeField][Tooltip("Opcional: botón de práctica colocado en la escena. Si se deja vacío se clona el botón INICIAR")] private GameObject botonPractica;
+    [SerializeField] private string textoBotonPractica = "Iniciar práctica";
+    [SerializeField][Tooltip("Segundos que dura la práctica")] private float duracionPractica = 45f;
+    [SerializeField][Tooltip("Malla N x N sobre la que aparecen los objetivos de práctica")][Range(2, 6)] private int celdasPractica = 4;
+
+    private float tiempoPractica = 0f;
+    private int segundoMostradoPractica = -1;
+    private Vector3 posicionObjetivoPractica;
+    private float tiempoSpawnObjetivoPractica = 0f;
+    private int objetivosPractica = 0;
+    private int disparosPractica = 0;
+    private int aciertosPractica = 0;
+    private float sumaTiempoAciertoPractica = 0f;
+    private bool practicaRealizada = false;
 
 // elementos para generar las pausas en el juego cuando hay victoria u error
     private bool primeraEntradaStandBy =false;
@@ -339,6 +371,12 @@ public class GameController : MonoBehaviour
     }
     public void EsferaClickeada(GameObject esfera)
     {
+        if (estado == EstadoJuego.Practicando)
+        {
+            ObjetivoPracticaAcertado(esfera);
+            return;
+        }
+
         string esferaNombre = esfera.name.Replace("(Clone)", "").Trim();
 
         if (SecuenciaBolas[indiceActual].name == esferaNombre)
@@ -609,10 +647,142 @@ public class GameController : MonoBehaviour
     
     void Start()
     {
-        // La escena inicial sólo muestra el botón de inicio. Nada del juego corre
-        // ni se emite ningún evento de sesión hasta que el jugador oprime el botón.
+        // La escena inicial sólo muestra el botón de práctica (o el de inicio si la
+        // práctica está deshabilitada). Nada del juego corre ni se emite ningún evento
+        // de sesión hasta que el jugador oprime el botón INICIAR.
+        if (practicaHabilitada && botonPractica == null) botonPractica = CrearBotonPractica();
+
+        if (practicaHabilitada && botonPractica != null)
+        {
+            estado = EstadoJuego.EsperandoPractica;
+            botonPractica.SetActive(true);
+            if (botonInicio != null) botonInicio.SetActive(false);
+        }
+        else
+        {
+            MostrarBotonInicio();
+        }
+    }
+
+    private void MostrarBotonInicio()
+    {
         estado = EstadoJuego.EsperandoInicio;
         if (botonInicio != null) botonInicio.SetActive(true);
+    }
+
+    // ── Práctica ────────────────────────────────────────────────────────
+
+    // Clona el botón INICIAR en la misma posición (nunca se muestran a la vez)
+    // y cambia su etiqueta.
+    private GameObject CrearBotonPractica()
+    {
+        if (botonInicio == null) return null;
+
+        GameObject boton = Instantiate(botonInicio, botonInicio.transform.position, botonInicio.transform.rotation);
+        boton.name = "BotonPractica";
+
+        TMP_Text etiqueta = boton.GetComponentInChildren<TMP_Text>(true);
+        if (etiqueta != null)
+        {
+            // La fuente del botón (Roboto de los ejemplos de Meta) no trae tildes;
+            // si le falta algún carácter se usa la fuente por defecto de TMP.
+            if (etiqueta.font != null && !etiqueta.font.HasCharacters(textoBotonPractica)
+                && TMP_Settings.defaultFontAsset != null)
+            {
+                etiqueta.font = TMP_Settings.defaultFontAsset;
+            }
+            etiqueta.text = textoBotonPractica;
+            // El texto es más largo que "Iniciar": se reduce hasta caber en la etiqueta
+            etiqueta.enableAutoSizing = true;
+            etiqueta.fontSizeMax = etiqueta.fontSize;
+            etiqueta.fontSizeMin = etiqueta.fontSize * 0.4f;
+        }
+        return boton;
+    }
+
+    // Punto de entrada a la práctica: se llama al dispararle al botón de práctica.
+    // Un objetivo a la vez, del mismo tamaño que en el juego, sobre una malla
+    // celdasPractica x celdasPractica. No abre sesión ni envía marcadores LSL.
+    public void IniciarPractica()
+    {
+        if (estado != EstadoJuego.EsperandoPractica) return;
+        if (botonPractica != null) botonPractica.SetActive(false);
+
+        tiempoPractica = 0f;
+        segundoMostradoPractica = -1;
+        objetivosPractica = 0;
+        disparosPractica = 0;
+        aciertosPractica = 0;
+        sumaTiempoAciertoPractica = 0f;
+
+        if (ContadorPuntos == null) PosicionarLetreros();
+
+        CrearMalla(celdasPractica);
+        estado = EstadoJuego.Practicando;
+        GenerarObjetivoPractica();
+        Debug.Log($"Práctica iniciada: {duracionPractica} s, malla {celdasPractica}x{celdasPractica}");
+    }
+
+    // Blaster lo llama en cada disparo durante la práctica (acierte o no).
+    public void RegistrarDisparoPractica()
+    {
+        if (estado == EstadoJuego.Practicando) disparosPractica++;
+    }
+
+    private void GenerarObjetivoPractica()
+    {
+        // Celda aleatoria, distinta de la del objetivo anterior
+        int n = listaPosicionesCeldas.Count;
+        int idx = Random.Range(0, n);
+        if (n > 1 && objetivosPractica > 0 && listaPosicionesCeldas[idx] == posicionObjetivoPractica)
+        {
+            idx = (idx + Random.Range(1, n)) % n;
+        }
+        posicionObjetivoPractica = listaPosicionesCeldas[idx];
+
+        GameObject prefab = bolasPrefabs[Random.Range(0, bolasPrefabs.Length)];
+        GameObject objetivo = Instantiate(prefab, posicionObjetivoPractica, Quaternion.identity);
+        instanciaBolas.Add(objetivo);   // así Blaster la reconoce como esfera
+
+        objetivosPractica++;
+        tiempoSpawnObjetivoPractica = Time.realtimeSinceStartup;
+    }
+
+    private void ObjetivoPracticaAcertado(GameObject esfera)
+    {
+        aciertosPractica++;
+        sumaTiempoAciertoPractica += Time.realtimeSinceStartup - tiempoSpawnObjetivoPractica;
+        instanciaBolas.Remove(esfera);   // Blaster la destruye después de esta llamada
+        GenerarObjetivoPractica();
+    }
+
+    private void ActualizarPractica()
+    {
+        tiempoPractica += Time.deltaTime;
+
+        // Cuenta regresiva en el letrero (sólo se reescribe cuando cambia el segundo)
+        int restante = Mathf.Max(0, Mathf.CeilToInt(duracionPractica - tiempoPractica));
+        if (restante != segundoMostradoPractica && ContadorPuntos != null)
+        {
+            segundoMostradoPractica = restante;
+            ContadorPuntos.text = $"Práctica {restante}";
+        }
+
+        if (tiempoPractica >= duracionPractica) FinalizarPractica();
+    }
+
+    private void FinalizarPractica()
+    {
+        foreach (var bola in instanciaBolas) Destroy(bola);
+        instanciaBolas.Clear();
+        DestruirMalla();
+
+        practicaRealizada = true;
+        if (ContadorPuntos != null) ContadorPuntos.text = "";
+        Debug.Log($"Práctica terminada: {aciertosPractica} aciertos / {disparosPractica} disparos");
+
+        // Vuelve a aparecer el botón INICIAR, igual que antes de existir la práctica
+        MostrarBotonInicio();
     }
 
     // Punto de entrada al juego: se llama desde el evento del botón físico (poke).
@@ -639,6 +809,16 @@ public class GameController : MonoBehaviour
             DURACION_TOTAL_NIVEL,
             duracionTablero
         );
+
+        // La práctica ocurre antes de abrir la sesión: su resumen (línea base de
+        // puntería) se registra justo después de session_start.
+        if (practicaRealizada)
+        {
+            long tiempoMedioAciertoMs = aciertosPractica > 0
+                ? (long)(sumaTiempoAciertoPractica / aciertosPractica * 1000f) : 0;
+            EventLogger.Instance.PracticeSummary(duracionPractica, celdasPractica,
+                objetivosPractica, disparosPractica, aciertosPractica, tiempoMedioAciertoMs);
+        }
 
         // TET: primer destello + "sync_1" + "inicio partida" en este mismo cuadro
         SyncFlash.Asegurar().IniciarPartida();
@@ -811,7 +991,10 @@ private IEnumerator PutRedGridAlert()
             case EstadoJuego.StandByError:
                 ActualizarStandBy();
                 break;
-            // EsperandoInicio, MostrandoSecuencia y Finalizado no consumen reloj de nivel
+            case EstadoJuego.Practicando:
+                ActualizarPractica();
+                break;
+            // EsperandoPractica, EsperandoInicio, MostrandoSecuencia y Finalizado no consumen reloj de nivel
             // ni evalúan el timeout de tablero (la barra queda congelada).
         }
     }

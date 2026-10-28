@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Blaster : MonoBehaviour
@@ -32,12 +33,21 @@ public class Blaster : MonoBehaviour
     [SerializeField, Range(1f, 1.5f), Tooltip("Escala de la esfera mientras el láser está sobre ella")]
     private float factorResaltado = 1.15f;
 
+    [Header("Háptico de hover")]
+    [SerializeField, Tooltip("Pulso corto en el control al entrar el láser sobre una esfera")]
+    private bool hapticoHover = true;
+    [SerializeField, Range(0f, 1f)] private float amplitudHapticoHover = 0.3f;
+    [SerializeField, Range(0f, 1f)] private float frecuenciaHapticoHover = 0.5f;
+    [SerializeField, Range(0.01f, 0.2f), Tooltip("Duración del pulso en segundos")]
+    private float duracionHapticoHover = 0.04f;
+
     private const int CapaIgnorarRaycast = 2;
 
     private LineRenderer laser;
     private Transform cursor;
     private ResaltadoEsfera esferaResaltada;
     private bool gatilloArmado = true;
+    private Coroutine pulsoHover;
 
     void Awake()
     {
@@ -52,6 +62,7 @@ public class Blaster : MonoBehaviour
 
     void OnDisable()
     {
+        DetenerPulsoHover();
         QuitarResaltado();
         if (laser != null) laser.enabled = false;
         if (cursor != null) cursor.gameObject.SetActive(false);
@@ -129,7 +140,7 @@ public class Blaster : MonoBehaviour
         bool hayImpacto = Physics.Raycast(origen, direccion, out RaycastHit hit, Mathf.Infinity, capaImpacto);
 
         ResaltadoEsfera nueva = null;
-        if (hayImpacto && GameController.Instance != null && GameController.Instance.JuegoActivo
+        if (hayImpacto && GameController.Instance != null && GameController.Instance.PunteriaActiva
             && GameController.Instance.EsEsferaInstanciada(hit.collider.gameObject))
         {
             GameObject esfera = hit.collider.gameObject;
@@ -140,7 +151,11 @@ public class Blaster : MonoBehaviour
         if (nueva != esferaResaltada)
         {
             QuitarResaltado();
-            if (nueva != null) nueva.Entrar(factorResaltado);
+            if (nueva != null)
+            {
+                nueva.Entrar(factorResaltado);
+                if (hapticoHover) IniciarPulsoHover();
+            }
             esferaResaltada = nueva;
         }
 
@@ -155,6 +170,30 @@ public class Blaster : MonoBehaviour
         if (hayImpacto) cursor.position = hit.point + hit.normal * 0.002f;
     }
 
+    void IniciarPulsoHover()
+    {
+        DetenerPulsoHover();
+        pulsoHover = StartCoroutine(PulsoHover());
+    }
+
+    IEnumerator PulsoHover()
+    {
+        OVRInput.SetControllerVibration(frecuenciaHapticoHover, amplitudHapticoHover, controlador);
+        yield return new WaitForSeconds(duracionHapticoHover);
+        OVRInput.SetControllerVibration(0f, 0f, controlador);
+        pulsoHover = null;
+    }
+
+    // Corta un pulso en curso. Se llama al disparar para que, si el disparo provoca
+    // la vibración de error de GameController, el fin del pulso no la apague.
+    void DetenerPulsoHover()
+    {
+        if (pulsoHover == null) return;
+        StopCoroutine(pulsoHover);
+        pulsoHover = null;
+        OVRInput.SetControllerVibration(0f, 0f, controlador);
+    }
+
     void QuitarResaltado()
     {
         // Si la esfera ya fue destruida (por un acierto), Unity la compara como null
@@ -164,6 +203,7 @@ public class Blaster : MonoBehaviour
 
     void Shoot()
     {
+        DetenerPulsoHover();
         audioSource.PlayOneShot(sonidoDisparo, volumenDisparo);
         Ray ray = new Ray(puntoDisparo.position, puntoDisparo.forward);
         bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, capaImpacto);
@@ -196,18 +236,32 @@ public class Blaster : MonoBehaviour
             puntoFinal = puntoDisparo.position + puntoDisparo.forward * fuerzaDisparo;
         }
 
-        // Arranque del juego: si estamos en la pantalla de inicio y el disparo golpea
-        // el botón, empezamos la sesión con el mismo gesto de disparo que se usa para jugar.
+        // El juego sólo reacciona a los disparos mientras se está jugando o practicando.
+        // Se evalúa ANTES de los botones para que el disparo que arranca la práctica
+        // no cuente como disparo de práctica.
+        bool juegoActivo = GameController.Instance != null && GameController.Instance.JuegoActivo;
+        bool punteriaActiva = GameController.Instance != null && GameController.Instance.PunteriaActiva;
+        bool enPractica = GameController.Instance != null && GameController.Instance.EnPractica;
+
+        // Arranque de la práctica / del juego: si estamos en la pantalla del botón y el
+        // disparo lo golpea, arrancamos con el mismo gesto de disparo que se usa para jugar.
         // (El sonido ya sonó arriba y el rayo se dibuja al final; sólo iniciamos aquí.)
-        if (hasHit && GameController.Instance != null
-            && GameController.Instance.EsperandoInicio
-            && GameController.Instance.EsBotonInicio(objetoImpactado))
+        if (hasHit && GameController.Instance != null)
         {
-            GameController.Instance.IniciarJuego();
+            if (GameController.Instance.EsperandoPractica
+                && GameController.Instance.EsBotonPractica(objetoImpactado))
+            {
+                GameController.Instance.IniciarPractica();
+            }
+            else if (GameController.Instance.EsperandoInicio
+                && GameController.Instance.EsBotonInicio(objetoImpactado))
+            {
+                GameController.Instance.IniciarJuego();
+            }
         }
 
-        // El juego sólo reacciona a los disparos mientras se está jugando.
-        bool juegoActivo = GameController.Instance != null && GameController.Instance.JuegoActivo;
+        // Los disparos de práctica sólo se cuentan (precisión de línea base), no se registran uno a uno
+        if (enPractica) GameController.Instance.RegistrarDisparoPractica();
 
         // 2. LOG trigger_pull before any hit handling so it precedes sphere_hit_correct
         //    (sólo se registra durante el juego, no en menús ni presentaciones)
@@ -218,8 +272,8 @@ public class Blaster : MonoBehaviour
                 GameController.Instance.GetRTSinceBoardSpawn());
         }
 
-        // 3. ACT — call EsferaClickeada / spawn effects (sólo si el juego está activo)
-        if (hasHit && juegoActivo)
+        // 3. ACT — call EsferaClickeada / spawn effects (sólo jugando o practicando)
+        if (hasHit && punteriaActiva)
         {
             if (hitType == "sphere")
             {

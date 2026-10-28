@@ -310,6 +310,27 @@ public class EventLogger : MonoBehaviour
         Log("sync_flash", fields);
     }
 
+    /// <summary>
+    /// Aiming-practice summary (per-participant aiming baseline). Practice runs
+    /// before the session opens, so this is logged right after session_start.
+    /// No LSL marker: practice is not part of the EEG-locked task.
+    /// </summary>
+    public void PracticeSummary(float durationS, int gridSize, int targetsShown,
+                                int shots, int hits, long meanTimeToHitMs)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "practice_duration_s", durationS },
+            { "practice_grid_size", gridSize },
+            { "targets_shown", targetsShown },
+            { "shots", shots },
+            { "hits", hits },
+            { "accuracy", shots > 0 ? (float)hits / shots : 0f },
+            { "mean_time_to_hit_ms", meanTimeToHitMs }
+        };
+        Log("practice_summary", fields);
+    }
+
     public void ScoreUpdate(int oldScore, int newScore)
     {
         var fields = new Dictionary<string, object>

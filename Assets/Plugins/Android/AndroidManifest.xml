@@ -26,5 +26,7 @@
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
   <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
   <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+  <!-- Requerido por WifiManager.MulticastLock / WifiLock que LSLMarkerSender adquiere en Awake -->
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
   <horizonos:uses-horizonos-sdk horizonos:minSdkVersion="68" horizonos:targetSdkVersion="77" />
 </manifest>

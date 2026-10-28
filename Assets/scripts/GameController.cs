@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
     private readonly float anchoCeldaPrefab = 0.2f;
     private readonly float puntoCentralX = 0f;
     private readonly float puntoCentralY = 1f;
-    private readonly float puntoCentralZ = 2f;
+    private readonly float puntoCentralZ = 1.5f;
      private float posicionInicialX;
     private float posicionInicialY;
     private float posicionInicialZ;
@@ -367,7 +367,7 @@ public class GameController : MonoBehaviour
                 EventLogger.Instance.SequenceCompleted(10, puntaje, rtBoard, erroresSecuencia);
                 erroresSecuencia = 0;
 
-                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab, new Vector3(0f,2f,2f), Quaternion.identity);
+                GameObject confetiEstrella = Instantiate(confetiEstrellasPrefab, new Vector3(0f,2f,puntoCentralZ), Quaternion.identity);
                 Destroy(confetiEstrella, 2f);
                 TableroResuelto("completed");
             }

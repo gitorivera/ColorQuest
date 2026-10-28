@@ -72,6 +72,8 @@ mono_crash.*
 *.unitypackage
 *.unitypackage.meta
 *.app
+# Símbolos de depuración IL2CPP que genera cada build de Android (no los usa el juego)
+*.symbols.zip
 
 # Crashlytics generated file
 crashlytics-build.properties

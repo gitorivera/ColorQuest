@@ -82,6 +82,7 @@ public class LSLMarkerSender : MonoBehaviour
         public const int BOARD_FAILED         = 43;
         public const int ERROR_PAUSE_ENTER    = 50;
         public const int ERROR_PAUSE_EXIT     = 51;
+        public const int SPHERE_HOVER         = 60;
     }
 
     // ── Internal ──────────────────────────────────────────────────────────────
@@ -280,4 +281,12 @@ public class LSLMarkerSender : MonoBehaviour
     public void SendErrorPauseExit(long pauseDurationMs) =>
         Send(Codes.ERROR_PAUSE_EXIT, "error_pause_exit",
              $"dur_ms={pauseDurationMs}");
+
+    /// <summary>
+    /// Aim laser entered a sphere. With haptic=1 a vibration pulse starts here:
+    /// a tactile stimulus that can evoke a somatosensory response in the EEG.
+    /// </summary>
+    public void SendSphereHover(string sphereId, string controller, bool haptic) =>
+        Send(Codes.SPHERE_HOVER, "sphere_hover",
+             $"id={sphereId},ctrl={controller},haptic={(haptic ? 1 : 0)}");
 }

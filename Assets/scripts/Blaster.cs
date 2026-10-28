@@ -40,17 +40,46 @@ public class Blaster : MonoBehaviour
     [SerializeField, Range(0f, 1f)] private float frecuenciaHapticoHover = 0.5f;
     [SerializeField, Range(0.01f, 0.2f), Tooltip("Duración del pulso en segundos")]
     private float duracionHapticoHover = 0.04f;
+    [SerializeField, Range(0f, 0.5f), Tooltip("Segundos tras salir de una esfera en los que volver a entrar en ella no repite el pulso ni el evento (el láser rozando el borde)")]
+    private float refractarioHover = 0.15f;
+
+    [Header("Orientación del cañón")]
+    // El rayo sale por el +Z del HandAnchor del control. Este ángulo inclina el blaster
+    // completo (modelo y puntoDisparo) alrededor del eje X del control, como el ajuste
+    // de ángulo del arma de otros juegos VR. Debe ser el mismo para todos los participantes.
+    [SerializeField, Range(-60f, 60f), Tooltip("Inclinación del cañón en grados. Positivo = cañón más abajo")]
+    private float anguloCanon = 0f;
+    [SerializeField, Tooltip("Sólo para calibrar en pruebas: el stick arriba/abajo cambia el ángulo en pasos. Desactivar con participantes")]
+    private bool ajusteConStick = false;
+    [SerializeField, Range(1f, 15f)] private float pasoAjusteCanon = 5f;
+
+    [Header("Registro de puntería")]
+    [SerializeField, Range(0f, 10f), Tooltip("Un disparo que no toca esfera pero pasa a menos de estos grados de una cuenta como casi acierto")]
+    private float umbralCasiAciertoGrados = 2f;
 
     private const int CapaIgnorarRaycast = 2;
+    private const float UmbralInicioApreton = 0.05f;
 
     private LineRenderer laser;
     private Transform cursor;
     private ResaltadoEsfera esferaResaltada;
+    private float inicioHover;
+    private ResaltadoEsfera ultimaEsferaSalida;
+    private float tiempoSalida;
     private bool gatilloArmado = true;
+    private bool apretonIniciado;
+    private string esferaAlApretar = "";
     private Coroutine pulsoHover;
+    private Quaternion rotacionBase;
+    private Vector3 posicionBase;
+    private float anguloAplicado = float.NaN;
+    private bool stickArmado = true;
 
     void Awake()
     {
+        rotacionBase = transform.localRotation;
+        posicionBase = transform.localPosition;
+        AplicarAnguloCanon();
         CrearLaser();
         CrearCursor();
     }
@@ -75,11 +104,25 @@ public class Blaster : MonoBehaviour
 
     void Update()
     {
+        if (ajusteConStick) AjustarAnguloConStick();
+        AplicarAnguloCanon();
         ActualizarPunteria();
 
         // Disparo por umbral analógico con histéresis: dispara al cruzar umbralDisparo
         // y no vuelve a disparar hasta que la presión baje de umbralRearme.
         float presion = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, controlador);
+        // Esfera apuntada cuando el dedo empieza a apretar: si difiere de la del disparo,
+        // el propio apretón movió la puntería.
+        if (gatilloArmado && !apretonIniciado && presion >= UmbralInicioApreton)
+        {
+            apretonIniciado = true;
+            esferaAlApretar = esferaResaltada != null ? IdEsfera(esferaResaltada.gameObject) : "";
+        }
+        else if (gatilloArmado && presion < UmbralInicioApreton)
+        {
+            apretonIniciado = false;
+        }
+
         if (gatilloArmado && presion >= umbralDisparo)
         {
             gatilloArmado = false;
@@ -88,6 +131,36 @@ public class Blaster : MonoBehaviour
         else if (!gatilloArmado && presion <= umbralRearme)
         {
             gatilloArmado = true;
+            apretonIniciado = false;
+        }
+    }
+
+    // Gira el blaster alrededor del origen del HandAnchor (el agarre), así el rayo
+    // sigue saliendo por la boca del cañón. Se reaplica sólo si el ángulo cambió
+    // (stick o Inspector en Play).
+    void AplicarAnguloCanon()
+    {
+        if (anguloCanon == anguloAplicado) return;
+        Quaternion inclinacion = Quaternion.AngleAxis(anguloCanon, Vector3.right);
+        transform.localRotation = inclinacion * rotacionBase;
+        transform.localPosition = inclinacion * posicionBase;
+        anguloAplicado = anguloCanon;
+    }
+
+    // Un toque del stick = un paso; hay que soltarlo para dar el siguiente.
+    void AjustarAnguloConStick()
+    {
+        float y = OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, controlador).y;
+        if (stickArmado && Mathf.Abs(y) > 0.7f)
+        {
+            stickArmado = false;
+            // Stick arriba = cañón más arriba = ángulo negativo
+            anguloCanon = Mathf.Clamp(anguloCanon - Mathf.Sign(y) * pasoAjusteCanon, -60f, 60f);
+            Debug.Log($"[Blaster] {controlador} anguloCanon = {anguloCanon}°");
+        }
+        else if (!stickArmado && Mathf.Abs(y) < 0.3f)
+        {
+            stickArmado = true;
         }
     }
 
@@ -150,11 +223,33 @@ public class Blaster : MonoBehaviour
 
         if (nueva != esferaResaltada)
         {
+            if (esferaResaltada != null)
+            {
+                ultimaEsferaSalida = esferaResaltada;
+                tiempoSalida = Time.realtimeSinceStartup;
+            }
             QuitarResaltado();
             if (nueva != null)
             {
+                // El resaltado sigue al rayo exactamente, para no engañar sobre dónde pegará el disparo
                 nueva.Entrar(factorResaltado);
-                if (hapticoHover) IniciarPulsoHover();
+                // Reentrada rápida en la misma esfera (el láser roza el borde): es el mismo hover,
+                // sin nuevo pulso ni evento, y el tiempo de permanencia sigue contando desde la entrada.
+                bool reentrada = nueva == ultimaEsferaSalida
+                                 && Time.realtimeSinceStartup - tiempoSalida < refractarioHover;
+                if (!reentrada)
+                {
+                    if (hapticoHover) IniciarPulsoHover();
+                    inicioHover = Time.realtimeSinceStartup;
+                    // Cada hover (y su pulso háptico) se registra: es un estímulo táctil
+                    if (GameController.Instance.JuegoActivo && EventLogger.Instance != null)
+                    {
+                        EventLogger.Instance.SphereHover(IdEsfera(nueva.gameObject), controlador.ToString(),
+                            hapticoHover, amplitudHapticoHover, frecuenciaHapticoHover,
+                            Mathf.RoundToInt(duracionHapticoHover * 1000f),
+                            Mathf.RoundToInt(refractarioHover * 1000f));
+                    }
+                }
             }
             esferaResaltada = nueva;
         }
@@ -199,6 +294,58 @@ public class Blaster : MonoBehaviour
         // Si la esfera ya fue destruida (por un acierto), Unity la compara como null
         if (esferaResaltada != null) esferaResaltada.Salir();
         esferaResaltada = null;
+    }
+
+    static string IdEsfera(GameObject esfera) => esfera.name.Replace("(Clone)", "").Trim();
+
+    // Error angular del disparo respecto a las esferas del tablero, para separar errores
+    // motores (casi aciertos) de errores de secuencia (comisión).
+    EventLogger.AimInfo MedirPunteria(Vector3 origen, Vector3 direccion)
+    {
+        var m = new EventLogger.AimInfo
+        {
+            controller = controlador.ToString(),
+            barrelPitchDeg = anguloCanon,
+            hoveredSphereId = esferaResaltada != null ? IdEsfera(esferaResaltada.gameObject) : "",
+            hoverDwellMs = esferaResaltada != null ? (long)((Time.realtimeSinceStartup - inicioHover) * 1000f) : 0,
+            hoveredAtPressStartId = apretonIniciado ? esferaAlApretar : "",
+            nearestSphereId = "",
+            expectedSphereId = "",
+            nearMissThresholdDeg = umbralCasiAciertoGrados
+        };
+
+        foreach (GameObject esfera in GameController.Instance.EsferasEnTablero())
+        {
+            float borde = AnguloAlBorde(origen, direccion, esfera, out float centro);
+            if (!m.nearestEdgeAngleDeg.HasValue || borde < m.nearestEdgeAngleDeg.Value)
+            {
+                m.nearestSphereId = IdEsfera(esfera);
+                m.nearestCenterAngleDeg = centro;
+                m.nearestEdgeAngleDeg = borde;
+            }
+        }
+
+        GameObject esperada = GameController.Instance.EsferaEsperada();
+        if (esperada != null)
+        {
+            m.expectedSphereId = IdEsfera(esperada);
+            m.expectedEdgeAngleDeg = AnguloAlBorde(origen, direccion, esperada, out _);
+        }
+        return m;
+    }
+
+    // Ángulo entre el rayo y la silueta de la esfera (≤ 0: el rayo la atraviesa).
+    // Usa el collider real, que incluye el agrandamiento del resaltado.
+    static float AnguloAlBorde(Vector3 origen, Vector3 direccion, GameObject esfera, out float anguloCentro)
+    {
+        Collider col = esfera.GetComponent<Collider>();
+        Vector3 centro = col != null ? col.bounds.center : esfera.transform.position;
+        float radio = col != null ? col.bounds.extents.x : 0f;
+        Vector3 hacia = centro - origen;
+        float distancia = hacia.magnitude;
+        anguloCentro = Vector3.Angle(direccion, hacia);
+        float radioAngular = distancia > radio ? Mathf.Asin(radio / distancia) * Mathf.Rad2Deg : 90f;
+        return anguloCentro - radioAngular;
     }
 
     void Shoot()
@@ -269,7 +416,8 @@ public class Blaster : MonoBehaviour
         {
             EventLogger.Instance.TriggerPull(hasHit, hitType, targetObjectId,
                 puntoDisparo.position, puntoDisparo.forward,
-                GameController.Instance.GetRTSinceBoardSpawn());
+                GameController.Instance.GetRTSinceBoardSpawn(),
+                MedirPunteria(puntoDisparo.position, puntoDisparo.forward));
         }
 
         // 3. ACT — call EsferaClickeada / spawn effects (sólo jugando o practicando)

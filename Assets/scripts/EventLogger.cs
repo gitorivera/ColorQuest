@@ -175,11 +175,35 @@ public class EventLogger : MonoBehaviour
         Log("sequence_shown", fields);
     }
 
+    /// <summary>
+    /// Aiming context of one shot, measured by Blaster just before it is resolved.
+    /// Angles in degrees. "Edge" angle = angle from the ray to the sphere's
+    /// silhouette (≤ 0: the ray passes through the sphere). Null = no such sphere.
+    /// </summary>
+    public struct AimInfo
+    {
+        public string controller;            // "RTouch" | "LTouch"
+        public float barrelPitchDeg;         // fixed barrel offset (Blaster.anguloCanon)
+        public string hoveredSphereId;       // sphere under the laser when the trigger crossed the threshold
+        public long hoverDwellMs;            // time the laser had been on that sphere
+        public string hoveredAtPressStartId; // sphere under the laser when the trigger started moving (≥ 0.05)
+        public string nearestSphereId;       // sphere with the smallest edge angle
+        public float? nearestCenterAngleDeg;
+        public float? nearestEdgeAngleDeg;
+        public string expectedSphereId;      // sphere the sequence asked for
+        public float? expectedEdgeAngleDeg;
+        public float nearMissThresholdDeg;
+    }
+
     public void TriggerPull(bool hit, string hitType, string targetObjectId,
                             Vector3 aimOrigin, Vector3 aimDirection,
-                            long rtSinceBoardSpawnMs)
+                            long rtSinceBoardSpawnMs, AimInfo aim)
     {
         if (rtSinceBoardSpawnMs < 50) return;   // ignorar disparos de arrastre entre tableros
+        // Near miss: no sphere was hit but the ray passed within the threshold of one
+        // (motor error, as opposed to a commission error on the wrong sphere).
+        bool nearMiss = hitType != "sphere" && aim.nearestEdgeAngleDeg.HasValue
+                        && aim.nearestEdgeAngleDeg.Value <= aim.nearMissThresholdDeg;
         var fields = new Dictionary<string, object>
         {
             { "hit", hit },
@@ -187,9 +211,46 @@ public class EventLogger : MonoBehaviour
             { "target_object_id", targetObjectId },
             { "aim_origin",    new RawJson(Vec3(aimOrigin))    },
             { "aim_direction", new RawJson(Vec3(aimDirection)) },
-            { "rt_since_board_spawn_ms", rtSinceBoardSpawnMs }
+            { "rt_since_board_spawn_ms", rtSinceBoardSpawnMs },
+            { "controller", aim.controller },
+            { "barrel_pitch_deg", aim.barrelPitchDeg },
+            { "hovered_sphere_id", aim.hoveredSphereId },
+            { "hover_dwell_ms", aim.hoverDwellMs },
+            { "hovered_at_press_start_id", aim.hoveredAtPressStartId },
+            { "nearest_sphere_id", aim.nearestSphereId },
+            { "nearest_center_angle_deg", aim.nearestCenterAngleDeg },
+            { "nearest_edge_angle_deg", aim.nearestEdgeAngleDeg },
+            { "expected_sphere_id", aim.expectedSphereId },
+            { "expected_edge_angle_deg", aim.expectedEdgeAngleDeg },
+            { "near_miss", nearMiss },
+            { "near_miss_threshold_deg", aim.nearMissThresholdDeg }
         };
         Log("trigger_pull", fields);
+    }
+
+    /// <summary>
+    /// The aim laser entered a board sphere. If haptic is true a vibration pulse
+    /// with these parameters started at this instant: a tactile stimulus, so it is
+    /// also sent as an LSL marker to align it with the EEG. Re-entering the same
+    /// sphere within refractoryMs of leaving it is treated as the same hover and
+    /// is not logged again (the laser grazing the sphere's edge).
+    /// </summary>
+    public void SphereHover(string sphereId, string controller, bool haptic,
+                            float hapticAmplitude, float hapticFrequency, long hapticDurationMs,
+                            long refractoryMs)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "sphere_id", sphereId },
+            { "controller", controller },
+            { "haptic", haptic },
+            { "haptic_amplitude", haptic ? hapticAmplitude : 0f },
+            { "haptic_frequency", haptic ? hapticFrequency : 0f },
+            { "haptic_duration_ms", haptic ? hapticDurationMs : 0L },
+            { "refractory_ms", refractoryMs }
+        };
+        LSLMarkerSender.Instance?.SendSphereHover(sphereId, controller, haptic);
+        Log("sphere_hover", fields);
     }
 
     public void SphereHitCorrect(string sphereId, int positionInSequence, string expectedId,

@@ -443,6 +443,23 @@ public class GameController : MonoBehaviour
     // Verificar si el objeto está en la lista de esferas instanciadas
     return instanciaBolas.Contains(objeto);
 }
+
+    // Esferas que siguen en el tablero (las acertadas se destruyen y quedan como null en la lista).
+    public IEnumerable<GameObject> EsferasEnTablero()
+    {
+        foreach (var bola in instanciaBolas)
+            if (bola != null) yield return bola;
+    }
+
+    // Instancia en el tablero de la esfera que toca disparar ahora; null fuera del juego.
+    public GameObject EsferaEsperada()
+    {
+        if (estado != EstadoJuego.Jugando || indiceActual >= SecuenciaBolas.Count) return null;
+        string esperada = SecuenciaBolas[indiceActual].name;
+        foreach (var bola in instanciaBolas)
+            if (bola != null && bola.name.Replace("(Clone)", "").Trim() == esperada) return bola;
+        return null;
+    }
     public long GetRTSinceBoardSpawn()
     {
         return (long)((Time.realtimeSinceStartup - tiempoSpawnTablero) * 1000f);

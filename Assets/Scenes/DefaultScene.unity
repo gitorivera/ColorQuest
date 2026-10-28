@@ -1252,6 +1252,11 @@ MonoBehaviour:
   amplitudHapticoHover: 0.3
   frecuenciaHapticoHover: 0.5
   duracionHapticoHover: 0.04
+  refractarioHover: 0.15
+  anguloCanon: 10
+  ajusteConStick: 0
+  pasoAjusteCanon: 5
+  umbralCasiAciertoGrados: 2
 --- !u!82 &315733409
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7942,6 +7947,11 @@ MonoBehaviour:
   amplitudHapticoHover: 0.3
   frecuenciaHapticoHover: 0.5
   duracionHapticoHover: 0.04
+  refractarioHover: 0.15
+  anguloCanon: 10
+  ajusteConStick: 0
+  pasoAjusteCanon: 5
+  umbralCasiAciertoGrados: 2
 --- !u!1 &1236726264
 GameObject:
   m_ObjectHideFlags: 0

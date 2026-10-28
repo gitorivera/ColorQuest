@@ -152,6 +152,14 @@ public class GameController : MonoBehaviour
     private float sumaTiempoAciertoPractica = 0f;
     private bool practicaRealizada = false;
 
+// ── Panel de instrucciones: visible junto al botón INICIAR ──
+    [Header("Instrucciones")]
+    [SerializeField][Tooltip("Prefab del panel (menú ColorQuest > Crear panel de instrucciones)")] private GameObject panelInstruccionesPrefab;
+    [SerializeField][Tooltip("Centro del panel; por encima del botón INICIAR para que no lo tape")] private Vector3 posicionPanelInstrucciones = new Vector3(0f, 1.4f, 1.5f);
+
+    private GameObject panelInstrucciones;
+    private float tiempoPanelInstruccionesMostrado = -1f;
+
 // elementos para generar las pausas en el juego cuando hay victoria u error
     private bool primeraEntradaStandBy =false;
     private float tiempoTotalStandBy = 2.5f;
@@ -668,6 +676,26 @@ public class GameController : MonoBehaviour
     {
         estado = EstadoJuego.EsperandoInicio;
         if (botonInicio != null) botonInicio.SetActive(true);
+        MostrarPanelInstrucciones();
+    }
+
+    private void MostrarPanelInstrucciones()
+    {
+        if (panelInstruccionesPrefab == null) return;
+        if (panelInstrucciones == null)
+        {
+            panelInstrucciones = Instantiate(panelInstruccionesPrefab, posicionPanelInstrucciones, Quaternion.identity);
+        }
+        panelInstrucciones.SetActive(true);
+        tiempoPanelInstruccionesMostrado = Time.realtimeSinceStartup;
+    }
+
+    // Oculta el panel y devuelve cuánto tiempo estuvo visible (ms), o -1 si no se mostró.
+    private long OcultarPanelInstrucciones()
+    {
+        if (panelInstrucciones == null || !panelInstrucciones.activeSelf) return -1;
+        panelInstrucciones.SetActive(false);
+        return (long)((Time.realtimeSinceStartup - tiempoPanelInstruccionesMostrado) * 1000f);
     }
 
     // ── Práctica ────────────────────────────────────────────────────────
@@ -818,6 +846,13 @@ public class GameController : MonoBehaviour
                 ? (long)(sumaTiempoAciertoPractica / aciertosPractica * 1000f) : 0;
             EventLogger.Instance.PracticeSummary(duracionPractica, celdasPractica,
                 objetivosPractica, disparosPractica, aciertosPractica, tiempoMedioAciertoMs);
+        }
+
+        // Tiempo que las instrucciones estuvieron a la vista antes de disparar a INICIAR
+        long instruccionesVisiblesMs = OcultarPanelInstrucciones();
+        if (instruccionesVisiblesMs >= 0)
+        {
+            EventLogger.Instance.InstructionsViewed(instruccionesVisiblesMs);
         }
 
         // TET: primer destello + "sync_1" + "inicio partida" en este mismo cuadro

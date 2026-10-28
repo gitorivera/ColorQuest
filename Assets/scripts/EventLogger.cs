@@ -331,6 +331,19 @@ public class EventLogger : MonoBehaviour
         Log("practice_summary", fields);
     }
 
+    /// <summary>
+    /// Time the instructions panel was visible before the player shot INICIAR.
+    /// Logged right after session_start (the panel is shown before the session opens).
+    /// </summary>
+    public void InstructionsViewed(long visibleMs)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "visible_ms", visibleMs }
+        };
+        Log("instructions_viewed", fields);
+    }
+
     public void ScoreUpdate(int oldScore, int newScore)
     {
         var fields = new Dictionary<string, object>

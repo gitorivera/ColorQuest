@@ -1237,8 +1237,21 @@ MonoBehaviour:
     m_Bits: 1
   audioSource: {fileID: 315733409}
   sonidoDisparo: {fileID: 8300000, guid: 84e77a0ebd1aa4371a3fcd9dcbe3fce5, type: 3}
+  volumenDisparo: 0.708
   impactoRayoPrefab: {fileID: 3313576379201117406, guid: f8b8de114177549519221aa0e748f0ee, type: 3}
   ExplosionParticulasPrefab: {fileID: 4741214151253930406, guid: eadc2ef188ab54754a2b97ffe43d7d7c, type: 3}
+  umbralDisparo: 0.3
+  umbralRearme: 0.15
+  anchoLaser: 0.002
+  colorLaser: {r: 1, g: 1, b: 1, a: 0.35}
+  colorLaserSobreEsfera: {r: 1, g: 1, b: 1, a: 0.85}
+  cursorPrefab: {fileID: 0}
+  diametroCursor: 0.015
+  factorResaltado: 1.15
+  hapticoHover: 1
+  amplitudHapticoHover: 0.3
+  frecuenciaHapticoHover: 0.5
+  duracionHapticoHover: 0.04
 --- !u!82 &315733409
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7914,8 +7927,21 @@ MonoBehaviour:
     m_Bits: 1
   audioSource: {fileID: 1234036096}
   sonidoDisparo: {fileID: 8300000, guid: 84e77a0ebd1aa4371a3fcd9dcbe3fce5, type: 3}
+  volumenDisparo: 0.708
   impactoRayoPrefab: {fileID: 3313576379201117406, guid: f8b8de114177549519221aa0e748f0ee, type: 3}
   ExplosionParticulasPrefab: {fileID: 4741214151253930406, guid: eadc2ef188ab54754a2b97ffe43d7d7c, type: 3}
+  umbralDisparo: 0.3
+  umbralRearme: 0.15
+  anchoLaser: 0.002
+  colorLaser: {r: 1, g: 1, b: 1, a: 0.35}
+  colorLaserSobreEsfera: {r: 1, g: 1, b: 1, a: 0.85}
+  cursorPrefab: {fileID: 0}
+  diametroCursor: 0.015
+  factorResaltado: 1.15
+  hapticoHover: 1
+  amplitudHapticoHover: 0.3
+  frecuenciaHapticoHover: 0.5
+  duracionHapticoHover: 0.04
 --- !u!1 &1236726264
 GameObject:
   m_ObjectHideFlags: 0
@@ -9426,6 +9452,13 @@ MonoBehaviour:
   duracionPresentacionSecuencia: 3
   duracionAnimacionBajada: 1
   botonInicio: {fileID: 913574319}
+  practicaHabilitada: 1
+  botonPractica: {fileID: 0}
+  textoBotonPractica: "Iniciar pr\xE1ctica"
+  duracionPractica: 45
+  celdasPractica: 4
+  panelInstruccionesPrefab: {fileID: 7221483434472788413, guid: fbf5876ce05ab13479fa2c4c4f7d5009, type: 3}
+  posicionPanelInstrucciones: {x: 0, y: 1.4, z: 1.5}
 --- !u!4 &1384984425
 Transform:
   m_ObjectHideFlags: 0

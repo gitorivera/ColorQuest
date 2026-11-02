@@ -102,3 +102,7 @@ InitTestScene*.unity*
 
 # Unity IL2CPP build files
 ColorQuest_BackUpThisFolder_ButDontShipItWithYourGame/
+
+# Notas de trabajo locales: no se suben al repositorio remoto
+[Cc][Ll][Aa][Uu][Dd][Ee].md
+[Ee][Ss][Tt][Aa][Dd][Oo].md

@@ -1,3 +1,6 @@
+// La versión tablet (TabletBranch, define COLORQUEST_TABLET) no tiene SDK de Meta:
+// allí dispara TouchShooter y este script no se compila.
+#if !COLORQUEST_TABLET
 using System.Collections;
 using UnityEngine;
 
@@ -296,10 +299,10 @@ public class Blaster : MonoBehaviour
         esferaResaltada = null;
     }
 
-    static string IdEsfera(GameObject esfera) => esfera.name.Replace("(Clone)", "").Trim();
+    static string IdEsfera(GameObject esfera) => ResolutorDisparo.IdEsfera(esfera);
 
-    // Error angular del disparo respecto a las esferas del tablero, para separar errores
-    // motores (casi aciertos) de errores de secuencia (comisión).
+    // Contexto de puntería del disparo: lo propio del control (hover, cañón) más el
+    // error angular respecto a las esferas del tablero (ResolutorDisparo.MedirTablero).
     EventLogger.AimInfo MedirPunteria(Vector3 origen, Vector3 direccion)
     {
         var m = new EventLogger.AimInfo
@@ -309,151 +312,29 @@ public class Blaster : MonoBehaviour
             hoveredSphereId = esferaResaltada != null ? IdEsfera(esferaResaltada.gameObject) : "",
             hoverDwellMs = esferaResaltada != null ? (long)((Time.realtimeSinceStartup - inicioHover) * 1000f) : 0,
             hoveredAtPressStartId = apretonIniciado ? esferaAlApretar : "",
-            nearestSphereId = "",
-            expectedSphereId = "",
             nearMissThresholdDeg = umbralCasiAciertoGrados
         };
-
-        foreach (GameObject esfera in GameController.Instance.EsferasEnTablero())
-        {
-            float borde = AnguloAlBorde(origen, direccion, esfera, out float centro);
-            if (!m.nearestEdgeAngleDeg.HasValue || borde < m.nearestEdgeAngleDeg.Value)
-            {
-                m.nearestSphereId = IdEsfera(esfera);
-                m.nearestCenterAngleDeg = centro;
-                m.nearestEdgeAngleDeg = borde;
-            }
-        }
-
-        GameObject esperada = GameController.Instance.EsferaEsperada();
-        if (esperada != null)
-        {
-            m.expectedSphereId = IdEsfera(esperada);
-            m.expectedEdgeAngleDeg = AnguloAlBorde(origen, direccion, esperada, out _);
-        }
+        ResolutorDisparo.MedirTablero(ref m, origen, direccion);
         return m;
     }
 
-    // Ángulo entre el rayo y la silueta de la esfera (≤ 0: el rayo la atraviesa).
-    // Usa el collider real, que incluye el agrandamiento del resaltado.
-    static float AnguloAlBorde(Vector3 origen, Vector3 direccion, GameObject esfera, out float anguloCentro)
-    {
-        Collider col = esfera.GetComponent<Collider>();
-        Vector3 centro = col != null ? col.bounds.center : esfera.transform.position;
-        float radio = col != null ? col.bounds.extents.x : 0f;
-        Vector3 hacia = centro - origen;
-        float distancia = hacia.magnitude;
-        anguloCentro = Vector3.Angle(direccion, hacia);
-        float radioAngular = distancia > radio ? Mathf.Asin(radio / distancia) * Mathf.Rad2Deg : 90f;
-        return anguloCentro - radioAngular;
-    }
-
+    // El resto del disparo (impacto, botones, registro, efectos) es común con la
+    // versión tablet: ResolutorDisparo.Resolver.
     void Shoot()
     {
         DetenerPulsoHover();
         audioSource.PlayOneShot(sonidoDisparo, volumenDisparo);
         Ray ray = new Ray(puntoDisparo.position, puntoDisparo.forward);
-        bool hasHit = Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, capaImpacto);
-        Vector3 puntoFinal = Vector3.zero;
-        string hitType = "miss";
-        string targetObjectId = "";
-        GameObject objetoImpactado = null;
-
-        // 1. DETECT — classify hit without side effects
-        if (hasHit)
+        var efectos = new ResolutorDisparo.Efectos
         {
-            puntoFinal = hitInfo.point;
-            objetoImpactado = hitInfo.collider.gameObject;
-            if (GameController.Instance != null)
-            {
-                if (GameController.Instance.EsEsferaInstanciada(objetoImpactado))
-                {
-                    hitType = "sphere";
-                    targetObjectId = objetoImpactado.name.Replace("(Clone)", "").Trim();
-                }
-                else
-                {
-                    hitType = "grid";
-                    targetObjectId = objetoImpactado.name;
-                }
-            }
-        }
-        else
-        {
-            puntoFinal = puntoDisparo.position + puntoDisparo.forward * fuerzaDisparo;
-        }
-
-        // El juego sólo reacciona a los disparos mientras se está jugando o practicando.
-        // Se evalúa ANTES de los botones para que el disparo que arranca la práctica
-        // no cuente como disparo de práctica.
-        bool juegoActivo = GameController.Instance != null && GameController.Instance.JuegoActivo;
-        bool punteriaActiva = GameController.Instance != null && GameController.Instance.PunteriaActiva;
-        bool enPractica = GameController.Instance != null && GameController.Instance.EnPractica;
-
-        // Arranque de la práctica / del juego: si estamos en la pantalla del botón y el
-        // disparo lo golpea, arrancamos con el mismo gesto de disparo que se usa para jugar.
-        // (El sonido ya sonó arriba y el rayo se dibuja al final; sólo iniciamos aquí.)
-        if (hasHit && GameController.Instance != null)
-        {
-            if (GameController.Instance.EsperandoPractica
-                && GameController.Instance.EsBotonPractica(objetoImpactado))
-            {
-                GameController.Instance.IniciarPractica();
-            }
-            else if (GameController.Instance.EsperandoInicio
-                && GameController.Instance.EsBotonInicio(objetoImpactado))
-            {
-                GameController.Instance.IniciarJuego();
-            }
-        }
-
-        // Los disparos de práctica sólo se cuentan (precisión de línea base), no se registran uno a uno
-        if (enPractica) GameController.Instance.RegistrarDisparoPractica();
-
-        // 2. LOG trigger_pull before any hit handling so it precedes sphere_hit_correct
-        //    (sólo se registra durante el juego, no en menús ni presentaciones)
-        if (juegoActivo && EventLogger.Instance != null)
-        {
-            EventLogger.Instance.TriggerPull(hasHit, hitType, targetObjectId,
-                puntoDisparo.position, puntoDisparo.forward,
-                GameController.Instance.GetRTSinceBoardSpawn(),
-                MedirPunteria(puntoDisparo.position, puntoDisparo.forward));
-        }
-
-        // 3. ACT — call EsferaClickeada / spawn effects (sólo jugando o practicando)
-        if (hasHit && punteriaActiva)
-        {
-            if (hitType == "sphere")
-            {
-                GameController.Instance.EsferaClickeada(objetoImpactado);
-                GameObject explosion = Instantiate(ExplosionParticulasPrefab, puntoFinal, Quaternion.identity);
-                Renderer rendererEsfera = objetoImpactado.GetComponent<Renderer>();
-                if (rendererEsfera != null)
-                {
-                    Color colorEsfera = rendererEsfera.material.color;
-                    var particleSystem = explosion.GetComponent<ParticleSystem>();
-                    var mainModule = particleSystem.main;
-                    mainModule.startColor = colorEsfera;
-                }
-                Destroy(objetoImpactado);
-                Destroy(explosion, 2f);
-            }
-            else
-            {
-                Quaternion rotacionImpacto = Quaternion.LookRotation(-hitInfo.normal);
-                GameObject impacto = Instantiate(impactoRayoPrefab, puntoFinal, rotacionImpacto);
-                Destroy(impacto, 1f);
-            }
-        }
-
-        // 4. Draw the ray
-        if (GameController.Instance != null)
-        {
-            LineRenderer rayo = Instantiate(rayoPrefab);
-            rayo.positionCount = 2;
-            rayo.SetPosition(0, puntoDisparo.position);
-            rayo.SetPosition(1, puntoFinal);
-            Destroy(rayo.gameObject, tiempoVidaRayo);
-        }
+            rayoPrefab = rayoPrefab,
+            impactoRayoPrefab = impactoRayoPrefab,
+            explosionParticulasPrefab = ExplosionParticulasPrefab,
+            alcance = fuerzaDisparo,
+            tiempoVidaRayo = tiempoVidaRayo
+        };
+        ResolutorDisparo.Resolver(ray, capaImpacto, ray.origin, efectos,
+            () => MedirPunteria(ray.origin, ray.direction));
     }
 }
+#endif

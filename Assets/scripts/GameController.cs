@@ -178,6 +178,14 @@ public class GameController : MonoBehaviour
     private float tiempoTotalStandBy = 2.5f;
     private float tiempoActualstandBy =0f;
     private readonly WaitForSeconds esperaHaptic = new(0.4f);
+    private const long DuracionHapticError = 400;   // ms, igual que esperaHaptic
+
+    // Dispositivo de disparo que queda en session_start (controller_hand)
+#if COLORQUEST_TABLET
+    private const string DispositivoDisparo = "Touch";
+#else
+    private const string DispositivoDisparo = "RTouch";
+#endif
     private readonly WaitForSeconds esperaPostHaptic = new(1.6f);
 
     private GameObject instanciaPanelActivo;
@@ -885,10 +893,22 @@ public class GameController : MonoBehaviour
         EventLogger.Instance.StartSession(
             SystemInfo.deviceModel,
             Application.version,
-            "RTouch",
+            DispositivoDisparo,
             DURACION_TOTAL_NIVEL,
             duracionTablero
         );
+
+#if COLORQUEST_TABLET
+        // Geometría de pantalla y cámara: con la distancia de visión se reconstruye
+        // el ángulo visual del tablero en la tablet.
+        Camera cam = Camera.main;
+        if (cam != null)
+        {
+            EventLogger.Instance.DisplayInfo(Screen.width, Screen.height, Screen.dpi,
+                cam.fieldOfView, Mathf.Abs(puntoCentralZ - cam.transform.position.z),
+                Screen.width >= Screen.height ? "landscape" : "portrait");
+        }
+#endif
 
         // La práctica ocurre antes de abrir la sesión: su resumen (línea base de
         // puntería) se registra justo después de session_start.
@@ -1071,6 +1091,36 @@ public class GameController : MonoBehaviour
             yield return esperaUnSegundo;
         }
     }
+    // Vibración del error de secuencia. Quest: ambos controles, frecuencia 0,5 y
+    // amplitud 1, hasta que se apaga. Tablet: el motor del dispositivo durante
+    // DuracionHapticError ms (Android no deja fijar la amplitud en todos los equipos;
+    // si la tablet no tiene vibrador no pasa nada y el evento se registra igual).
+    private static void VibrarError(bool encender)
+    {
+#if COLORQUEST_TABLET
+#if UNITY_ANDROID && !UNITY_EDITOR
+        if (!encender) return;
+        try
+        {
+            using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            using var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            using var vibrador = activity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+            if (vibrador != null) vibrador.Call("vibrate", DuracionHapticError);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[GameController] Vibrador no disponible: {e.Message}");
+            Handheld.Vibrate();
+        }
+#endif
+#else
+        float frecuencia = encender ? 0.5f : 0f;
+        float amplitud = encender ? 1f : 0f;
+        OVRInput.SetControllerVibration(frecuencia, amplitud, OVRInput.Controller.RTouch);
+        OVRInput.SetControllerVibration(frecuencia, amplitud, OVRInput.Controller.LTouch);
+#endif
+    }
+
 private IEnumerator PutRedGridAlert()
     {
         if (CeldaRojaPrefab != null)
@@ -1079,13 +1129,11 @@ private IEnumerator PutRedGridAlert()
             foreach (var bola in instanciaBolas) { Destroy(bola); }
             instanciaBolas.Clear();
             DestruirMalla();
-            OVRInput.SetControllerVibration(0.5f, 1f, OVRInput.Controller.RTouch);
-            OVRInput.SetControllerVibration(0.5f, 1f, OVRInput.Controller.LTouch);
-            EventLogger.Instance.HapticFeedback(0.5f, 400, "sequence_error");
+            VibrarError(true);
+            EventLogger.Instance.HapticFeedback(0.5f, DuracionHapticError, "sequence_error");
             CrearMallaRoja();
             yield return esperaHaptic;
-            OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.RTouch);
-            OVRInput.SetControllerVibration(0f, 0f, OVRInput.Controller.LTouch);
+            VibrarError(false);
             yield return esperaPostHaptic;
             DestruirMalla();
             EventLogger.Instance.ErrorPauseExit((long)(tiempoTotalStandBy * 1000f));

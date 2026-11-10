@@ -176,13 +176,14 @@ public class EventLogger : MonoBehaviour
     }
 
     /// <summary>
-    /// Aiming context of one shot, measured by Blaster just before it is resolved.
+    /// Aiming context of one shot, measured by Blaster (Quest) or TouchShooter
+    /// (tablet) just before it is resolved.
     /// Angles in degrees. "Edge" angle = angle from the ray to the sphere's
     /// silhouette (≤ 0: the ray passes through the sphere). Null = no such sphere.
     /// </summary>
     public struct AimInfo
     {
-        public string controller;            // "RTouch" | "LTouch"
+        public string controller;            // "RTouch" | "LTouch" | "Touch" (tablet)
         public float barrelPitchDeg;         // fixed barrel offset (Blaster.anguloCanon)
         public string hoveredSphereId;       // sphere under the laser when the trigger crossed the threshold
         public long hoverDwellMs;            // time the laser had been on that sphere
@@ -193,6 +194,7 @@ public class EventLogger : MonoBehaviour
         public string expectedSphereId;      // sphere the sequence asked for
         public float? expectedEdgeAngleDeg;
         public float nearMissThresholdDeg;
+        public Vector2? screenPositionPx;    // tablet only: touch point (px, origin bottom-left)
     }
 
     public void TriggerPull(bool hit, string hitType, string targetObjectId,
@@ -225,7 +227,30 @@ public class EventLogger : MonoBehaviour
             { "near_miss", nearMiss },
             { "near_miss_threshold_deg", aim.nearMissThresholdDeg }
         };
+        // Sólo en la tablet: los registros de la Quest no cambian de forma
+        if (aim.screenPositionPx.HasValue)
+            fields["screen_position_px"] = new RawJson(Vec2(aim.screenPositionPx.Value));
         Log("trigger_pull", fields);
+    }
+
+    /// <summary>
+    /// Tablet only, right after session_start: screen and camera geometry, so the
+    /// visual angle of the board can be reconstructed for a known viewing distance.
+    /// No LSL marker.
+    /// </summary>
+    public void DisplayInfo(int screenWidthPx, int screenHeightPx, float dpi,
+                            float cameraVerticalFovDeg, float cameraDistanceM, string orientation)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "screen_width_px", screenWidthPx },
+            { "screen_height_px", screenHeightPx },
+            { "screen_dpi", dpi },
+            { "camera_vertical_fov_deg", cameraVerticalFovDeg },
+            { "camera_distance_m", cameraDistanceM },
+            { "orientation", orientation }
+        };
+        Log("display_info", fields);
     }
 
     /// <summary>
@@ -567,6 +592,13 @@ public class EventLogger : MonoBehaviour
     }
 
     /// <summary>Serialize a Vector3 as a {x,y,z} object.</summary>
+    private static string Vec2(Vector2 v)
+    {
+        var ci = System.Globalization.CultureInfo.InvariantCulture;
+        return "{\"x\":" + v.x.ToString("0.#", ci) +
+               ",\"y\":" + v.y.ToString("0.#", ci) + "}";
+    }
+
     private static string Vec3(Vector3 v)
     {
         var ci = System.Globalization.CultureInfo.InvariantCulture;

@@ -16,7 +16,7 @@ Para eso el juego marca, varias veces durante la partida, un instante que queda 
 
 | # | Requisito | Valor recomendado |
 |---|---|---|
-| 1 | Primer destello y marcador `sync_1` | Al pulsar el botón «Iniciar partida» |
+| 1 | Primer destello y marcador `sync_1` | Unos 0,5 s después de pulsar el botón «Iniciar partida», con las instrucciones ya apagadas |
 | 2 | Destellos intermedios `sync_2`, `sync_3`, … | Cada 60 s de partida |
 | 3 | Último destello `sync_N` | Al terminar la partida, antes de cualquier pantalla final |
 | 4 | Duración del destello | 300 ms |
@@ -30,7 +30,7 @@ Para eso el juego marca, varias veces durante la partida, un instante que queda 
 
 ### 3.1 Cuándo
 
-- **`sync_1` al pulsar «Iniciar partida».** El botón que aparece frente al jugador es el disparador natural: en el mismo cuadro en que se registra la pulsación se muestra el primer destello y se envían dos marcadores, `sync_1` e `inicio partida`.
+- **`sync_1` poco después de pulsar «Iniciar partida».** El botón que aparece frente al jugador es el disparador natural: al registrarse la pulsación se apagan el botón y las instrucciones, y unos 0,5 s después se muestra el primer destello y se envían dos marcadores, `sync_1` e `inicio partida`. El nivel 1 empieza cuando el destello ya se apagó, unos 0,4 s más tarde. Motivo (exp010, 2026-10-28): nada debe cambiar en la escena en el mismo cuadro del destello; el borde blanco del panel lo partía en dos para la detección de la app.
 - **Uno cada 60 s** mientras dure la partida (`sync_2`, `sync_3`, …). En una partida típica de 5 minutos salen unos 6 o 7 destellos.
 - **Uno al final** (`sync_N`), justo al terminar la partida.
 - Si la partida se pausa, el reloj de los 60 s puede seguir o detenerse; da igual, siempre que cada destello lleve su marcador.
@@ -43,7 +43,7 @@ La app empareja los destellos con los marcadores por orden y comprueba que los i
 - **Cuadrado blanco puro** (`#FFFFFF`) de unos **8° de ángulo visual**, con un **marco negro** de alrededor de 1°. El marco garantiza contraste aunque la escena sea clara.
 - **Fijo a la cabeza** (head-locked): se mueve con la vista, para que siempre salga en la grabación.
 - **Arriba del centro**, unos 10° por encima de la línea de la mirada. **No en una esquina:** la transmisión de la Quest al celular recorta los bordes de la imagen de cada ojo, y un destello en la esquina podría no salir en el video.
-- **Encima de todo:** sin profundidad (en Unity, un shader *unlit* con `ZTest Always` y una cola de render alta), sin niebla, sin post-procesado ni efectos que cambien su brillo.
+- **Encima de todo:** sin profundidad (en Unity, un shader *unlit* con `ZTest Always` y una cola de render alta), sin niebla, sin post-procesado ni efectos que cambien su brillo. El letrero de puntaje se apaga mientras dura cada destello, porque se dibujaba encima de él.
 - **300 ms de duración.** El celular graba la transmisión a unos 30 cuadros por segundo, así que 300 ms son unos 9 cuadros: alcanza para detectarlo aunque se pierdan algunos.
 - Aparece y desaparece de golpe, sin fundidos, para que su inicio sea un cuadro preciso.
 
@@ -133,7 +133,7 @@ tiempo,evento
 ## 8. Lista de comprobación antes del piloto
 
 1. El stream de marcadores aparece en LabRecorder junto al EEG.
-2. Al pulsar «Iniciar partida» llegan `sync_1` e `inicio partida`, y se ve el destello en el visor.
+2. Unos 0,5 s después de pulsar «Iniciar partida» llegan `sync_1` e `inicio partida`, y se ve el destello en el visor.
 3. Durante una partida de 5 minutos llegan unos 6 o 7 marcadores `sync_k`, cada uno separado del anterior por unos 60 s.
 4. En el video grabado en el celular se ven **todos** los destellos, completos y sin recorte.
 5. El CSV exportado tiene una fila `sync_k` por cada destello del video.

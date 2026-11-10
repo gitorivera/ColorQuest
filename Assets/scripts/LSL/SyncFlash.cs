@@ -8,9 +8,12 @@ using UnityEngine;
 /// que se activa se envía el marcador "sync_k" por el stream TET de
 /// LSLMarkerSender, con la marca de tiempo LSL de ese instante.
 ///
-///   sync_1   → IniciarPartida() (junto con "inicio partida", misma marca de tiempo)
+///   sync_1   → IniciarPartida() (junto con "inicio partida", misma marca de tiempo),
+///              unos 0,5 s después de la pulsación, con las instrucciones ya apagadas
 ///   sync_k   → cada 60 s de partida, salvo que el final quede a menos de 10 s
 ///   sync_N   → FinalizarPartida() (junto con "fin partida"), antes de la pantalla final
+///
+/// Mientras dura cada destello se apaga el letrero de puntaje, que podría taparlo.
 ///
 /// No hace falta ponerlo en la escena: GameController lo crea con Asegurar()
 /// y se cuelga de Camera.main (CenterEyeAnchor) al iniciar la partida.
@@ -64,7 +67,7 @@ public class SyncFlash : MonoBehaviour
     //  API para GameController
     // ===================================================================
 
-    /// <summary>sync_1 + "inicio partida". Llamar en el cuadro de la pulsación.</summary>
+    /// <summary>sync_1 + "inicio partida". Llamar con las instrucciones ya apagadas.</summary>
     public void IniciarPartida()
     {
         contadorSync = 0;
@@ -95,6 +98,7 @@ public class SyncFlash : MonoBehaviour
         {
             destello.SetActive(false);
             destelloVisible = false;
+            GameController.Instance?.MostrarLetrero(true);
         }
 
         // Destellos intermedios cada 60 s (reloj real: sigue corriendo en pausas)
@@ -122,6 +126,7 @@ public class SyncFlash : MonoBehaviour
 
         destello.SetActive(true);
         destelloVisible = true;
+        GameController.Instance?.MostrarLetrero(false);
         inicioDestelloRealtime = Time.realtimeSinceStartup;
         ultimoSyncRealtime = inicioDestelloRealtime;
 

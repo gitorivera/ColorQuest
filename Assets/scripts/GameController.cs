@@ -81,7 +81,7 @@ public class GameController : MonoBehaviour
     private float tiempoTranscurridoJuego = 0f; // Tiempo transcurrido dentro del nivel actual
 
 // ── Máquina de estados ──────────────────────────────────────────────
-    private enum EstadoJuego { EsperandoPractica, Practicando, EsperandoInicio, MostrandoSecuencia, Jugando, StandByError, Finalizado }
+    private enum EstadoJuego { EsperandoPractica, Practicando, EsperandoInicio, PreparandoInicio, MostrandoSecuencia, Jugando, StandByError, Finalizado }
     private EstadoJuego estado = EstadoJuego.EsperandoInicio;
 
     // El juego sólo procesa disparos contra esferas mientras se está jugando.
@@ -167,6 +167,8 @@ public class GameController : MonoBehaviour
     [Header("Instrucciones")]
     [SerializeField][Tooltip("Prefab del panel (menú ColorQuest > Crear panel de instrucciones)")] private GameObject panelInstruccionesPrefab;
     [SerializeField][Tooltip("Centro del panel; por encima del botón INICIAR para que no lo tape")] private Vector3 posicionPanelInstrucciones = new Vector3(0f, 1.4f, 1.5f);
+
+    [SerializeField][Tooltip("Segundos entre ocultar las instrucciones y el primer destello. Si salen juntos, el borde blanco del panel parte el destello en el video")] private float pausaAntesPrimerDestello = 0.5f;
 
     private GameObject panelInstrucciones;
     private float tiempoPanelInstruccionesMostrado = -1f;
@@ -912,18 +914,41 @@ public class GameController : MonoBehaviour
             EventLogger.Instance.InstructionsViewed(instruccionesVisiblesMs);
         }
 
+        if (botonInicio != null) botonInicio.SetActive(false);
+
+        estado = EstadoJuego.PreparandoInicio;
+        StartCoroutine(ArrancarPartida());
+    }
+
+    // El primer destello no comparte cuadro con ningún cambio de la escena. En la prueba
+    // exp010 (2026-10-28) el panel se apagó en el mismo cuadro del destello: su borde
+    // blanco ya estaba encendido en esos píxeles, partió el cuadrado en dos para la app
+    // TET y el texto «Secuencia» apareció encima de él.
+    private IEnumerator ArrancarPartida()
+    {
+        yield return new WaitForSecondsRealtime(pausaAntesPrimerDestello);
+
         // TET: primer destello + "sync_1" + "inicio partida" en este mismo cuadro
-        SyncFlash.Asegurar().IniciarPartida();
+        SyncFlash destello = SyncFlash.Asegurar();
+        destello.IniciarPartida();
+
+        yield return new WaitForSecondsRealtime(destello.DuracionSegundos + 0.1f);
 
         // Elementos pasivos de HUD (sólo una vez, aunque se repita la sesión)
         if (ContadorPuntos == null) PosicionarLetreros();
         else ContadorPuntos.text = "00";
         if (cuadroUno == null) PosicionarCuadroBarraProgreso();
 
-        if (botonInicio != null) botonInicio.SetActive(false);
-
         nivelActual = 0;
         EntrarANivel(0);
+    }
+
+    // Apaga el letrero de puntaje mientras dura un destello: es un texto fijo en el mundo
+    // y el destello va fijo a la cabeza, así que puede cruzarse y taparlo (exp010: «330»
+    // sobre el último destello). El texto se sigue actualizando mientras está apagado.
+    public void MostrarLetrero(bool visible)
+    {
+        if (ContadorPuntos != null) ContadorPuntos.gameObject.SetActive(visible);
     }
 
     // Configura el nivel idx, crea la malla y arranca la presentación de la secuencia.
@@ -1086,7 +1111,7 @@ private IEnumerator PutRedGridAlert()
             case EstadoJuego.Practicando:
                 ActualizarPractica();
                 break;
-            // EsperandoPractica, EsperandoInicio, MostrandoSecuencia y Finalizado no consumen reloj de nivel
+            // EsperandoPractica, EsperandoInicio, PreparandoInicio, MostrandoSecuencia y Finalizado no consumen reloj de nivel
             // ni evalúan el timeout de tablero (la barra queda congelada).
         }
     }

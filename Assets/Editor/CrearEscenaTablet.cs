@@ -14,7 +14,10 @@ using UnityEngine;
 //  - cambia el source_id del stream TET a "juego-tablet" y los textos que hablan del
 //    control y del gatillo;
 //  - deja TabletScene como única escena del build.
-// Se puede volver a correr cuando cambie DefaultScene: la sobrescribe desde cero.
+// Se puede volver a correr cuando cambie DefaultScene: la sobrescribe desde cero. Ojo: en
+// TabletBranch ya no está el SDK de Meta, así que DefaultScene aquí tiene prefabs y scripts
+// faltantes y el botón de Meta no se reconoce. Para regenerar, traer la DefaultScene nueva
+// y correrlo en una copia con el SDK, o revisar a mano lo que quede de Meta.
 public static class CrearEscenaTablet
 {
     const string RutaEscenaQuest = "Assets/Scenes/DefaultScene.unity";

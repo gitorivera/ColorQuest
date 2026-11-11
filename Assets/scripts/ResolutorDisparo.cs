@@ -78,6 +78,11 @@ public static class ResolutorDisparo
             {
                 GameController.Instance.IniciarJuego();
             }
+            else if (GameController.Instance.EnPantallaFinal
+                && GameController.Instance.EsBotonSalir(objetoImpactado))
+            {
+                GameController.Instance.SalirPorBoton();
+            }
         }
 
         // Los disparos de práctica sólo se cuentan (precisión de línea base), no se registran uno a uno

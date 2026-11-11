@@ -21,6 +21,10 @@ public static class ConstruirApkTablet
         }
 
         EditorUserBuildSettings.buildAppBundle = false;
+        // Con el soporte de "predictive back", Android 13+ se queda con el botón/gesto
+        // Atrás y manda la app al fondo sin que el juego lo vea; sin él, Atrás llega como
+        // Escape y GameController pide la doble pulsación para salir registrando la salida.
+        PlayerSettings.Android.predictiveBackSupport = false;
         var opciones = new BuildPlayerOptions
         {
             scenes = escenas,

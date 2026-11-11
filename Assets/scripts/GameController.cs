@@ -112,6 +112,15 @@ public class GameController : MonoBehaviour
         return obj == botonInicio || obj.transform.IsChildOf(botonInicio.transform);
     }
 
+    // Pantalla final con el botón SALIR visible (ResolutorDisparo lo consulta)
+    public bool EnPantallaFinal => estado == EstadoJuego.Finalizado && botonSalir != null && botonSalir.activeSelf && !saliendo;
+
+    public bool EsBotonSalir(GameObject obj)
+    {
+        if (obj == null || botonSalir == null) return false;
+        return obj == botonSalir || obj.transform.IsChildOf(botonSalir.transform);
+    }
+
 // ── Niveles como datos ──────────────────────────────────────────────
     private struct ConfigNivel { public int celdas; public int bolas; }
     private static readonly ConfigNivel[] niveles = {
@@ -133,6 +142,29 @@ public class GameController : MonoBehaviour
 
 // ── Botón físico de inicio (Meta Building Blocks) ──
     [SerializeField][Tooltip("Objeto raíz del botón INICIAR; se desactiva al empezar")] private GameObject botonInicio;
+
+// ── Salida: botón SALIR en la pantalla final y cierre automático ──
+    [Header("Salida")]
+    [SerializeField][Tooltip("Centro del botón SALIR (clon del botón INICIAR), debajo del puntaje total que queda en el centro del tablero")]
+    private Vector3 posicionBotonSalir = new Vector3(0f, 0.7f, 1.5f);
+    [SerializeField] private string textoBotonSalir = "Salir";
+    [SerializeField][Tooltip("Segundos de pantalla final sin pulsar SALIR tras los que la aplicación se cierra sola")]
+    private float segundosCierreAutomatico = 60f;
+    [SerializeField][Tooltip("En los últimos N segundos el botón muestra la cuenta regresiva")]
+    private int segundosCuentaRegresiva = 10;
+    // Tras registrar la salida se espera esto antes de cerrar, para que LabRecorder
+    // alcance a recibir los últimos marcadores LSL antes de que desaparezca el stream.
+    private const float EsperaAntesDeCerrar = 2f;
+    private GameObject botonSalir;
+    private TMP_Text etiquetaBotonSalir;
+    private float tiempoPantallaFinalMostrada = -1f;
+    private bool saliendo;
+#if COLORQUEST_TABLET
+    // Botón Atrás de Android: hay que pulsarlo dos veces seguidas para salir, para que
+    // un gesto accidental del participante no corte la sesión.
+    private const float VentanaDobleAtras = 2f;
+    private float ultimoAtras = -10f;
+#endif
 
 // ── Fase de práctica: familiarización con la puntería antes del juego ──
     [Header("Práctica")]
@@ -769,24 +801,29 @@ public class GameController : MonoBehaviour
 
     // Clona el botón INICIAR en la misma posición (nunca se muestran a la vez)
     // y cambia su etiqueta.
-    private GameObject CrearBotonPractica()
+    private GameObject CrearBotonPractica() =>
+        ClonarBotonInicio("BotonPractica", textoBotonPractica, botonInicio != null ? botonInicio.transform.position : Vector3.zero);
+
+    // Copia del botón INICIAR (el de Meta en la Quest, el cubo en la tablet) con otra
+    // etiqueta, para que todos los botones se vean y se activen igual.
+    private GameObject ClonarBotonInicio(string nombre, string texto, Vector3 posicion)
     {
         if (botonInicio == null) return null;
 
-        GameObject boton = Instantiate(botonInicio, botonInicio.transform.position, botonInicio.transform.rotation);
-        boton.name = "BotonPractica";
+        GameObject boton = Instantiate(botonInicio, posicion, botonInicio.transform.rotation);
+        boton.name = nombre;
 
         TMP_Text etiqueta = boton.GetComponentInChildren<TMP_Text>(true);
         if (etiqueta != null)
         {
             // La fuente del botón (Roboto de los ejemplos de Meta) no trae tildes;
             // si le falta algún carácter se usa la fuente por defecto de TMP.
-            if (etiqueta.font != null && !etiqueta.font.HasCharacters(textoBotonPractica)
+            if (etiqueta.font != null && !etiqueta.font.HasCharacters(texto)
                 && TMP_Settings.defaultFontAsset != null)
             {
                 etiqueta.font = TMP_Settings.defaultFontAsset;
             }
-            etiqueta.text = textoBotonPractica;
+            etiqueta.text = texto;
             // El texto es más largo que "Iniciar": se reduce hasta caber en la etiqueta.
             // Si la etiqueta ya se ajusta sola (botón de la tablet) se respeta su rango:
             // su fontSize serializado no es el tamaño real y la agrandaría muchísimo.
@@ -1063,12 +1100,14 @@ public class GameController : MonoBehaviour
         StartCoroutine(LanzarConfetiFinal());
     }
 
-    // Muestra el puntaje total en el centro del tablero. No se reinicia nada ni se
-    // vuelve al botón de inicio; ésta es la pantalla de fin.
+    // Muestra el puntaje total en el centro del tablero y, debajo, el botón SALIR.
+    // No se reinicia nada ni se vuelve al botón de inicio; ésta es la pantalla de fin.
+    // Si nadie pulsa SALIR en segundosCierreAutomatico, la aplicación se cierra sola.
     private IEnumerator MostrarPuntajeFinal()
     {
         float espera = SyncFlash.Instance != null ? SyncFlash.Instance.DuracionSegundos + 0.1f : 0f;
         if (espera > 0f) yield return new WaitForSecondsRealtime(espera);
+        if (saliendo) yield break;
 
         if (ContadorPuntos != null)
         {
@@ -1076,7 +1115,132 @@ public class GameController : MonoBehaviour
             ContadorPuntos.alignment = TextAlignmentOptions.Center;
             ContadorPuntos.text = $"Puntaje total: {puntaje}";
         }
+
+        if (botonSalir == null)
+        {
+            botonSalir = ClonarBotonInicio("BotonSalir", textoBotonSalir, posicionBotonSalir);
+            if (botonSalir != null) etiquetaBotonSalir = botonSalir.GetComponentInChildren<TMP_Text>(true);
+        }
+        if (botonSalir != null) botonSalir.SetActive(true);
+        tiempoPantallaFinalMostrada = Time.realtimeSinceStartup;
+
+        // Cuenta regresiva del cierre automático (en tiempo real: no la frena una pausa del juego)
+        float cierre = tiempoPantallaFinalMostrada + segundosCierreAutomatico;
+        int ultimoMostrado = -1;
+        while (!saliendo)
+        {
+            float restante = cierre - Time.realtimeSinceStartup;
+            if (restante <= 0f)
+            {
+                Salir("timeout");
+                yield break;
+            }
+            int segundos = Mathf.CeilToInt(restante);
+            if (etiquetaBotonSalir != null && segundos <= segundosCuentaRegresiva && segundos != ultimoMostrado)
+            {
+                etiquetaBotonSalir.text = $"{textoBotonSalir} ({segundos})";
+                ultimoMostrado = segundos;
+            }
+            yield return null;
+        }
     }
+
+    // ── Salida de la aplicación ─────────────────────────────────────────
+
+    // Punto de entrada al disparar/tocar el botón SALIR.
+    public void SalirPorBoton()
+    {
+        if (EnPantallaFinal) Salir("button");
+    }
+
+    // metodo: "button" o "timeout" en la pantalla final; "back_button" (tablet) en
+    // cualquier momento. Si la partida no había terminado, la sesión se cierra como
+    // abortada (session_end con end_reason = metodo).
+    private void Salir(string metodo)
+    {
+        if (saliendo) return;
+        saliendo = true;
+        StartCoroutine(CerrarAplicacion(metodo));
+    }
+
+    private IEnumerator CerrarAplicacion(string metodo)
+    {
+        if (botonSalir != null) botonSalir.SetActive(false);
+
+        var logger = EventLogger.Instance;
+        if (logger != null)
+        {
+            if (logger.SesionActiva)
+            {
+                // Salida a mitad de partida: se detiene el juego y se cierra la sesión
+                estado = EstadoJuego.Finalizado;
+                logger.EndSession(puntaje, tablerosCompletados, metodo);
+            }
+            long pantallaFinalMs = tiempoPantallaFinalMostrada >= 0f
+                ? (long)((Time.realtimeSinceStartup - tiempoPantallaFinalMostrada) * 1000f) : -1;
+            logger.AppExit(metodo, pantallaFinalMs);
+        }
+        if (ContadorPuntos != null && tiempoPantallaFinalMostrada < 0f) ContadorPuntos.text = "Cerrando...";
+
+        yield return new WaitForSecondsRealtime(EsperaAntesDeCerrar);
+        Debug.Log($"[GameController] Cerrando la aplicación ({metodo})");
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    // Cierre por el sistema (p. ej. «Salir» del menú de Meta) con la partida en curso.
+    // En Android no siempre se llama: si el sistema mata la app en segundo plano, el
+    // último evento del archivo es el app_paused que registra EventLogger.
+    private void OnApplicationQuit()
+    {
+        if (!saliendo && EventLogger.Instance != null && EventLogger.Instance.SesionActiva)
+            EventLogger.Instance.EndSession(puntaje, tablerosCompletados, "app_quit");
+    }
+
+#if COLORQUEST_TABLET
+    // Botón Atrás de Android (el Input System lo entrega como Escape). La primera
+    // pulsación avisa; la segunda dentro de VentanaDobleAtras cierra la aplicación.
+    private void RevisarBotonAtras()
+    {
+        var teclado = UnityEngine.InputSystem.Keyboard.current;
+        if (saliendo || teclado == null || !teclado.escapeKey.wasPressedThisFrame) return;
+
+        if (Time.realtimeSinceStartup - ultimoAtras <= VentanaDobleAtras)
+        {
+            Salir("back_button");
+            return;
+        }
+        ultimoAtras = Time.realtimeSinceStartup;
+        MostrarAvisoAndroid("Pulsa Atrás otra vez para salir");
+    }
+
+    private static void MostrarAvisoAndroid(string mensaje)
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        try
+        {
+            using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+            AndroidJavaObject activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+            activity.Call("runOnUiThread", new AndroidJavaRunnable(() =>
+            {
+                using var toast = new AndroidJavaClass("android.widget.Toast");
+                using var aviso = toast.CallStatic<AndroidJavaObject>("makeText", activity, mensaje, 0);
+                aviso.Call("show");
+                activity.Dispose();
+            }));
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[GameController] No se pudo mostrar el aviso: {e.Message}");
+        }
+#else
+        Debug.Log($"[GameController] {mensaje}");
+#endif
+    }
+#endif
 
     // TET: ¿puede salir ahora un destello intermedio sin quedar a menos de
     // "margenSegundos" del destello final? El juego sólo termina cuando el reloj
@@ -1234,6 +1398,9 @@ private IEnumerator PutRedGridAlert()
 
     void Update()
     {
+#if COLORQUEST_TABLET
+        RevisarBotonAtras();
+#endif
         switch (estado)
         {
             case EstadoJuego.Jugando:

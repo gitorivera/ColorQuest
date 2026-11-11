@@ -101,20 +101,44 @@ public class EventLogger : MonoBehaviour
         Debug.Log($"[EventLogger] Session started -> {filePath}");
     }
 
-    /// <summary>Call on scene end / quit.</summary>
-    public void EndSession(int finalScore, int boardsCompleted)
+    public bool SesionActiva => sessionActive;
+
+    /// <summary>
+    /// Call on game end, or when the app is closed mid-game. endReason: "completed"
+    /// (all levels played) or how the game was aborted ("back_button", "app_quit").
+    /// The LSL marker keeps code 11; an aborted end adds "reason=..." as extra.
+    /// </summary>
+    public void EndSession(int finalScore, int boardsCompleted, string endReason = "completed")
     {
         if (!sessionActive) return;
         var fields = new Dictionary<string, object>
         {
             { "final_score", finalScore },
             { "boards_completed", boardsCompleted },
-            { "total_duration_ms", SessionTimeMs() }
+            { "total_duration_ms", SessionTimeMs() },
+            { "end_reason", endReason }
         };
         Log("session_end", fields);
-        LSLMarkerSender.Instance?.SendSessionEnd();
+        if (endReason == "completed") LSLMarkerSender.Instance?.SendSessionEnd();
+        else LSLMarkerSender.Instance?.Send(LSLMarkerSender.Codes.SESSION_END, "session_end", $"reason={endReason}");
         Flush();
         sessionActive = false;
+    }
+
+    /// <summary>
+    /// The app is about to close: exit_method "button" / "timeout" (end screen) or
+    /// "back_button". end_screen_visible_ms = -1 if the end screen was never shown
+    /// (mid-game exit). Written after session_end into the same file. No LSL marker.
+    /// </summary>
+    public void AppExit(string exitMethod, long endScreenVisibleMs)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "exit_method", exitMethod },
+            { "end_screen_visible_ms", endScreenVisibleMs }
+        };
+        Log("app_exit", fields, afterSessionEnd: true);
+        Flush();
     }
 
     /// <summary>
@@ -463,9 +487,10 @@ public class EventLogger : MonoBehaviour
     //  Core: build envelope + serialize + buffer
     // ===================================================================
 
-    private void Log(string eventType, Dictionary<string, object> eventFields)
+    // afterSessionEnd: también se escribe tras session_end (en el mismo archivo), p. ej. app_exit
+    private void Log(string eventType, Dictionary<string, object> eventFields, bool afterSessionEnd = false)
     {
-        if (!sessionActive) return;
+        if (!sessionActive && !(afterSessionEnd && !string.IsNullOrEmpty(filePath))) return;
         var sb = new StringBuilder(256);
         sb.Append('{');
 
@@ -510,9 +535,31 @@ public class EventLogger : MonoBehaviour
         }
     }
 
+    // Pausa con la sesión abierta: botón Meta / quitarse el visor en la Quest, botón
+    // Inicio o cambio de app en la tablet. Si el sistema mata la app en segundo plano
+    // no llega OnApplicationQuit, así que una sesión sin session_end cuyo último
+    // evento es app_paused se cerró a mitad de partida.
+    private float pausedSinceRealtime = -1f;
+
     private void OnApplicationPause(bool paused)
     {
-        if (paused) Flush();   // Quest backgrounding fires this; don't lose data
+        if (paused)
+        {
+            if (sessionActive)
+            {
+                pausedSinceRealtime = Time.realtimeSinceStartup;
+                Log("app_paused", null);
+            }
+            Flush();   // Quest backgrounding fires this; don't lose data
+        }
+        else if (pausedSinceRealtime >= 0f)
+        {
+            Log("app_resumed", new Dictionary<string, object>
+            {
+                { "paused_ms", (long)((Time.realtimeSinceStartup - pausedSinceRealtime) * 1000f) }
+            });
+            pausedSinceRealtime = -1f;
+        }
     }
 
     private void OnApplicationQuit()

@@ -10,6 +10,10 @@
       </intent-filter>
     </activity>
     <meta-data android:name="unityplayer.SkipPermissionsDialog" android:value="false" />
+    <!-- Grabación de pantalla de la partida (GrabadorPantalla.java): actividad transparente
+         que pide el permiso de captura y servicio en primer plano que graba -->
+    <activity android:name="com.utp.colorquest.grabacion.ConsentimientoGrabacion" android:theme="@android:style/Theme.Translucent.NoTitleBar" android:exported="false" android:excludeFromRecents="true" android:configChanges="locale|fontScale|keyboard|keyboardHidden|mcc|mnc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|touchscreen|uiMode" />
+    <service android:name="com.utp.colorquest.grabacion.ServicioGrabacion" android:foregroundServiceType="mediaProjection" android:exported="false" />
   </application>
   <uses-feature android:name="android.hardware.touchscreen" android:required="true" />
   <!-- LSL networking: open sockets + receive multicast discovery packets on WiFi -->
@@ -21,4 +25,7 @@
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <!-- Vibración del error de secuencia (GameController.VibrarError) -->
   <uses-permission android:name="android.permission.VIBRATE" />
+  <!-- Grabación de pantalla: servicio en primer plano de tipo mediaProjection (Android 14) -->
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION" />
 </manifest>

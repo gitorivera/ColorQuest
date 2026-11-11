@@ -97,13 +97,23 @@ Se puede agregar información después del nombre (`acierto objetivo 3`), siempr
 - Grabar a **30 cuadros por segundo o más**, en la resolución que permita la app.
 - Tras cada partida, revisar que en el video se vean los destellos, sobre todo el primero y el último.
 
-### 6.2 Tablet (pendiente)
+### 6.2 Tablet (rama `TabletBranch`)
 
-La versión de tablet todavía no existe. Recomendaciones para cuando exista:
+El juego graba su propia pantalla (`GrabacionPantalla.cs` + plugin `Assets/Plugins/Android/GrabadorPantalla.java`, con MediaProjection de Android):
 
-- Lo más sencillo es la **grabación de pantalla de Android** (o la que traiga la tablet) iniciada antes de la partida. El destello se puede dibujar como un cuadrado blanco con marco negro en la parte superior central de la pantalla, con el mismo tamaño relativo y la misma duración.
-- Si el juego puede grabar su propia pantalla, mejor: evita depender de otra app.
-- En la tablet no hay recorte de bordes, pero se recomienda la misma posición para que la detección funcione igual en las dos versiones.
+- **Al abrir la app** aparece el diálogo del sistema para grabar la pantalla. El investigador lo acepta (si ofrece elegir, **toda la pantalla**) antes de entregar la tablet. Desde ahí se graba la bienvenida, la práctica, la partida y la pantalla final.
+- La grabación se **detiene sola** al salir del juego (botón Salir, cierre automático a los 60 s o Atrás dos veces), después del último destello.
+- Si el permiso se rechaza o la grabación falla, la app muestra un aviso: cerrarla y volver a abrirla. Mientras graba, Android muestra una notificación fija «Grabando la pantalla de la partida».
+- Archivo: `screen_<participante>_<fecha UTC>.mp4`, H.264 a 30 cuadros por segundo, 1840 × 1104 en la Galaxy Tab S6 Lite (la pantalla de 2000 × 1200 reducida a lo que admite el codificador, con la misma proporción), **sin audio**. Queda junto al NDJSON en `/sdcard/Android/data/com.UTP.ColorQuestTablet/files/`.
+- El NDJSON registra `screen_recording` (estado, archivo, tamaño y hora LSL aproximada del inicio) justo después de `display_info`, y `screen_recording_stop` después de `app_exit`. La alineación fina se hace con los destellos, igual que en la Quest.
+- **No cerrar la app desde Recientes ni apagar la pantalla a mitad de la partida:** el MP4 sólo queda reproducible si la grabación se detiene bien (deslizar la app fuera de Recientes la detiene; que el sistema mate la app, no).
+- El destello es el mismo de la Quest, colgado de la cámara de la tablet: arriba del centro de la pantalla, con el mismo tamaño angular y la misma duración.
+
+**Cómo traer las grabaciones al PC** (2026-11-11): por cable, con `tet-video/scripts/tablet_videos.py` en el repositorio de TET; tiene los mismos comandos que `quest_videos.py`, el de la Quest (`estado`, `listar`, `copiar`, `borrar`, `sesion`). Deja el archivo tal cual en `<carpeta>/original/`, comprueba que llegó completo y corre `integridad.py`. También sirve el explorador de Windows o `adb pull`.
+
+**Ojo con la hora del nombre:** la fecha del nombre va en **UTC** y la fecha de modificación del archivo, en hora local; con eso solo, el tramo del video salía al revés. `tablet_videos.py` lo corrige comparando las dos y moviendo la hora del nombre por husos, así que no hace falta cambiar nada en el juego; si es fácil, poner la hora local en el nombre evita la ambigüedad. Visto en `screen_JITO_20261111_203424.mp4`, grabado a las 15:34 locales (UTC−5).
+
+**Falta comprobar** con una grabación de la tablet que tenga destellos: la detección automática de la app TET, `scripts/integridad.py`, y que nada del juego se dibuje encima del destello mientras dura (§3.2), como pasó en la Quest.
 
 ## 7. Exportar los eventos para la app TET
 

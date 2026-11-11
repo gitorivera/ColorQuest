@@ -223,6 +223,12 @@ public class GameController : MonoBehaviour
     private AudioSource fuenteSonidoError;
     private AudioClip clipSonidoError;
     private static bool? tieneVibrador;
+
+    // Grabación de la pantalla para la app TET (GrabacionPantalla, GAME-SPECS §6.2):
+    // se pide al abrir la app y se detiene al cerrarla.
+    [Header("Grabación de pantalla (tablet)")]
+    [SerializeField][Tooltip("Pedir el permiso y grabar la pantalla desde que abre la app hasta que se cierra")]
+    private bool grabarPantalla = true;
 #else
     private const string DispositivoDisparo = "RTouch";
 #endif
@@ -749,7 +755,66 @@ public class GameController : MonoBehaviour
         {
             MostrarBotonInicio();
         }
+
+#if COLORQUEST_TABLET
+        if (grabarPantalla) StartCoroutine(IniciarGrabacionPantalla());
+#endif
     }
+
+#if COLORQUEST_TABLET
+    // El diálogo del sistema aparece sobre el aviso de bienvenida. Al cerrarse se vuelve
+    // a contar el tiempo de lectura de la bienvenida (welcome_viewed no debe incluir el
+    // diálogo) y, si no quedó grabando, se avisa al investigador.
+    private IEnumerator IniciarGrabacionPantalla()
+    {
+        GrabacionPantalla grabacion = GrabacionPantalla.Asegurar();
+        grabacion.Solicitar(EventLogger.Instance != null ? EventLogger.Instance.ParticipantId : "ANON");
+
+        // El servicio arranca el grabador un instante después de aceptar el diálogo
+        float limite = Time.realtimeSinceStartup + 120f;
+        string estadoGrabacion = grabacion.Estado;
+        while (estadoGrabacion == GrabacionPantalla.EsperandoPermiso && Time.realtimeSinceStartup < limite)
+        {
+            yield return new WaitForSecondsRealtime(0.25f);
+            estadoGrabacion = grabacion.Estado;
+        }
+
+        if (panelBienvenida != null && panelBienvenida.activeSelf)
+            tiempoPanelBienvenidaMostrado = Time.realtimeSinceStartup;
+        if (panelInstrucciones != null && panelInstrucciones.activeSelf)
+            tiempoPanelInstruccionesMostrado = Time.realtimeSinceStartup;
+
+        if (estadoGrabacion == GrabacionPantalla.Grabando)
+            Debug.Log($"[GameController] Grabando la pantalla en {grabacion.Archivo}");
+        else if (estadoGrabacion != GrabacionPantalla.NoDisponible)
+            MostrarAvisoAndroid($"La pantalla NO se está grabando ({estadoGrabacion}). Cierra y vuelve a abrir la app para grabar.");
+    }
+
+    // Tras display_info: estado de la grabación al abrir la sesión
+    private void RegistrarEstadoGrabacion()
+    {
+        GrabacionPantalla grabacion = GrabacionPantalla.Instance;
+        if (grabacion == null)
+        {
+            EventLogger.Instance.ScreenRecording("desactivada", "", 0, 0, 0, 0, null, "");
+            return;
+        }
+        string estadoGrabacion = grabacion.Estado;
+        EventLogger.Instance.ScreenRecording(estadoGrabacion, grabacion.Archivo, grabacion.Ancho, grabacion.Alto,
+            grabacion.Fps, grabacion.Bitrate, grabacion.InicioLsl, grabacion.MensajeError);
+        if (estadoGrabacion != GrabacionPantalla.Grabando && estadoGrabacion != GrabacionPantalla.NoDisponible)
+            MostrarAvisoAndroid("Atención: la pantalla NO se está grabando");
+    }
+
+    // Antes de cerrar la app: cierra el MP4 y registra el resultado tras app_exit
+    private void DetenerGrabacion()
+    {
+        GrabacionPantalla grabacion = GrabacionPantalla.Instance;
+        if (grabacion == null || !grabacion.EstaGrabando) return;
+        string estadoFinal = grabacion.Detener();
+        EventLogger.Instance?.ScreenRecordingStop(estadoFinal, grabacion.Archivo, grabacion.FinLsl, grabacion.MensajeError);
+    }
+#endif
 
     private void MostrarBotonInicio()
     {
@@ -958,6 +1023,7 @@ public class GameController : MonoBehaviour
                 cam.fieldOfView, Mathf.Abs(puntoCentralZ - cam.transform.position.z),
                 Screen.width >= Screen.height ? "landscape" : "portrait", TieneVibrador());
         }
+        RegistrarEstadoGrabacion();
 #endif
 
         // La práctica ocurre antes de abrir la sesión: su resumen (línea base de
@@ -1183,6 +1249,9 @@ public class GameController : MonoBehaviour
         if (ContadorPuntos != null && tiempoPantallaFinalMostrada < 0f) ContadorPuntos.text = "Cerrando...";
 
         yield return new WaitForSecondsRealtime(EsperaAntesDeCerrar);
+#if COLORQUEST_TABLET
+        DetenerGrabacion();
+#endif
         Debug.Log($"[GameController] Cerrando la aplicación ({metodo})");
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;

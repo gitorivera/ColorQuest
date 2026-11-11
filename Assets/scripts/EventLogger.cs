@@ -103,6 +103,8 @@ public class EventLogger : MonoBehaviour
 
     public bool SesionActiva => sessionActive;
 
+    public string ParticipantId => participantId;
+
     /// <summary>
     /// Call on game end, or when the app is closed mid-game. endReason: "completed"
     /// (all levels played) or how the game was aborted ("back_button", "app_quit").
@@ -277,6 +279,47 @@ public class EventLogger : MonoBehaviour
             { "has_vibrator", hasVibrator }
         };
         Log("display_info", fields);
+    }
+
+    /// <summary>
+    /// Tablet only, right after display_info: state of the in-app screen recording
+    /// (GrabacionPantalla). status: "grabando" (recording), "rechazado" (consent denied),
+    /// "esperando_permiso", "error", "inactivo". recording_start_lsl_time is when the
+    /// recorder started, in LSL time (approximate; the sync flashes do the alignment).
+    /// No LSL marker.
+    /// </summary>
+    public void ScreenRecording(string status, string videoFile, int widthPx, int heightPx,
+                                int fps, int bitrateBps, double? recordingStartLslTime, string error)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "status", status },
+            { "video_file", videoFile },
+            { "video_width_px", widthPx },
+            { "video_height_px", heightPx },
+            { "video_fps", fps },
+            { "video_bitrate_bps", bitrateBps },
+            { "recording_start_lsl_time", recordingStartLslTime },
+            { "error", error }
+        };
+        Log("screen_recording", fields);
+    }
+
+    /// <summary>
+    /// Tablet only: the recording was stopped just before the app closed (after
+    /// app_exit). status "detenido" = MP4 closed correctly. No LSL marker.
+    /// </summary>
+    public void ScreenRecordingStop(string status, string videoFile, double? recordingStopLslTime, string error)
+    {
+        var fields = new Dictionary<string, object>
+        {
+            { "status", status },
+            { "video_file", videoFile },
+            { "recording_stop_lsl_time", recordingStopLslTime },
+            { "error", error }
+        };
+        Log("screen_recording_stop", fields, afterSessionEnd: true);
+        Flush();
     }
 
     /// <summary>

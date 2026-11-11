@@ -52,7 +52,7 @@ public static class CrearEscenaTablet
     static readonly (string quest, string tablet)[] ReemplazosInstrucciones =
     {
         ("2. Dispara a las esferas del tablero", "2. Toca las esferas del tablero"),
-        ("el control <b>vibra</b>", "la tablet <b>vibra</b>"),
+        ("el control <b>vibra</b>", "la tablet <b>suena</b>"),
         ("Dispara a Iniciar cuando estés listo.", "Toca Iniciar cuando estés listo."),
     };
 

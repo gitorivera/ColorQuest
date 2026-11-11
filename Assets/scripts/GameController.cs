@@ -183,6 +183,14 @@ public class GameController : MonoBehaviour
     // Dispositivo de disparo que queda en session_start (controller_hand)
 #if COLORQUEST_TABLET
     private const string DispositivoDisparo = "Touch";
+
+    // Sustituto de la vibración cuando la tablet no tiene motor (la Galaxy Tab S6 Lite
+    // no lo trae): un zumbido de DuracionHapticError ms generado en código.
+    private const float FrecuenciaSonidoError = 160f;   // Hz
+    private const float VolumenSonidoError = 0.7f;
+    private AudioSource fuenteSonidoError;
+    private AudioClip clipSonidoError;
+    private static bool? tieneVibrador;
 #else
     private const string DispositivoDisparo = "RTouch";
 #endif
@@ -911,7 +919,7 @@ public class GameController : MonoBehaviour
         {
             EventLogger.Instance.DisplayInfo(Screen.width, Screen.height, Screen.dpi,
                 cam.fieldOfView, Mathf.Abs(puntoCentralZ - cam.transform.position.z),
-                Screen.width >= Screen.height ? "landscape" : "portrait");
+                Screen.width >= Screen.height ? "landscape" : "portrait", TieneVibrador());
         }
 #endif
 
@@ -1096,35 +1104,104 @@ public class GameController : MonoBehaviour
             yield return esperaUnSegundo;
         }
     }
-    // Vibración del error de secuencia. Quest: ambos controles, frecuencia 0,5 y
-    // amplitud 1, hasta que se apaga. Tablet: el motor del dispositivo durante
-    // DuracionHapticError ms (Android no deja fijar la amplitud en todos los equipos;
-    // si la tablet no tiene vibrador no pasa nada y el evento se registra igual).
-    private static void VibrarError(bool encender)
+    // Retroalimentación del error de secuencia. Quest: ambos controles, frecuencia 0,5
+    // y amplitud 1, hasta que se apaga. Tablet: el motor del dispositivo durante
+    // DuracionHapticError ms (Android no deja fijar la amplitud en todos los equipos);
+    // si la tablet no tiene vibrador, un zumbido de la misma duración.
+    // Devuelve la modalidad usada al encender ("vibration" o "audio") para el registro.
+    private string VibrarError(bool encender)
     {
 #if COLORQUEST_TABLET
+        if (!encender) return null;
+        if (TieneVibrador())
+        {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        if (!encender) return;
-        try
-        {
-            using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-            using var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
-            using var vibrador = activity.Call<AndroidJavaObject>("getSystemService", "vibrator");
-            if (vibrador != null) vibrador.Call("vibrate", DuracionHapticError);
-        }
-        catch (System.Exception e)
-        {
-            Debug.LogWarning($"[GameController] Vibrador no disponible: {e.Message}");
-            Handheld.Vibrate();
-        }
+            try
+            {
+                using var vibrador = ObtenerVibrador();
+                vibrador.Call("vibrate", DuracionHapticError);
+                return "vibration";
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[GameController] No se pudo vibrar: {e.Message}; se usa el sonido");
+            }
 #endif
+        }
+        ReproducirSonidoError();
+        return "audio";
 #else
         float frecuencia = encender ? 0.5f : 0f;
         float amplitud = encender ? 1f : 0f;
         OVRInput.SetControllerVibration(frecuencia, amplitud, OVRInput.Controller.RTouch);
         OVRInput.SetControllerVibration(frecuencia, amplitud, OVRInput.Controller.LTouch);
+        return encender ? "vibration" : null;
 #endif
     }
+
+#if COLORQUEST_TABLET
+#if UNITY_ANDROID && !UNITY_EDITOR
+    private static AndroidJavaObject ObtenerVibrador()
+    {
+        using var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        using var activity = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        return activity.Call<AndroidJavaObject>("getSystemService", "vibrator");
+    }
+#endif
+
+    // Vibrator.hasVibrator(); en el editor siempre false (se oye el sonido).
+    private static bool TieneVibrador()
+    {
+        if (tieneVibrador.HasValue) return tieneVibrador.Value;
+        bool hay = false;
+#if UNITY_ANDROID && !UNITY_EDITOR
+        try
+        {
+            using var vibrador = ObtenerVibrador();
+            hay = vibrador != null && vibrador.Call<bool>("hasVibrator");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"[GameController] No se pudo consultar el vibrador: {e.Message}");
+        }
+#endif
+        tieneVibrador = hay;
+        Debug.Log($"[GameController] Vibrador: {(hay ? "sí" : "no; el error se indica con sonido")}");
+        return hay;
+    }
+
+    private void ReproducirSonidoError()
+    {
+        if (fuenteSonidoError == null)
+        {
+            fuenteSonidoError = gameObject.AddComponent<AudioSource>();
+            fuenteSonidoError.playOnAwake = false;
+            fuenteSonidoError.spatialBlend = 0f;   // 2D: igual en cualquier posición
+        }
+        if (clipSonidoError == null) clipSonidoError = CrearClipSonidoError();
+        fuenteSonidoError.PlayOneShot(clipSonidoError, VolumenSonidoError);
+    }
+
+    // Onda cuadrada suavizada (fundamental + 3.º y 5.º armónicos) con rampas de 10 ms
+    // para que no haga clic al empezar y terminar.
+    private static AudioClip CrearClipSonidoError()
+    {
+        int frecuenciaMuestreo = AudioSettings.outputSampleRate > 0 ? AudioSettings.outputSampleRate : 48000;
+        int muestras = (int)(frecuenciaMuestreo * DuracionHapticError / 1000L);
+        int rampa = frecuenciaMuestreo / 100;
+        var datos = new float[muestras];
+        for (int i = 0; i < muestras; i++)
+        {
+            float fase = 2f * Mathf.PI * FrecuenciaSonidoError * i / frecuenciaMuestreo;
+            float onda = Mathf.Sin(fase) + Mathf.Sin(3f * fase) / 3f + Mathf.Sin(5f * fase) / 5f;
+            float envolvente = Mathf.Min(1f, Mathf.Min(i, muestras - 1 - i) / (float)rampa);
+            datos[i] = 0.8f * onda * envolvente;
+        }
+        var clip = AudioClip.Create("ErrorSecuencia", muestras, 1, frecuenciaMuestreo, false);
+        clip.SetData(datos, 0);
+        return clip;
+    }
+#endif
 
 private IEnumerator PutRedGridAlert()
     {
@@ -1134,8 +1211,12 @@ private IEnumerator PutRedGridAlert()
             foreach (var bola in instanciaBolas) { Destroy(bola); }
             instanciaBolas.Clear();
             DestruirMalla();
-            VibrarError(true);
+            string modalidad = VibrarError(true);
+#if COLORQUEST_TABLET
+            EventLogger.Instance.HapticFeedback(0.5f, DuracionHapticError, "sequence_error", modalidad);
+#else
             EventLogger.Instance.HapticFeedback(0.5f, DuracionHapticError, "sequence_error");
+#endif
             CrearMallaRoja();
             yield return esperaHaptic;
             VibrarError(false);

@@ -239,7 +239,8 @@ public class EventLogger : MonoBehaviour
     /// No LSL marker.
     /// </summary>
     public void DisplayInfo(int screenWidthPx, int screenHeightPx, float dpi,
-                            float cameraVerticalFovDeg, float cameraDistanceM, string orientation)
+                            float cameraVerticalFovDeg, float cameraDistanceM, string orientation,
+                            bool hasVibrator)
     {
         var fields = new Dictionary<string, object>
         {
@@ -248,7 +249,8 @@ public class EventLogger : MonoBehaviour
             { "screen_dpi", dpi },
             { "camera_vertical_fov_deg", cameraVerticalFovDeg },
             { "camera_distance_m", cameraDistanceM },
-            { "orientation", orientation }
+            { "orientation", orientation },
+            { "has_vibrator", hasVibrator }
         };
         Log("display_info", fields);
     }
@@ -369,7 +371,7 @@ public class EventLogger : MonoBehaviour
         Log("error_pause_exit", fields);
     }
 
-    public void HapticFeedback(float intensity, long durationMs, string reason)
+    public void HapticFeedback(float intensity, long durationMs, string reason, string modality = null)
     {
         var fields = new Dictionary<string, object>
         {
@@ -377,6 +379,9 @@ public class EventLogger : MonoBehaviour
             { "duration_ms", durationMs },
             { "reason", reason }
         };
+        // Sólo en la tablet: "vibration" o "audio" (sin motor de vibración).
+        // Los registros de la Quest no cambian de forma.
+        if (modality != null) fields["modality"] = modality;
         Log("haptic_feedback", fields);
     }
 

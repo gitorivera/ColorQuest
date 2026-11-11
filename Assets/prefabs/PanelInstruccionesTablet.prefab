@@ -109,7 +109,7 @@ MonoBehaviour:
   m_text: "<align=center><b><size=125%>\xBFC\xF3mo se juega?</size></b></align>\n1.
     Al empezar cada nivel ver\xE1s <b>3 esferas de colores</b>: esa es tu secuencia.
     \xA1Memor\xEDzala!\n2. Toca las esferas del tablero <b>en ese mismo orden</b>.\n3.
-    Si te equivocas, el tablero se pone <b>rojo</b> y la tablet <b>vibra</b>. Espera
+    Si te equivocas, el tablero se pone <b>rojo</b> y la tablet <b>suena</b>. Espera
     un momento y sigue jugando.\n4. Los <b>cuadros de arriba</b> muestran el tiempo
     que queda en cada tablero.\nCada secuencia completa suma <b>10 puntos</b>. Hay
     5 niveles y el tablero crece en cada uno.\n<align=center><b>Toca Iniciar cuando

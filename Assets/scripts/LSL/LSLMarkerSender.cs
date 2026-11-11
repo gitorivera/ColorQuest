@@ -58,6 +58,10 @@ public class LSLMarkerSender : MonoBehaviour
     [Header("LSL Stream")]
     [Tooltip("Stream name visible to EEG acquisition software on the network")]
     [SerializeField] private string streamName = "ColorQuestMarkers";
+    [Tooltip("Fixed source_id so LabRecorder reconnects if the stream drops. Must differ " +
+             "between devices (Quest: colorquest-adhd-v1, tablet: colorquest-tablet) so a " +
+             "recorder never mixes them up when both are on the network")]
+    [SerializeField] private string sourceId = "colorquest-adhd-v1";
 
     [Tooltip("Uncheck to disable all markers without removing calls from EventLogger")]
     [SerializeField] private bool markersEnabled = true;
@@ -146,7 +150,7 @@ public class LSLMarkerSender : MonoBehaviour
             // channel_count=1, nominal_srate=0 (irregular rate), cf_string
             var info = new StreamInfo(
                 streamName, "Markers", 1, 0.0,
-                channel_format_t.cf_string, "colorquest-adhd-v1");
+                channel_format_t.cf_string, sourceId);
             outlet = new StreamOutlet(info);
             Debug.Log($"[LSLMarkerSender] LSL outlet '{streamName}' open — visible on local network.");
 

@@ -779,10 +779,15 @@ public class GameController : MonoBehaviour
                 etiqueta.font = TMP_Settings.defaultFontAsset;
             }
             etiqueta.text = textoBotonPractica;
-            // El texto es más largo que "Iniciar": se reduce hasta caber en la etiqueta
-            etiqueta.enableAutoSizing = true;
-            etiqueta.fontSizeMax = etiqueta.fontSize;
-            etiqueta.fontSizeMin = etiqueta.fontSize * 0.4f;
+            // El texto es más largo que "Iniciar": se reduce hasta caber en la etiqueta.
+            // Si la etiqueta ya se ajusta sola (botón de la tablet) se respeta su rango:
+            // su fontSize serializado no es el tamaño real y la agrandaría muchísimo.
+            if (!etiqueta.enableAutoSizing)
+            {
+                etiqueta.enableAutoSizing = true;
+                etiqueta.fontSizeMax = etiqueta.fontSize;
+                etiqueta.fontSizeMin = etiqueta.fontSize * 0.4f;
+            }
         }
         return boton;
     }

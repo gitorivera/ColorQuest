@@ -11,7 +11,8 @@ using UnityEngine;
 //  - pone un botón INICIAR propio (cubo + texto) en el plano del tablero, que se dispara
 //    con un toque igual que el de la Quest se dispara con el blaster;
 //  - agrega la cámara fija (EncuadreTablet) con el TouchShooter;
-//  - cambia el source_id del stream TET a "juego-tablet" y los textos que hablan del
+//  - cambia los source_id de los streams LSL a "colorquest-tablet" (ColorQuestMarkers)
+//    y "juego-tablet" (TET), y los textos que hablan del
 //    control y del gatillo;
 //  - deja TabletScene como única escena del build.
 // Se puede volver a correr cuando cambie DefaultScene: la sobrescribe desde cero. Ojo: en
@@ -112,11 +113,12 @@ public static class CrearEscenaTablet
         // 3. Cámara fija con disparo táctil
         CrearCamara();
 
-        // 4. LSL: mismo stream y mismos códigos, otro source_id para distinguir la versión
+        // 4. LSL: mismos streams y mismos códigos, otros source_id para distinguir la versión
         LSLMarkerSender lsl = Object.FindFirstObjectByType<LSLMarkerSender>(FindObjectsInactive.Include);
         if (lsl != null)
         {
             var soLsl = new SerializedObject(lsl);
+            soLsl.FindProperty("sourceId").stringValue = "colorquest-tablet";
             soLsl.FindProperty("tetSourceId").stringValue = "juego-tablet";
             soLsl.ApplyModifiedPropertiesWithoutUndo();
         }

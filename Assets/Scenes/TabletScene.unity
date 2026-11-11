@@ -711,6 +711,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LSLMarkerSender
   streamName: ColorQuestMarkers
+  sourceId: colorquest-tablet
   markersEnabled: 1
   tetStreamName: JuegoEventos
   tetSourceId: juego-tablet

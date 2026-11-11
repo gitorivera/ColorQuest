@@ -150,6 +150,7 @@ public static class CrearEscenaTablet
         tmp.alignment = TextAlignmentOptions.Center;
         tmp.color = Color.white;
         tmp.fontStyle = FontStyles.Bold;
+        tmp.fontSize = 0.6f;
         tmp.enableAutoSizing = true;
         tmp.fontSizeMin = 0.05f;
         tmp.fontSizeMax = 0.6f;
